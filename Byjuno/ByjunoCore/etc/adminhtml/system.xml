@@ -1,56 +1,4 @@
 <?xml version="1.0"?>
-<!--<?xml version="1.0"?>
-
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
-    <system>
-        <section id="payment">
-            <group id="byjuno_byjunocore" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>ByjunoCore</label>
-                <comment>
-                    <![CDATA[<a href="https://byjunocore.com/" target="_blank">Click here to sign up for ByjunoCore account</a>]]>
-                </comment>
-                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enabled</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Title</label>
-                </field>
-                <field id="api_key" translate="label" type="obscure" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Api Key</label>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                </field>
-                <field id="debug" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Debug</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="cctypes" translate="label" type="multiselect" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Credit Card Types</label>
-                    <source_model>Byjuno\ByjunoCore\Model\Source\Cctype</source_model>
-                </field>
-                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Sort Order</label>
-                </field>
-                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Payment from Applicable Countries</label>
-                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
-                </field>
-                <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Payment from Specific Countries</label>
-                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                </field>
-                <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Minimum Order Total</label>
-                </field>
-                <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Maximum Order Total</label>
-                    <comment>Leave empty to disable limit</comment>
-                </field>
-            </group>
-        </section>
-    </system>
-</config>
--->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">>
     <system>
         <tab id="byjuno_main_tab" translate="label" sortOrder="1">
@@ -75,8 +23,9 @@
                     </comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="currentmode" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="currentmode" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Mode</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\TestLive</source_model>
                 </field>
                 <field id="clientid" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Client ID</label>
@@ -116,17 +65,21 @@
                     <label>Enable S4 Transaction</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="gender_enable" translate="label" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="byjunos5transacton" translate="label" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable S5 Transaction</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="gender_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable gender selection</label>
                     <comment>Enable gender selection if gender is not provided in checkout</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="birthday_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="birthday_enable" translate="label" type="select" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable birthday checking</label>
                     <comment>Enable birthday selection if birthday is not provided in checkout</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="byjuno_prod_email" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="byjuno_prod_email" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Production email of Byjuno</label>
                     <comment>Email used to send orders, invoices and credit memos</comment>
                 </field>

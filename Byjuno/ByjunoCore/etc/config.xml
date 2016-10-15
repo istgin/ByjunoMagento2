@@ -180,11 +180,16 @@
                 <minamount>10</minamount>
                 <maxamount>10000</maxamount>
                 <timeout>30</timeout>
-                <tmxenabled>enable</tmxenabled>
+                <tmxenabled>0</tmxenabled>
                 <tmxkey>lq866c5i</tmxkey>
                 <businesstobusiness>disable</businesstobusiness>
                 <byjuno_prod_email>invoices@byjuno.ch</byjuno_prod_email>
                 <byjuno_test_email>test-invoices@byjuno.ch</byjuno_test_email>
+                <birthday_enable>0</birthday_enable>
+                <gender_enable>0</gender_enable>
+                <byjunos4transacton>0</byjunos4transacton>
+                <byjunos5transacton>0</byjunos5transacton>
+                <cdpbeforeshow>0</cdpbeforeshow>
             </byjuno_setup>
         </byjunocheckoutsettings>
         <byjunoinvoicesettings>
