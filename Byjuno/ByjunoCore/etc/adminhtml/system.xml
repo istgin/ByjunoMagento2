@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<!--<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="byjuno_byjunocore" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>ByjunoCore</label>
+                <comment>
+                    <![CDATA[<a href="https://byjunocore.com/" target="_blank">Click here to sign up for ByjunoCore account</a>]]>
+                </comment>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="api_key" translate="label" type="obscure" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Api Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="debug" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Debug</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cctypes" translate="label" type="multiselect" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Credit Card Types</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\Cctype</source_model>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                </field>
+                <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Minimum Order Total</label>
+                </field>
+                <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Maximum Order Total</label>
+                    <comment>Leave empty to disable limit</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">>
+    <system>
+        <tab id="byjuno_main_tab" translate="label" sortOrder="1">
+            <label>Byjuno payments (1.0.0)</label>
+        </tab>
+        <section id="byjunocheckoutsettings" translate="label" sortOrder="1" showInDefault="1"
+                 showInWebsite="1" showInStore="1">
+            <label>Byjuno payment method general settings</label>
+            <tab>byjuno_main_tab</tab>
+            <resource>Byjuno_ByjunoCore::system_config</resource>
+            <group id="byjuno_setup" translate="label" type="text" sortOrder="1" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Byjuno general settings</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="businesstobusiness" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable B2B check</label>
+                    <comment>B2B integration allow to to do credit check if customer provide company
+                        credentials
+                    </comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="currentmode" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mode</label>
+                </field>
+                <field id="clientid" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Client ID</label>
+                </field>
+                <field id="userid" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>User ID</label>
+                </field>
+                <field id="password" translate="label" type="password" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                </field>
+                <field id="mail" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Technical Contact (E-mail)</label>
+                </field>
+                <field id="minamount" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mininmal amount for checkout</label>
+                </field>
+                <field id="maxamount" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximal amount for checkout</label>
+                </field>
+                <field id="timeout" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Connection timeout to Byjuno CDP server in seconds</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="tmxenabled" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable ThreatMetrix security check</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="tmxkey" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>ThreatMetrix Org Id</label>
+                </field>
+                <field id="cdpbeforeshow" translate="label" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Credit check before submit</label>
+                    <comment>Enable credit check before show byjuno payment methods</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="byjunos4transacton" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable S4 Transaction</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="gender_enable" translate="label" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable gender selection</label>
+                    <comment>Enable gender selection if gender is not provided in checkout</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="birthday_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable birthday checking</label>
+                    <comment>Enable birthday selection if birthday is not provided in checkout</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="byjuno_prod_email" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Production email of Byjuno</label>
+                    <comment>Email used to send orders, invoices and credit memos</comment>
+                </field>
+                <field id="byjuno_test_email" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Test email of byjuno</label>
+                    <comment>Email used to send test orders, invoices and credit memos</comment>
+                </field>
+
+            </group>
+        </section>
+        <section id="byjunoinvoicesettings" translate="label" sortOrder="2" showInDefault="1"
+                 showInWebsite="1" showInStore="1">
+            <label>Byjuno invoice settings</label>
+            <tab>byjuno_main_tab</tab>
+            <resource>Byjuno_ByjunoCore::system_config</resource>
+            <group id="byjuno_invoice_setup" translate="label" type="text" sortOrder="1" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Byjuno invoice settings</label>
+                <field id="title_invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="sort_order_invoice" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="byjuno_invoice_paper" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Allow postal delivery</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="byjuno_invoice_partial" translate="label" type="text" sortOrder="10" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Byjuno Invoice (with partial payment option)</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="link" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>T&amp;C URL</label>
+                </field>
+            </group>
+            <group id="byjuno_single_invoice" translate="label" type="text" sortOrder="20" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Byjuno Single Invoice</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="link" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>T&amp;C URL</label>
+                </field>
+            </group>
+            <group id="byjuno_invoice_localization" translate="label" type="text" sortOrder="30" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Localization</label>
+                <field id="byjuno_invoice_postal_text" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>*Localization* Invoice delivery method: by post</label>
+                </field>
+                <field id="byjuno_invoice_email_text" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>*Localization* Invoice delivery method: by email</label>
+                </field>
+                <field id="byjuno_invoice_toc_string" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>*Localization* Terms &amp; conditions message</label>
+                </field>
+                <field id="byjuno_invoice_payment_message" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>*Localization* Please select payment plan message</label>
+                </field>
+            </group>
+        </section>
+
+        <section id="byjunoinstallmentsettings" translate="label" sortOrder="3" showInDefault="1"
+                 showInWebsite="1" showInStore="1">
+            <label>Byjuno installment settings</label>
+            <tab>byjuno_main_tab</tab>
+            <resource>Byjuno_ByjunoCore::system_config</resource>
+            <group id="byjuno_setup" translate="label" type="text" sortOrder="1" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Byjuno installment settings</label>
+                <field id="title_installment" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="sort_order_installment" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+            </group>
+        </section>
+
+    </system>
+</config>
+
