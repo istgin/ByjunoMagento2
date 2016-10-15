@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Icepay_IcpCore DI definitions
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+
+    <virtualType name="Icepay\IcpCore\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="icepay_icpcore" xsi:type="const">Icepay\IcpCore\Model\Payment::CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="icepay_icpcore_config_provider" xsi:type="object">Icepay\IcpCore\Model\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

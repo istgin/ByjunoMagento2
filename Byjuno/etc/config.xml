@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Icepay_IcpCore default configuration
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Store/etc/config.xsd">
+    <default>
+        <payment>
+            <icepay_icpcore>
+                <active>0</active>
+                <model>Icepay\IcpCore\Model\Payment</model>
+                <payment_action>authorize_capture</payment_action>
+                <title>IcpCore</title>
+                <api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <cctypes>AE,VI,MC,DI,JCB</cctypes>
+                <allowspecific>0</allowspecific>
+                <min_order_total>0.50</min_order_total>
+            </icepay_icpcore>
+        </payment>
+    </default>
+</config>
