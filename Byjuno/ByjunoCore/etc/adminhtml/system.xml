@@ -65,9 +65,15 @@
                     <label>Enable S4 Transaction</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="byjunos4transactonexplain" translate="label" type="label" sortOrder="135" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Byjuno\ByjunoCore\Model\Source\ExplainS4</frontend_model>
+                </field>
                 <field id="byjunos5transacton" translate="label" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable S5 Transaction</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="byjunos5transactonexplain" translate="label" type="label" sortOrder="145" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Byjuno\ByjunoCore\Model\Source\ExplainS5</frontend_model>
                 </field>
                 <field id="gender_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable gender selection</label>
