@@ -135,7 +135,7 @@ class InstallSchema implements InstallSchemaInterface
                     'creation_date',
                     Table::TYPE_DATETIME,
                     null,
-                    ['nullable' => false, 'default' => 'now()'],
+                    ['nullable' => false],
                     'Created At'
                 )
                 ->setComment('Byjuno request table')
