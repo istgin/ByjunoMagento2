@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="formkey"/>
+    <update handle="byjunocore_logs_grid_block"/>
+    <container name="root">
+        <block class="Magento\Backend\Block\Widget\Grid\Container"
+               name="byjuno_byjunocore_logs.grid.container"
+               template="Magento_Backend::widget/grid/container/empty.phtml"/>
+    </container>
+</layout>

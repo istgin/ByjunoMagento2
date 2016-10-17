@@ -3,7 +3,7 @@
 namespace Byjuno\ByjunoCore\Controller\Adminhtml\Logs;
 use Magento\Backend\App\Action;
 
-class Index extends Action
+class Grid extends Action
 {
     protected $_resultPageFactory = false;
     public function __construct(
@@ -21,16 +21,7 @@ class Index extends Action
 
     public function execute()
     {
-        if ($this->getRequest()->getQuery('ajax')) {
-            $this->_forward('grid');
-            return false;
-        }
-
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
-        $resultPage = $this->_resultPageFactory->create();
-        $resultPage->setActiveMenu('Byjuno_ByjunoCore::main_menu');
-        $resultPage->getConfig()->getTitle()->prepend(__('Byjuno transaction log'));
-        return $resultPage;
+        return $this->_resultPageFactory->create();
     }
 
 }

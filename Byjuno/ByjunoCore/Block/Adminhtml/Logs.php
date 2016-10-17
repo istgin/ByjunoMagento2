@@ -13,10 +13,10 @@ class Logs extends Container
      */
     protected function _construct()
     {
-        $this->_controller = 'adminhtml_news';
-        $this->_blockGroup = 'Tutorial_SimpleNews';
-        $this->_headerText = __('Manage News');
-        $this->_addButtonLabel = __('Add News');
+        $this->_controller = 'adminhtml_logs';
+        $this->_blockGroup = 'Byjuno_ByjunoCore';
+        $this->_headerText = __('Manage Logs');
+        $this->_addButtonLabel = __('Add Logs');
         parent::_construct();
     }
 }

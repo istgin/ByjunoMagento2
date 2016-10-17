@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 
+
+
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="byjuno_byjunocore_logs.grid.container">
@@ -7,14 +9,10 @@
                    as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">logsGrid</argument>
-                    <argument name="dataSource" xsi:type="object">
-                        Byjuno\ByjunoCore\Model\Resource\News\Collection
-                    </argument>
+                    <argument name="dataSource" xsi:type="object">Byjuno\ByjunoCore\Model\Resource\Logs\Collection</argument>
                     <argument name="default_sort" xsi:type="string">id</argument>
                     <argument name="default_dir" xsi:type="string">desc</argument>
-                    <argument name="save_parameters_in_session" xsi:type="boolean">
-                        true
-                    </argument>
+                    <argument name="save_parameters_in_session" xsi:type="boolean">true</argument>
                     <argument name="use_ajax" xsi:type="boolean">true</argument>
                     <argument name="grid_url" xsi:type="url" path="*/*/grid">
                         <param name="_current">1</param>
