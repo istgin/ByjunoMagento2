@@ -18,24 +18,6 @@
                         <param name="_current">1</param>
                     </argument>
                 </arguments>
-                <block class="Magento\Backend\Block\Widget\Grid\Massaction"
-                       name="byjuno_byjunocore_logs.grid.massaction" as="grid.massaction">
-                    <arguments>
-                        <argument name="massaction_id_field" xsi:type="string">id</argument>
-                        <argument name="form_field_name" xsi:type="string">news</argument>
-                        <argument name="options" xsi:type="array">
-                            <item name="delete" xsi:type="array">
-                                <item name="label" xsi:type="string" translate="true">
-                                    Delete
-                                </item>
-                                <item name="url" xsi:type="string">*/*/massDelete</item>
-                                <item name="confirm" xsi:type="string" translate="true">
-                                    Are you sure you want to delete?
-                                </item>
-                            </item>
-                        </argument>
-                    </arguments>
-                </block>
                 <block class="Magento\Backend\Block\Widget\Grid\ColumnSet"
                        name="byjuno_byjunocore_logs.grid.columnSet" as="grid.columnSet">
                     <arguments>
@@ -98,7 +80,7 @@
                             <argument name="actions" xsi:type="array">
                                 <item name="view_action" xsi:type="array">
                                     <item name="caption" xsi:type="string" translate="true">
-                                        Edit
+                                        View requests
                                     </item>
                                     <item name="url" xsi:type="array">
                                         <item name="base" xsi:type="string">*/*/edit</item>

@@ -15,8 +15,7 @@ class Logs extends Container
     {
         $this->_controller = 'adminhtml_logs';
         $this->_blockGroup = 'Byjuno_ByjunoCore';
-        $this->_headerText = __('Manage Logs');
-        $this->_addButtonLabel = __('Add Logs');
         parent::_construct();
+        $this->removeButton('add');
     }
 }
