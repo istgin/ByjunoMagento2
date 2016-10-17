@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="formkey"/>
+    <update handle="byjunocore_logs_grid_block"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Byjuno\ByjunoCore\Block\Adminhtml\Log"
+                   name="byjuno_byjunocore_logs.grid.container" />
+        </referenceContainer>
+    </body>
+</page>

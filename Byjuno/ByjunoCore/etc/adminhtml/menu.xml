@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Byjuno_ByjunoCore::main_menu" title="Byjuno"
+             module="Byjuno_ByjunoCore" sortOrder="100"
+             resource="Byjuno_ByjunoCore::simplenews" />
+        <add id="Byjuno_ByjunoCore::manage_configuration" title="Byjuno Configuration"
+             module="Byjuno_ByjunoCore" sortOrder="1" parent="Byjuno_ByjunoCore::main_menu"
+             action="adminhtml/system_config/edit/section/byjunocheckoutsettings" resource="Byjuno_ByjunoCore::manage_configuration" />
+        <add id="Byjuno_ByjunoCore::manage_logs" title="Byjuno Logs"
+             module="Byjuno_ByjunoCore" sortOrder="2" parent="Byjuno_ByjunoCore::main_menu"
+             action="byjunocore/logs/index" resource="Byjuno_ByjunoCore::manage_logs" />
+    </menu>
+</config>
