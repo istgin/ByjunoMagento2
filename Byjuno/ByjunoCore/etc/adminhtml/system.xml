@@ -169,7 +169,7 @@
             <label>Byjuno installment settings</label>
             <tab>byjuno_main_tab</tab>
             <resource>Byjuno_ByjunoCore::system_config</resource>
-            <group id="byjuno_setup" translate="label" type="text" sortOrder="1" showInDefault="1"
+            <group id="byjuno_installment_setup" translate="label" type="text" sortOrder="1" showInDefault="1"
                    showInWebsite="1" showInStore="1">
                 <label>Byjuno installment settings</label>
                 <field id="title_installment" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">

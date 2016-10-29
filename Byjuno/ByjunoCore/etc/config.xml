@@ -316,10 +316,10 @@
             </byjuno_invoice_localization>
         </byjunoinvoicesettings>
         <byjunoinstallmentsettings>
-            <byjuno_setup>
+            <byjuno_installment_setup>
                 <title_installment>Byjuno Ratenzahlung</title_installment>
                 <sort_order_installment>2</sort_order_installment>
-            </byjuno_setup>
+            </byjuno_installment_setup>
         </byjunoinstallmentsettings>
         <byjuno_byjunocore>
             <byjuno_installment_paper>0</byjuno_installment_paper>

@@ -154,7 +154,7 @@
 
 
 
-    <virtualType name="InstallmentByjunoCoreFacade" type="Byjuno\ByjunoCore\Model\Invoice">
+    <virtualType name="InstallmentByjunoCoreFacade" type="Byjuno\ByjunoCore\Model\Installment">
         <arguments>
             <argument name="code" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INSTALLMENT</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
