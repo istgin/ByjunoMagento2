@@ -71,11 +71,11 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
     }
     public function isAvailable(CartInterface $quote = null)
     {
-        $isAvaliable = parent::isAvailable($quote);
+        $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active");
         $methodsAvailable =
-            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ||
-            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        return $methodsAvailable && $isAvaliable;
+            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active") ||
+            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active");
+        return $isAvaliable && $methodsAvailable;
     }
 
     public function getTitle()

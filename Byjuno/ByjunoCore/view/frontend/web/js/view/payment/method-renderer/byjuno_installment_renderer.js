@@ -13,7 +13,7 @@ define(
         console.log('xxx');
         return Component.extend({
             defaults: {
-                template: 'Byjuno_ByjunoCore/payment/form',
+                template: 'Byjuno_ByjunoCore/payment/form_installment',
                 transactionResult: ''
             },
 
@@ -27,7 +27,7 @@ define(
             },
 
             getCode: function() {
-                return 'byjuno_gateway';
+                return 'byjuno_installment';
             },
 
             getData: function() {
@@ -40,7 +40,7 @@ define(
             },
 
             getTransactionResults: function() {
-                return _.map(window.checkoutConfig.payment.byjuno_gateway.transactionResults, function(value, key) {
+                return _.map(window.checkoutConfig.payment.byjuno_installment.transactionResults, function(value, key) {
                     return {
                         'value': key,
                         'transaction_result': value

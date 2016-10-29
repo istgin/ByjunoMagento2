@@ -16,8 +16,8 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'byjuno_gateway',
-                component: 'Byjuno_ByjunoCore/js/view/payment/method-renderer/byjuno_gateway_renderer'
+                type: 'byjuno_installment',
+                component: 'Byjuno_ByjunoCore/js/view/payment/method-renderer/byjuno_installment_renderer'
             }
         );
         console.log('yyyy');

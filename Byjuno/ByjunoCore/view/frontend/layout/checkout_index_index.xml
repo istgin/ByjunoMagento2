@@ -23,10 +23,18 @@
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
-                                                                <item name="byjuno_gateway" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">Byjuno_ByjunoCore/js/view/payment/byjuno_gateway</item>
+                                                                <item name="byjuno_invoice" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Byjuno_ByjunoCore/js/view/payment/byjuno_invoice</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="byjuno_gateway" xsi:type="array">
+                                                                        <item name="byjuno_invoice" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="byjuno_installment" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Byjuno_ByjunoCore/js/view/payment/byjuno_installment</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="byjuno_installment" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>

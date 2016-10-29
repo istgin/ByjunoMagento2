@@ -13,7 +13,8 @@ use Byjuno\ByjunoCore\Gateway\Http\Client\ClientMock;
  */
 final class ConfigProvider implements ConfigProviderInterface
 {
-    const CODE = 'byjuno_gateway';
+    const CODE_INVOICE = 'byjuno_invoice';
+    const CODE_INSTALLMENT = 'byjuno_installment';
 
     /**
      * Retrieve assoc array of checkout configuration
@@ -24,9 +25,13 @@ final class ConfigProvider implements ConfigProviderInterface
     {
         return [
             'payment' => [
-                self::CODE => [
-                    'active' => false,
-                    'title' => 'xxxx',
+                self::CODE_INVOICE => [
+                    'transactionResults' => [
+                        ClientMock::SUCCESS => __('Success'),
+                        ClientMock::FAILURE => __('Fraud')
+                    ]
+                ],
+                self::CODE_INSTALLMENT => [
                     'transactionResults' => [
                         ClientMock::SUCCESS => __('Success'),
                         ClientMock::FAILURE => __('Fraud')

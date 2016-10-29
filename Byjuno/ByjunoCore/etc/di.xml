@@ -8,47 +8,46 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- Payment Method Facade configuration -->
-    <virtualType name="ByjunoCoreFacade" type="Byjuno\ByjunoCore\Model\Invoice">
+    <virtualType name="InvoiceByjunoCoreFacade" type="Byjuno\ByjunoCore\Model\Invoice">
         <arguments>
-            <argument name="code" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="code" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INVOICE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">Byjuno\ByjunoCore\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">ByjunoCoreValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">ByjunoCoreCommandPool</argument>
+            <argument name="valueHandlerPool" xsi:type="object">InvoiceByjunoCoreValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">InvoiceByjunoCoreCommandPool</argument>
         </arguments>
     </virtualType>
 
-
     <!-- Configuration reader -->
-    <virtualType name="ByjunoCoreConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="InvoiceByjunoCoreConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="methodCode" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INVOICE</argument>
         </arguments>
     </virtualType>
 
     <!-- Commands infrastructure -->
-    <virtualType name="ByjunoCoreCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+    <virtualType name="InvoiceByjunoCoreCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="authorize" xsi:type="string">ByjunoCoreAuthorizeCommand</item>
-                <item name="capture" xsi:type="string">ByjunoCoreCaptureCommand</item>
-                <item name="void" xsi:type="string">ByjunoCoreVoidCommand</item>
+                <item name="authorize" xsi:type="string">InvoiceByjunoCoreAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">InvoiceByjunoCoreCaptureCommand</item>
+                <item name="void" xsi:type="string">InvoiceByjunoCoreVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>
 
     <!-- Authorize command -->
-    <virtualType name="ByjunoCoreAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="InvoiceByjunoCoreAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">ByjunoCoreAuthorizationRequest</argument>
-            <argument name="handler" xsi:type="object">ByjunoCoreResponseHandlerComposite</argument>
+            <argument name="requestBuilder" xsi:type="object">InvoiceByjunoCoreAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">InvoiceByjunoCoreResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">Byjuno\ByjunoCore\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">Byjuno\ByjunoCore\Gateway\Http\Client\ClientMock</argument>
         </arguments>
     </virtualType>
 
     <!-- Authorization Request -->
-    <virtualType name="ByjunoCoreAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+    <virtualType name="InvoiceByjunoCoreAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="transaction" xsi:type="string">Byjuno\ByjunoCore\Gateway\Request\AuthorizationRequest</item>
@@ -58,12 +57,12 @@
     </virtualType>
     <type name="Byjuno\ByjunoCore\Gateway\Request\AuthorizationRequest">
         <arguments>
-            <argument name="config" xsi:type="object">ByjunoCoreConfig</argument>
+            <argument name="config" xsi:type="object">InvoiceByjunoCoreConfig</argument>
         </arguments>
     </type>
 
     <!-- Capture command -->
-    <virtualType name="ByjunoCoreCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="InvoiceByjunoCoreCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">Byjuno\ByjunoCore\Gateway\Request\CaptureRequest</argument>
             <argument name="handler" xsi:type="object">Byjuno\ByjunoCore\Gateway\Response\TxnIdHandler</argument>
@@ -76,12 +75,12 @@
     <!-- Capture Request -->
     <type name="Byjuno\ByjunoCore\Gateway\Request\CaptureRequest">
         <arguments>
-            <argument name="config" xsi:type="object">ByjunoCoreConfig</argument>
+            <argument name="config" xsi:type="object">InvoiceByjunoCoreConfig</argument>
         </arguments>
     </type>
 
     <!-- Void command -->
-    <virtualType name="ByjunoCoreVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="InvoiceByjunoCoreVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">Byjuno\ByjunoCore\Gateway\Request\VoidRequest</argument>
             <argument name="handler" xsi:type="object">Byjuno\ByjunoCore\Gateway\Response\TxnIdHandler</argument>
@@ -94,12 +93,12 @@
     <!-- Void Request -->
     <type name="Byjuno\ByjunoCore\Gateway\Request\VoidRequest">
         <arguments>
-            <argument name="config" xsi:type="object">ByjunoCoreConfig</argument>
+            <argument name="config" xsi:type="object">InvoiceByjunoCoreConfig</argument>
         </arguments>
     </type>
 
     <!-- Response handlers -->
-    <virtualType name="ByjunoCoreResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="InvoiceByjunoCoreResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="txnid" xsi:type="string">Byjuno\ByjunoCore\Gateway\Response\TxnIdHandler</item>
@@ -109,22 +108,168 @@
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="ByjunoCoreValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="InvoiceByjunoCoreValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">ByjunoCoreConfigValueHandler</item>
+                <item name="default" xsi:type="string">InvoiceByjunoCoreConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="ByjunoCoreConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="InvoiceByjunoCoreConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">ByjunoCoreConfig</argument>
+            <argument name="configInterface" xsi:type="object">InvoiceByjunoCoreConfig</argument>
         </arguments>
     </virtualType>
 
     <type name="Byjuno\ByjunoCore\Block\Info">
         <arguments>
-            <argument name="config" xsi:type="object">ByjunoCoreConfig</argument>
+            <argument name="config" xsi:type="object">InvoiceByjunoCoreConfig</argument>
+        </arguments>
+    </type>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <virtualType name="InstallmentByjunoCoreFacade" type="Byjuno\ByjunoCore\Model\Invoice">
+        <arguments>
+            <argument name="code" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INSTALLMENT</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Byjuno\ByjunoCore\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">InstallmentByjunoCoreValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">InstallmentByjunoCoreCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="InstallmentByjunoCoreConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INSTALLMENT</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="InstallmentByjunoCoreCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">InstallmentByjunoCoreAuthorizeCommand</item>
+                <item name="capture" xsi:type="string">InstallmentByjunoCoreCaptureCommand</item>
+                <item name="void" xsi:type="string">InstallmentByjunoCoreVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize command -->
+    <virtualType name="InstallmentByjunoCoreAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">InstallmentByjunoCoreAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">InstallmentByjunoCoreResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Byjuno\ByjunoCore\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Byjuno\ByjunoCore\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorization Request -->
+    <virtualType name="InstallmentByjunoCoreAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Byjuno\ByjunoCore\Gateway\Request\AuthorizationRequest</item>
+                <item name="mockData" xsi:type="string">Byjuno\ByjunoCore\Gateway\Request\MockDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Byjuno\ByjunoCore\Gateway\Request\AuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">InstallmentByjunoCoreConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Capture command -->
+    <virtualType name="InstallmentByjunoCoreCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Byjuno\ByjunoCore\Gateway\Request\CaptureRequest</argument>
+            <argument name="handler" xsi:type="object">Byjuno\ByjunoCore\Gateway\Response\TxnIdHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Byjuno\ByjunoCore\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Byjuno\ByjunoCore\Gateway\Validator\ResponseCodeValidator</argument>
+            <argument name="client" xsi:type="object">Byjuno\ByjunoCore\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Capture Request -->
+    <type name="Byjuno\ByjunoCore\Gateway\Request\CaptureRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">InstallmentByjunoCoreConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Void command -->
+    <virtualType name="InstallmentByjunoCoreVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Byjuno\ByjunoCore\Gateway\Request\VoidRequest</argument>
+            <argument name="handler" xsi:type="object">Byjuno\ByjunoCore\Gateway\Response\TxnIdHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Byjuno\ByjunoCore\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Byjuno\ByjunoCore\Gateway\Validator\ResponseCodeValidator</argument>
+            <argument name="client" xsi:type="object">Byjuno\ByjunoCore\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Void Request -->
+    <type name="Byjuno\ByjunoCore\Gateway\Request\VoidRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">InstallmentByjunoCoreConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Response handlers -->
+    <virtualType name="InstallmentByjunoCoreResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txnid" xsi:type="string">Byjuno\ByjunoCore\Gateway\Response\TxnIdHandler</item>
+                <item name="fraud" xsi:type="string">Byjuno\ByjunoCore\Gateway\Response\FraudHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="InstallmentByjunoCoreValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">InstallmentByjunoCoreConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="InstallmentByjunoCoreConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">InstallmentByjunoCoreConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Byjuno\ByjunoCore\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">InstallmentByjunoCoreConfig</argument>
         </arguments>
     </type>
 
