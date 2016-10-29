@@ -28,8 +28,58 @@ use Magento\Payment\Gateway\Validator\ValidatorPoolInterface;
 class Invoice extends \Magento\Payment\Model\Method\Adapter
 {
 
+    /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
+    private $_scopeConfig;
+
+    /**
+     * @param ManagerInterface $eventManager
+     * @param ValueHandlerPoolInterface $valueHandlerPool
+     * @param PaymentDataObjectFactory $paymentDataObjectFactory
+     * @param string $code
+     * @param string $formBlockType
+     * @param string $infoBlockType
+     * @param CommandPoolInterface $commandPool
+     * @param ValidatorPoolInterface $validatorPool
+     * @param CommandManagerInterface $commandExecutor
+     */
+    public function __construct(
+        ManagerInterface $eventManager,
+        ValueHandlerPoolInterface $valueHandlerPool,
+        PaymentDataObjectFactory $paymentDataObjectFactory,
+        $code,
+        $formBlockType,
+        $infoBlockType,
+        CommandPoolInterface $commandPool = null,
+        ValidatorPoolInterface $validatorPool = null,
+        CommandManagerInterface $commandExecutor = null
+    ) {
+
+        parent::__construct(
+            $eventManager,
+            $valueHandlerPool,
+            $paymentDataObjectFactory,
+            $code,
+            $formBlockType,
+            $infoBlockType,
+            $commandPool,
+            $validatorPool,
+            $commandExecutor
+        );
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $this->_scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
+
+    }
     public function isAvailable(CartInterface $quote = null)
     {
+        $isAvaliable = parent::isAvailable($quote);
+        $methodsAvailable =
+            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ||
+            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $methodsAvailable && $isAvaliable;
+    }
 
+    public function getTitle()
+    {
+        return $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_setup/title_invoice", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }
