@@ -82,4 +82,25 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
     {
         return $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_setup/title_invoice", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
+
+    public function validate()
+    {
+        //$payment = $this->getInfoInstance();
+       /* throw new LocalizedException(
+            __("XXX")
+        );
+*/
+        return $this;
+    }
+
+    public function authorize(InfoInterface $payment, $amount)
+    {
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = $payment->getOrder();
+       /* throw new LocalizedException(
+            __("XXXXX-" . $order->getId())
+        );*/
+        return $this;
+    }
+
 }

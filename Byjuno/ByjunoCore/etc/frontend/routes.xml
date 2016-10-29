@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
-
+<!--
+/**
+ * Copyright © 2015 Pay.nl All rights reserved.
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
-    <router id="admin">
-        <route id="byjuno" frontName="byjuno">
+    <router id="standard">
+        <route id="byjunocore" frontName="byjunocore">
             <module name="Byjuno_ByjunoCore" />
         </route>
     </router>

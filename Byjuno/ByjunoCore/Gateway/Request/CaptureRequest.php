@@ -34,6 +34,7 @@ class CaptureRequest implements BuilderInterface
      */
     public function build(array $buildSubject)
     {
+        throw new \Magento\Framework\Validator\Exception(__('Payment capturing error.'));
         if (!isset($buildSubject['payment'])
             || !$buildSubject['payment'] instanceof PaymentDataObjectInterface
         ) {

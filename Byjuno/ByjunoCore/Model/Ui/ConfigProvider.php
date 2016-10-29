@@ -26,6 +26,7 @@ final class ConfigProvider implements ConfigProviderInterface
         return [
             'payment' => [
                 self::CODE_INVOICE => [
+                    'redirectUrl' => 'http://www.csv.lv',
                     'transactionResults' => [
                         ClientMock::SUCCESS => __('Success'),
                         ClientMock::FAILURE => __('Fraud')

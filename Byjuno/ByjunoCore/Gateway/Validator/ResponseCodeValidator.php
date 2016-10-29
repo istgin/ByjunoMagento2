@@ -21,6 +21,11 @@ class ResponseCodeValidator extends AbstractValidator
      */
     public function validate(array $validationSubject)
     {
+        exit('aaa');
+        return $this->createResult(
+            false,
+            [__('Gateway rejected the transaction.')]
+        );
         if (!isset($validationSubject['response']) || !is_array($validationSubject['response'])) {
             throw new \InvalidArgumentException('Response does not exist');
         }

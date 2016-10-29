@@ -6,12 +6,13 @@
 /*global define*/
 define(
     [
-        'Magento_Checkout/js/view/payment/default'
+        'Magento_Checkout/js/view/payment/default',
+        'mage/url'
     ],
-    function (Component) {
+    function (Component, url) {
         'use strict';
-        console.log('xxx');
         return Component.extend({
+            redirectAfterPlaceOrder: false,
             defaults: {
                 template: 'Byjuno_ByjunoCore/payment/form_invoice',
                 transactionResult: ''
@@ -24,6 +25,11 @@ define(
                         'transactionResult'
                     ]);
                 return this;
+            },
+
+            afterPlaceOrder: function () { this.selectPaymentMethod();
+                console.log(window.checkoutConfig.payment.byjuno_invoice.redirectUrl);
+                window.location.replace(url.build(window.checkoutConfig.payment.byjuno_invoice.redirectUrl));
             },
 
             getCode: function() {
