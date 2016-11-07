@@ -15,14 +15,14 @@ define(
             redirectAfterPlaceOrder: false,
             defaults: {
                 template: 'Byjuno_ByjunoCore/payment/form_invoice',
-                transactionResult: ''
+                paymentPlan: ''
             },
 
             initObservable: function () {
 
                 this._super()
                     .observe([
-                        'transactionResult'
+                        'paymentPlan'
                     ]);
                 return this;
             },
@@ -40,9 +40,20 @@ define(
                 return {
                     'method': this.item.method,
                     'additional_data': {
-                        'transaction_result': this.transactionResult()
+                        'payment_plan': this.paymentPlan()
                     }
                 };
+            },
+
+            getPaymentPlans: function() {
+                return _.map(window.checkoutConfig.payment.byjuno_invoice.methods, function(value, key) {
+                    return {
+                        'value': value.value,
+                        'selected': value.selected,
+                        'link': value.link,
+                        'label': value.name
+                    }
+                });
             }
         });
     }

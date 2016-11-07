@@ -25,6 +25,23 @@
             <!--/ko-->
         </div>
 
+        <div class="field required">
+            <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">
+                <h3><!-- ko i18n: 'Select payment plan'--><!-- /ko --></h3>
+            </label>
+            <div class="control">
+                <div data-bind="foreach: getPaymentPlans()" >
+                    <label>
+                        <input type="radio"
+                               name="payment[payment_plan]"
+                               data-bind="attr: {value: value, checked: (selected == true) ? 'checked' : null }" />
+                        <span data-bind="text: label"></span>
+                        <a data-bind="attr: {href: link, target: '_blank'}, text: $t('(T&C)')"></a>
+                    </label><br />
+                </div>
+            </div>
+        </div>
+
         <div class="actions-toolbar">
             <div class="primary">
                 <button class="action primary checkout"
