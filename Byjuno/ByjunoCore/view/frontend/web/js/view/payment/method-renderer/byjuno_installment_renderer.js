@@ -37,15 +37,6 @@ define(
                         'transaction_result': this.transactionResult()
                     }
                 };
-            },
-
-            getTransactionResults: function() {
-                return _.map(window.checkoutConfig.payment.byjuno_installment.transactionResults, function(value, key) {
-                    return {
-                        'value': key,
-                        'transaction_result': value
-                    }
-                });
             }
         });
     }
