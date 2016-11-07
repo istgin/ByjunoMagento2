@@ -20,7 +20,6 @@ define(
                 component: 'Byjuno_ByjunoCore/js/view/payment/method-renderer/byjuno_invoice_renderer'
             }
         );
-        console.log('yyyy');
         /** Add view logic here if needed */
         return Component.extend({});
     }

@@ -8,7 +8,7 @@ namespace Byjuno\ByjunoCore\Observer;
 use Magento\Framework\Event\Observer;
 use Magento\Payment\Observer\AbstractDataAssignObserver;
 
-class DataAssignObserver extends AbstractDataAssignObserver
+class InvoiceDataAssignObserver extends AbstractDataAssignObserver
 {
     /**
      * @param Observer $observer

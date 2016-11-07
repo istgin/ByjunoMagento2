@@ -7,7 +7,7 @@
 -->
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="payment_method_assign_data">
-        <observer name="byjuno_payment_gateway_data_assign" instance="Byjuno\ByjunoCore\Observer\DataAssignObserver" />
+    <event name="payment_method_assign_data_byjuno_invoice">
+        <observer name="byjuno_invoice_payment_gateway_data_assign" instance="Byjuno\ByjunoCore\Observer\InvoiceDataAssignObserver" />
     </event>
 </config>

@@ -15,11 +15,10 @@ define(
             redirectAfterPlaceOrder: false,
             defaults: {
                 template: 'Byjuno_ByjunoCore/payment/form_invoice',
-                paymentPlan: ''
+                paymentPlan: window.checkoutConfig.payment.byjuno_invoice.default_payment
             },
 
             initObservable: function () {
-
                 this._super()
                     .observe([
                         'paymentPlan'
@@ -28,7 +27,6 @@ define(
             },
 
             afterPlaceOrder: function () { this.selectPaymentMethod();
-                console.log(window.checkoutConfig.payment.byjuno_invoice.redirectUrl);
                 window.location.replace(url.build(window.checkoutConfig.payment.byjuno_invoice.redirectUrl));
             },
 
@@ -45,11 +43,14 @@ define(
                 };
             },
 
+            selectPaymentPlan: function() {
+
+            },
+
             getPaymentPlans: function() {
                 return _.map(window.checkoutConfig.payment.byjuno_invoice.methods, function(value, key) {
                     return {
                         'value': value.value,
-                        'selected': value.selected,
                         'link': value.link,
                         'label': value.name
                     }

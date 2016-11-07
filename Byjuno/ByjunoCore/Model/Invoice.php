@@ -20,6 +20,7 @@ use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectFactory;
 use Magento\Payment\Gateway\Config\ValueHandlerPoolInterface;
 use Magento\Payment\Gateway\Validator\ValidatorPoolInterface;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 
 /**
@@ -30,6 +31,8 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
 
     /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
     private $_scopeConfig;
+    private $eventManager;
+
 
     /**
      * @param ManagerInterface $eventManager
@@ -65,6 +68,7 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
             $validatorPool,
             $commandExecutor
         );
+        $this->eventManager = $eventManager;
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->_scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
 
@@ -83,13 +87,23 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         return $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_setup/title_invoice", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
+    public function assignData(\Magento\Framework\DataObject $data)
+    {
+        $dataKey = $data->getDataByKey('additional_data');
+        $payment = $this->getInfoInstance();
+        if (isset($dataKey['payment_plan'])) {
+            $payment->setAdditionalInformation('payment_plan', $dataKey['payment_plan']);
+        }
+        return $this;
+    }
+
     public function validate()
     {
-        //$payment = $this->getInfoInstance();
-       /* throw new LocalizedException(
-            __("XXX")
+        $payment = $this->getInfoInstance();
+        throw new LocalizedException(
+            __("XXX-". $payment->getAdditionalInformation('payment_plan'))
         );
-*/
+
         return $this;
     }
 

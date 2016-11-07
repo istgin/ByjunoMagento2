@@ -24,7 +24,6 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
-
         <div class="field required">
             <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">
                 <h3><!-- ko i18n: 'Select payment plan'--><!-- /ko --></h3>
@@ -34,7 +33,9 @@
                     <label>
                         <input type="radio"
                                name="payment[payment_plan]"
-                               data-bind="attr: {value: value, checked: (selected == true) ? 'checked' : null }" />
+                               data-bind="
+                                  attr: {value: value},
+                                  checked: $parent.paymentPlan" />
                         <span data-bind="text: label"></span>
                         <a data-bind="attr: {href: link, target: '_blank'}, text: $t('(T&C)')"></a>
                     </label><br />
