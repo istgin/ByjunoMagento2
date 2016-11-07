@@ -26,9 +26,9 @@
         </div>
         <div class="field required">
             <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">
-                <h3><!-- ko i18n: 'Select payment plan'--><!-- /ko --></h3>
+                <b style="font-size: 16px"><!-- ko i18n: 'Select payment plan'--><!-- /ko --></b>
             </label>
-            <div class="control">
+            <div class="control" style="margin: 8px 0 0 0">
                 <div data-bind="foreach: getPaymentPlans()" >
                     <label>
                         <input type="radio"
