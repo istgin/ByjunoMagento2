@@ -36,7 +36,6 @@ class Startpayment extends \Magento\Framework\App\Action\Action
     {
 
         try {
-
             $order = $this->_getCheckoutSession()->getLastRealOrder();
             $method = $order->getPayment()->getMethod();
             $resultRedirect = $this->resultRedirectFactory->create();

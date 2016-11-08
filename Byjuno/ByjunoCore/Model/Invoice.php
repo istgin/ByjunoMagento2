@@ -100,9 +100,9 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
     public function validate()
     {
         $payment = $this->getInfoInstance();
-        throw new LocalizedException(
+       /* throw new LocalizedException(
             __("XXX-". $payment->getAdditionalInformation('payment_plan'))
-        );
+        );*/
 
         return $this;
     }

@@ -49,12 +49,24 @@ final class ConfigProvider implements ConfigProviderInterface
             );
         }
 
+        $invoiceDelivery[] = Array(
+            "value" => "email",
+            "text" => __("Rechnungsversand via E-Mail (ohne Gebühr) an").": "
+        );
+
+        $invoiceDelivery[] = Array(
+            "value" => "postal",
+            "text" => __("Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.50) an").": "
+        );
+
         return [
             'payment' => [
                 self::CODE_INVOICE => [
                     'redirectUrl' => 'byjunocore/checkout/startpayment',
                     'methods' => $methodsAvailableInvoice,
-                    'default_payment' => '1'
+                    'delivery' => $invoiceDelivery,
+                    'default_payment' => '1',
+                    'default_delivery' => 'email'
                 ],
                 self::CODE_INSTALLMENT => [
                     'redirectUrl' => 'byjunocore/checkout/startpayment'

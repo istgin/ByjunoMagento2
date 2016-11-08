@@ -42,14 +42,32 @@
                 </div>
             </div>
         </div>
-
+        <br />
+        <div class="field required">
+            <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">
+                <b style="font-size: 16px"><!-- ko i18n: 'Select invoice delivery method'--><!-- /ko --></b>
+            </label>
+            <div class="control" style="margin: 8px 0 0 0">
+                <div data-bind="foreach: getDeliveryPlans()" >
+                    <label>
+                        <input type="radio"
+                               name="payment[invoice_send]"
+                               data-bind="
+                                  attr: {value: value},
+                                  checked: $parent.deliveryPlan" />
+                        <span data-bind="text: label"></span>
+                    </label><br />
+                </div>
+            </div>
+        </div>
+        <br />
         <div class="actions-toolbar">
             <div class="primary">
                 <button class="action primary checkout"
                         type="submit"
                         data-bind="
                         click: placeOrder,
-                        attr: {title: $t('Place Order')}
+                        attr: {title: $t('Place Order'), disabled: (getBillingAddress() == null) ? 'disabled' : null }
                         ">
                     <span data-bind="i18n: 'Place Order'"></span>
                 </button>
