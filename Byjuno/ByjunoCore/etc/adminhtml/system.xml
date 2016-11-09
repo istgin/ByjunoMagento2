@@ -93,7 +93,13 @@
                     <label>Test email of byjuno</label>
                     <comment>Email used to send test orders, invoices and credit memos</comment>
                 </field>
-
+            </group>
+            <group id="localization" translate="label" type="text" sortOrder="20" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Byjuno localizations</label>
+                <field id="byjuno_fail_message" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Fail message of byjuno order</label>
+                </field>
             </group>
         </section>
         <section id="byjunoinvoicesettings" translate="label" sortOrder="2" showInDefault="1"

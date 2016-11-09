@@ -34,18 +34,20 @@ final class ConfigProvider implements ConfigProviderInterface
     public function getConfig()
     {
         $methodsAvailableInvoice = Array();
-        if ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active")) {
-            $methodsAvailableInvoice[] = Array(
-                "value" => '1',
-                "name" => $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-                "link" => $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/link", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            );
-        }
+
         if ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active")) {
             $methodsAvailableInvoice[] = Array(
-                "value" => '2',
+                "value" => 'invoice_single_enable',
                 "name" => $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
                 "link" => $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/link", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            );
+        }
+
+        if ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active")) {
+            $methodsAvailableInvoice[] = Array(
+                "value" => 'invoice_partial_enable',
+                "name" => $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
+                "link" => $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/link", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             );
         }
 
@@ -65,7 +67,7 @@ final class ConfigProvider implements ConfigProviderInterface
                     'redirectUrl' => 'byjunocore/checkout/startpayment',
                     'methods' => $methodsAvailableInvoice,
                     'delivery' => $invoiceDelivery,
-                    'default_payment' => '1',
+                    'default_payment' => 'invoice_single_enable',
                     'default_delivery' => 'email'
                 ],
                 self::CODE_INSTALLMENT => [

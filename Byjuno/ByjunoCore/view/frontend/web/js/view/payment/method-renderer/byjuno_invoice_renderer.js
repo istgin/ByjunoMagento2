@@ -46,7 +46,7 @@ define(
                 if (quote.billingAddress() == null) {
                     return null;
                 }
-                return quote.billingAddress().street[0] + ", " + quote.billingAddress().postcode;
+                return quote.billingAddress().street[0] + ", " + quote.billingAddress().city + ", " + quote.billingAddress().postcode;
             },
 
             getData: function () {

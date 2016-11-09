@@ -33,6 +33,9 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
     private $_scopeConfig;
     private $eventManager;
 
+    /* @var $_scopeConfig \Magento\Checkout\Model\Session */
+    private $_checkoutSession;
+
 
     /**
      * @param ManagerInterface $eventManager
@@ -71,6 +74,7 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         $this->eventManager = $eventManager;
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->_scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->_checkoutSession = $objectManager->get('Magento\Checkout\Model\Session');
 
     }
     public function isAvailable(CartInterface $quote = null)
@@ -91,29 +95,62 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
     {
         $dataKey = $data->getDataByKey('additional_data');
         $payment = $this->getInfoInstance();
+        $payment->setAdditionalInformation('payment_plan', null);
+        $payment->setAdditionalInformation('invoice_send', null);
+        $payment->setAdditionalInformation('payment_send_to', null);
+        $payment->setAdditionalInformation('s3_ok', null);
+        $payment->setAdditionalInformation('webshop_profile_id', null);
         if (isset($dataKey['payment_plan'])) {
             $payment->setAdditionalInformation('payment_plan', $dataKey['payment_plan']);
         }
         if (isset($dataKey['invoice_send'])) {
+            $sentTo = '';
+            if ($dataKey['invoice_send'] == 'postal') {
+                $sentTo = (String)$this->_checkoutSession->getQuote()->getBillingAddress()->getStreetFull().', '.
+                    (String)$this->_checkoutSession->getQuote()->getBillingAddress()->getCity().', '.
+                    (String)$this->_checkoutSession->getQuote()->getBillingAddress()->getPostcode();
+            } else if ($dataKey['invoice_send'] == 'email') {
+                $sentTo = (String)$this->_checkoutSession->getQuote()->getBillingAddress()->getEmail();
+            }
             $payment->setAdditionalInformation('invoice_send', $dataKey['invoice_send']);
+            $payment->setAdditionalInformation('payment_send_to', $sentTo);
         }
+        $payment->setAdditionalInformation('s3_ok', 'false');
+        $payment->setAdditionalInformation("webshop_profile_id", $this->getStore());
         return $this;
     }
 
     public function validate()
     {
         $payment = $this->getInfoInstance();
-        throw new LocalizedException(
-            __("XXX-". $payment->getAdditionalInformation('payment_plan')."-".$payment->getAdditionalInformation('invoice_send'))
-        );
+        if ($payment->getAdditionalInformation('payment_plan') == null || ($payment->getAdditionalInformation('payment_plan') != 'invoice_single_enable' && $payment->getAdditionalInformation('payment_plan') != 'invoice_partial_enable')) {
+            throw new LocalizedException(
+                __("Invalid payment plan")
+            );
+        }
 
+        if ($payment->getAdditionalInformation('invoice_send') == null || ($payment->getAdditionalInformation('invoice_send') != 'email' && $payment->getAdditionalInformation('invoice_send') != 'postal')) {
+            throw new LocalizedException(
+                __("Please select invoice send way")
+            );
+        }
+
+        if ($payment->getAdditionalInformation('payment_send_to') == null) {
+            throw new LocalizedException(
+                __("Invoice send way invalid address")
+            );
+        }
+        /*
+        throw new LocalizedException(
+            __("OK")
+        );
+        */
         return $this;
     }
 
 
     public function authorize(InfoInterface $payment, $amount)
     {
-        /** @var $order \Magento\Sales\Model\Order */
         $order = $payment->getOrder();
         /*throw new LocalizedException(
             __("XXXXX-" . $order->getId())
