@@ -12,6 +12,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
     protected $_checkoutSession;
     protected $_countryHelper;
     protected $_resolver;
+    public $_byjunoOrderSender;
     /**
      * @var \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator
      */
@@ -100,11 +101,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
         \Magento\Directory\Model\Config\Source\Country $countryHelper,
         \Magento\Framework\Locale\Resolver $resolver,
         \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator $communicator,
-        \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse $response
+        \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse $response,
+        \Byjuno\ByjunoCore\Helper\ByjunoOrderSender $byjunoOrderSender
     )
     {
 
         parent::__construct($context);
+        $this->_byjunoOrderSender = $byjunoOrderSender;
         $this->_response = $response;
         $this->_communicator = $communicator;
         $this->_resolver = $resolver;
