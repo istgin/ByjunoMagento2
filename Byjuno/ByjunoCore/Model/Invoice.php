@@ -94,15 +94,18 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         if (isset($dataKey['payment_plan'])) {
             $payment->setAdditionalInformation('payment_plan', $dataKey['payment_plan']);
         }
+        if (isset($dataKey['invoice_send'])) {
+            $payment->setAdditionalInformation('invoice_send', $dataKey['invoice_send']);
+        }
         return $this;
     }
 
     public function validate()
     {
         $payment = $this->getInfoInstance();
-       /* throw new LocalizedException(
-            __("XXX-". $payment->getAdditionalInformation('payment_plan'))
-        );*/
+        throw new LocalizedException(
+            __("XXX-". $payment->getAdditionalInformation('payment_plan')."-".$payment->getAdditionalInformation('invoice_send'))
+        );
 
         return $this;
     }
