@@ -69,9 +69,9 @@ class Startpayment extends Action
             if (intval($status) > 15) {
                 $status = 0;
             }
-            //$helper->saveLog($quote, $request, $xml, $response, $status, $ByjunoRequestName);
+            $this->_dataHelper->saveLog($request, $xml, $response, $status, $ByjunoRequestName);
         } else {
-           // $helper->saveLog($quote, $request, $xml, "empty response", "0", $ByjunoRequestName);
+            $this->_dataHelper->saveLog($request, $xml, "empty response", "0", $ByjunoRequestName);
         }
         return array($status, $requestType);
     }
@@ -102,13 +102,13 @@ class Startpayment extends Action
             $this->_dataHelper->_response->processResponse();
             $status = (int)$this->_dataHelper->_response->getCustomerRequestStatus();
             $this->_checkoutSession->setByjunoTransaction($this->_dataHelper->_response->getTransactionNumber());
-            //$this->_dataHelper->saveLog($quote, $request, $xml, $response, $status, $ByjunoRequestName);
+            $this->_dataHelper->saveLog($request, $xml, $response, $status, $ByjunoRequestName);
             if (intval($status) > 15) {
                 $status = 0;
             }
             $trxId = $this->_dataHelper->_response->getResponseId();
         } else {
-            //$this->getHelper()->saveLog($quote, $request, $xml, "empty response", "0", $ByjunoRequestName);
+            $this->_dataHelper->saveLog($request, $xml, "empty response", "0", $ByjunoRequestName);
             $trxId = "empty";
         }
         $payment->setTransactionId($trxId);
@@ -126,8 +126,6 @@ class Startpayment extends Action
         $this->_checkoutSession->setIntrumStatus("intrum_status", $status);
         $this->_checkoutSession->setIntrumRequestType("intrum_request_type", $requestType);
         $this->_checkoutSession->setIntrumOrder("intrum_order", $order->getId());
-        //$this->_dataHelper->_byjunoOrderSender->send($order);
-        //exit();
         return array($status, $requestType, $this->_dataHelper->_response);
     }
 
@@ -178,6 +176,8 @@ class Startpayment extends Action
             }
 
         } catch (\Exception $e) {
+            var_dump($e);
+            exit();
             $order = $this->_checkoutSession->getLastRealOrder();
             $error = __("Unexpected error");
             $order->registerCancellation($error)->save();

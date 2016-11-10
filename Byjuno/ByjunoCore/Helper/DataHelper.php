@@ -13,6 +13,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
     protected $_countryHelper;
     protected $_resolver;
     public $_byjunoOrderSender;
+    public $_byjunoLogger;
     /**
      * @var \Psr\Log\LoggerInterface
      */
@@ -27,6 +28,46 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
      */
     public $_response;
 
+
+    function saveLog(\Byjuno\ByjunoCore\Helper\Api\ByjunoRequest $request, $xml_request, $xml_response, $status, $type) {
+        $data = array( 'firstname'  => $request->getFirstName(),
+            'lastname'   => $request->getLastName(),
+            'postcode'   => $request->getPostCode(),
+            'town'       => $request->getTown(),
+            'country'    => $request->getCountryCode(),
+            'street1'    => $request->getFirstLine(),
+            'request_id' => $request->getRequestId(),
+            'status'     => ($status != 0) ? $status : 'Error',
+            'error'      => '',
+            'request'    => $xml_request,
+            'response'   => $xml_response,
+            'type'       => $type,
+            'ip'         => $_SERVER['REMOTE_ADDR']);
+
+        $this->_byjunoLogger->log($data);
+    }
+/*
+    function saveS4Log(Mage_Sales_Model_Order $order, Byjuno_Cdp_Helper_Api_Classes_ByjunoS4Request $request, $xml_request, $xml_response, $status, $type) {
+
+        $data = array( 'firstname'  => $order->getCustomerFirstname(),
+            'lastname'   => $order->getCustomerLastname(),
+            'postcode'   => '-',
+            'town'       => '-',
+            'country'    => '-',
+            'street1'    => '-',
+            'request_id' => $request->getRequestId(),
+            'status'     => $status,
+            'error'      => '',
+            'request'    => $xml_request,
+            'response'   => $xml_response,
+            'type'       => $type,
+            'ip'         => $_SERVER['REMOTE_ADDR']);
+
+        $byjuno_model = Mage::getModel('byjuno/byjuno');
+        $byjuno_model->setData($data);
+        $byjuno_model->save();
+    }
+*/
     public function valueToStatus($val) {
         $status[0] = 'Fail to connect (status Error)';
         $status[1] = 'There are serious negative indicators (status 1)';
@@ -141,11 +182,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
         \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator $communicator,
         \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse $response,
         \Byjuno\ByjunoCore\Helper\ByjunoOrderSender $byjunoOrderSender,
-        \Psr\Log\LoggerInterface $loggerPsr
+        \Psr\Log\LoggerInterface $loggerPsr,
+        \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger
     )
     {
 
         parent::__construct($context);
+        $this->_byjunoLogger = $byjunoLogger;
         $this->_byjunoOrderSender = $byjunoOrderSender;
         $this->_response = $response;
         $this->_communicator = $communicator;

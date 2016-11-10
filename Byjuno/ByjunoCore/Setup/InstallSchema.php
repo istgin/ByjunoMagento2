@@ -118,7 +118,7 @@ class InstallSchema implements InstallSchemaInterface
                     'Error'
                 )
                 ->addColumn(
-                    'reponse',
+                    'response',
                     Table::TYPE_TEXT,
                     null,
                     ['nullable' => false, 'default' => ''],
