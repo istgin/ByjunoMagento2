@@ -29,7 +29,8 @@ class ByjunoLogger
                 'type' => $array['type'],
                 'error' => $array['error'],
                 'response' => $array['response'],
-                'request' => $array['request']
+                'request' => $array['request'],
+                'creation_date' => date ("Y-m-d H:i:s")
             )
         );
     }

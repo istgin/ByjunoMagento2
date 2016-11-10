@@ -38,20 +38,44 @@
                             <argument name="index" xsi:type="string">id</argument>
                         </arguments>
                     </block>
-                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="title">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="request_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">
-                                Title
+                                Request ID
                             </argument>
-                            <argument name="index" xsi:type="string">title</argument>
+                            <argument name="index" xsi:type="string">request_id</argument>
                         </arguments>
                     </block>
-                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="summary">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="type">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">
-                                Summary
+                                Request type
                             </argument>
-                            <argument name="index" xsi:type="string">summary</argument>
+                            <argument name="index" xsi:type="string">type</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="firstname">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">
+                                Firstname
+                            </argument>
+                            <argument name="index" xsi:type="string">firstname</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="lastname">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">
+                                Lastname
+                            </argument>
+                            <argument name="index" xsi:type="string">lastname</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="ip">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">
+                                IP
+                            </argument>
+                            <argument name="index" xsi:type="string">ip</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
@@ -60,8 +84,14 @@
                                 Status
                             </argument>
                             <argument name="index" xsi:type="string">status</argument>
-                            <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="options" model="Byjuno\ByjunoCore\Model\System\Config\Status"/>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="creation_date">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">
+                                Date
+                            </argument>
+                            <argument name="index" xsi:type="string">creation_date</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="action"
