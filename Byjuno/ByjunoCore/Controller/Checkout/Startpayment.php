@@ -98,8 +98,8 @@ class Startpayment extends Action
             $this->_checkoutSession->setIntrumRequestType("intrum_request_type", $requestType);
             $this->_checkoutSession->setIntrumOrder("intrum_order", $order->getId());
             $resultRedirect = $this->resultRedirectFactory->create();
-            $this->_dataHelper->_byjunoOrderSender->send($order);
-            exit();
+            //$this->_dataHelper->_byjunoOrderSender->send($order);
+            //exit();
             if ($status == 2) {
                 $resultRedirect->setPath('checkout/onepage/success');
             } else if ($status == 0) {
