@@ -42,6 +42,9 @@ class InstallData implements InstallDataInterface
      */
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
+
+        $setup->startSetup();
+
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 
@@ -146,5 +149,19 @@ class InstallData implements InstallDataInterface
                 'apply_to' => ''
             ]
         );
+
+        $data = [];
+        $statuses = [
+            'pending_byjuno' => __('Byjuno wait for payment'),
+            'pending_byjuno_payment' => __('Byjuno S2 confirmed'),
+            'byjuno_confirmed'  => __('Byjuno S3 confirmed'),
+        ];
+        foreach ($statuses as $code => $info) {
+            $data[] = ['status' => $code, 'label' => $info];
+        }
+        $setup->getConnection()
+            ->insertArray($setup->getTable('sales_order_status'), ['status', 'label'], $data);
+
+        $setup->endSetup();
     }
 }
