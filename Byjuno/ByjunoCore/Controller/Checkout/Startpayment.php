@@ -131,7 +131,6 @@ class Startpayment extends Action
 
     public function execute()
     {
-        exit();
         $order = $this->_checkoutSession->getLastRealOrder();
         /* @var $payment \Magento\Sales\Model\Order\Payment */
         $payment = $order->getPayment();
@@ -141,10 +140,10 @@ class Startpayment extends Action
             list($statusS2, $requestTypeS2, $responseS2) = $this->executeS2($order, $payment);
             if ($statusS2 == 2) {
                 list($statusS3, $requestTypeS3) = $this->executeS3($order, $payment);
-
                 if ($statusS3 == 2) {
                     $payment->setAdditionalInformation("s3_ok", 'true')->save();
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
+                    $order->setStatus("byjuno_confirmed");
                     if (!empty($statusToPayment) && !empty($ByjunoResponseSession)) {
                         $this->_dataHelper->saveStatusToOrder($order, $responseS2);
                     }
@@ -177,8 +176,6 @@ class Startpayment extends Action
             }
 
         } catch (\Exception $e) {
-            var_dump($e);
-            exit();
             $order = $this->_checkoutSession->getLastRealOrder();
             $error = __("Unexpected error");
             $order->registerCancellation($error)->save();
