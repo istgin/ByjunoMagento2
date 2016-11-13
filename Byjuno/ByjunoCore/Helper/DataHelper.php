@@ -8,6 +8,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
     protected $_iteratorFactory;
     protected $_blockMenu;
     protected $_url;
+    /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
     public $_scopeConfig;
     protected $_checkoutSession;
     protected $_countryHelper;
@@ -27,6 +28,10 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
      * @var \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse
      */
     public $_response;
+    /**
+     * @var \Byjuno\ByjunoCore\Helper\Api\ByjunoS4Response
+     */
+    public $_responseS4;
 
 
     function saveLog(\Byjuno\ByjunoCore\Helper\Api\ByjunoRequest $request, $xml_request, $xml_response, $status, $type) {
@@ -46,6 +51,26 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
 
         $this->_byjunoLogger->log($data);
     }
+
+    function saveS4Log(\Magento\Sales\Model\Order $order, \Byjuno\ByjunoCore\Helper\Api\ByjunoS4Request $request, $xml_request, $xml_response, $status, $type) {
+
+        $data = array( 'firstname'  => $order->getCustomerFirstname(),
+            'lastname'   => $order->getCustomerLastname(),
+            'postcode'   => '-',
+            'town'       => '-',
+            'country'    => '-',
+            'street1'    => '-',
+            'request_id' => $request->getRequestId(),
+            'status'     => $status,
+            'error'      => '',
+            'request'    => $xml_request,
+            'response'   => $xml_response,
+            'type'       => $type,
+            'ip'         => $_SERVER['REMOTE_ADDR']);
+
+        $this->_byjunoLogger->log($data);
+    }
+
 /*
     function saveS4Log(Mage_Sales_Model_Order $order, Byjuno_Cdp_Helper_Api_Classes_ByjunoS4Request $request, $xml_request, $xml_response, $status, $type) {
 
@@ -181,6 +206,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
         \Magento\Framework\Locale\Resolver $resolver,
         \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator $communicator,
         \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse $response,
+        \Byjuno\ByjunoCore\Helper\Api\ByjunoS4Response $responseS4,
         \Byjuno\ByjunoCore\Helper\ByjunoOrderSender $byjunoOrderSender,
         \Psr\Log\LoggerInterface $loggerPsr,
         \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger
@@ -191,6 +217,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
         $this->_byjunoLogger = $byjunoLogger;
         $this->_byjunoOrderSender = $byjunoOrderSender;
         $this->_response = $response;
+        $this->_responseS4 = $responseS4;
         $this->_communicator = $communicator;
         $this->_resolver = $resolver;
         $this->_countryHelper = $countryHelper;
@@ -591,6 +618,46 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
 
     }
 
+    function CreateMagentoShopRequestS4Paid(\Magento\Sales\Model\Order $order, \Magento\Sales\Model\Order\Invoice $invoice, $webshopProfile) {
+
+
+        $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoS4Request();
+        $request->setClientId($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/clientid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setUserID($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setPassword($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setVersion("1.00");
+        try {
+            $request->setRequestEmail($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/mail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        } catch (\Exception $e) {
+
+        }
+
+        $request->setRequestId(uniqid((String)$order->getIncrementId()."_"));
+
+        $request->setOrderId($order->getIncrementId());
+        $reference = $order->getCustomerId();
+        if (empty($reference)) {
+            $request->setClientRef("guest_".$order->getId());
+        } else {
+            $request->setClientRef($order->getCustomerId());
+        }
+        $orderDateString = \Zend_Locale_Format::getDate(
+            $order->getCreatedAt(),
+            array(
+                'date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+            )
+        );
+        $request->setTransactionDate($orderDateString["year"]."-".$orderDateString["month"].'-'.$orderDateString["day"]);
+        $request->setTransactionAmount(number_format($invoice->getGrandTotal(), 2, '.', ''));
+        $request->setTransactionCurrency($order->getBaseCurrencyCode());
+        $request->setAdditional1("INVOICE");
+        $request->setAdditional2($invoice->getIncrementId());
+        $request->setOpenBalance(number_format($invoice->getGrandTotal(), 2, '.', ''));
+
+        return $request;
+
+    }
+
 /*
 
 
@@ -873,37 +940,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
 
     }
 
-    function CreateMagentoShopRequestS4Paid(Mage_Sales_Model_Order $order, Mage_Sales_Model_Order_Invoice $invoice, $webshopProfile) {
 
-        $request = new Byjuno_Cdp_Helper_Api_Classes_ByjunoS4Request();
-        $request->setClientId(Mage::getStoreConfig('payment/cdp/clientid',$webshopProfile));
-        $request->setUserID(Mage::getStoreConfig('payment/cdp/userid',$webshopProfile));
-        $request->setPassword(Mage::getStoreConfig('payment/cdp/password',$webshopProfile));
-        $request->setVersion("1.3");
-        try {
-            $request->setRequestEmail(Mage::getStoreConfig('payment/cdp/mail',$webshopProfile));
-        } catch (Exception $e) {
-
-        }
-        $request->setRequestId(uniqid((String)$order->getCustomerId()."_"));
-
-        $request->setOrderId($order->getIncrementId());
-        $reference = $order->getCustomerId();
-        if (empty($reference)) {
-            $request->setClientRef("guest_".$order->getId());
-        } else {
-            $request->setClientRef($order->getCustomerId());
-        }
-        $request->setTransactionDate($order->getCreatedAtStoreDate()->toString(Varien_Date::DATE_INTERNAL_FORMAT));
-        $request->setTransactionAmount(number_format($invoice->getGrandTotal(), 2, '.', ''));
-        $request->setTransactionCurrency($order->getBaseCurrencyCode());
-        $request->setAdditional1("INVOICE");
-        $request->setAdditional2($invoice->getIncrementId());
-        $request->setOpenBalance(number_format($invoice->getGrandTotal(), 2, '.', ''));
-
-        return $request;
-
-    }
 
     function CreateMagentoShopRequestS5Paid(Mage_Sales_Model_Order $order, $amount, $transactionType, $webshopProfile, $invoiceId = '') {
 

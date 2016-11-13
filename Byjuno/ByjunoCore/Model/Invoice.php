@@ -21,6 +21,7 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectFactory;
 use Magento\Payment\Gateway\Config\ValueHandlerPoolInterface;
 use Magento\Payment\Gateway\Validator\ValidatorPoolInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Byjuno\ByjunoCore\Helper\DataHelper;
 
 
 /**
@@ -32,6 +33,9 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
     /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
     private $_scopeConfig;
     private $eventManager;
+    private $_eavConfig;
+    /* @var $_dataHelper DataHelper */
+    private $_dataHelper;
 
     /* @var $_scopeConfig \Magento\Checkout\Model\Session */
     private $_checkoutSession;
@@ -75,8 +79,73 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->_scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_checkoutSession = $objectManager->get('Magento\Checkout\Model\Session');
-
+        $this->_eavConfig = $objectManager->get('\Magento\Eav\Model\Config');
+        $this->_dataHelper =  $objectManager->get('\Byjuno\ByjunoCore\Helper\DataHelper');
     }
+
+    /* @var $payment \Magento\Sales\Model\Order\Payment */
+    public function capture(InfoInterface $payment, $amount)
+    {
+        /* @var $invoice \Magento\Sales\Model\Order\Invoice */
+        $order = $payment->getOrder();
+        $invoice = \Byjuno\ByjunoCore\Observer\InvoiceObserver::$Invoice;
+        if ($invoice == null) {
+            throw new LocalizedException(
+                __("Internal invoice (InvoiceObserver) error")
+            );
+        }
+
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/byjunos4transacton", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '0') {
+            //return $this;
+        }
+        if ($payment->getAdditionalInformation("s3_ok") == null || $payment->getAdditionalInformation("s3_ok") == 'false') {
+            throw new LocalizedException (
+                __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s4_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE). " (error code: S3_NOT_CREATED)")
+            );
+        }
+        $webshopProfileId = $payment->getAdditionalInformation("webshop_profile_id");
+        $incrementValue =  $this->_eavConfig->getEntityType($invoice->getEntityType())->fetchNewIncrementId($invoice->getStore()->getId());
+        $request = $this->_dataHelper->CreateMagentoShopRequestS4Paid($order, $invoice, $webshopProfileId);
+
+
+        $ByjunoRequestName = 'Byjuno S4';
+        $xml = $request->createRequest();
+        $byjunoCommunicator = new \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator();
+        $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if ($mode == 'production') {
+            $byjunoCommunicator->setServer('live');
+        } else {
+            $byjunoCommunicator->setServer('test');
+        }
+        $response = $byjunoCommunicator->sendS4Request($xml, (int)$this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        if ($response) {
+            $this->_dataHelper->_responseS4->setRawResponse($response);
+            $this->_dataHelper->_responseS4->processResponse();
+            $status = $this->_dataHelper->_responseS4->getProcessingInfoClassification();
+            $this->_dataHelper->saveS4Log($order, $request, $xml, $response, $status, $ByjunoRequestName);
+        } else {
+            $status = "ERR";
+            $this->_dataHelper->saveS4Log($order, $request, $xml, "empty response", $status, $ByjunoRequestName);
+        }
+        if ($status == 'ERR') {
+            throw new LocalizedException(
+                __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s4_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE). " (error code: CDP_FAIL)")
+            );
+        } else {
+            //email Invoice
+            //$this->getHelper()->sendEmailInvoice($invoice);
+        }
+
+        $invoice->setIncrementId($incrementValue);
+        $payment->setTransactionId($incrementValue.'-invoice');
+        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE, null, true);
+        $transaction->setIsClosed(true);
+        $payment->save();
+
+        $transaction->save();
+        return $this;
+    }
+
     public function isAvailable(CartInterface $quote = null)
     {
         $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active");
@@ -150,10 +219,6 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
 
     public function order(InfoInterface $payment, $amount)
     {
-        throw new LocalizedException(
-            __("XXXXX")
-        );
-
         return $this;
     }
 

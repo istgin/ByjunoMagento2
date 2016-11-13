@@ -54,7 +54,7 @@ class Startpayment extends Action
         } else {
             $xml = $request->createRequest();
         }
-        $mode = $this->_dataHelper->_scopeConfig->getValue('payment/cdp/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($mode == 'production') {
             $this->_dataHelper->_communicator->setServer('live');
         } else {

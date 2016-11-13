@@ -255,6 +255,8 @@
                 <order_status>pending_byjuno</order_status>
                 <title>Byjuno invoice</title>
                 <can_use_checkout>1</can_use_checkout>
+                <can_capture>1</can_capture>
+                <can_refund>1</can_refund>
                 <sort_order>1</sort_order>
             </byjuno_invoice>
             <byjuno_installment>
@@ -262,6 +264,8 @@
                 <order_status>pending_byjuno</order_status>
                 <title>Byjuno installment</title>
                 <can_use_checkout>1</can_use_checkout>
+                <can_capture>1</can_capture>
+                <can_refund>1</can_refund>
                 <sort_order>2</sort_order>
             </byjuno_installment>
         </payment>
