@@ -160,11 +160,9 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
 
     public function authorize(InfoInterface $payment, $amount)
     {
+        /* @var $order \Magento\Sales\Model\Order */
         $order = $payment->getOrder();
-        throw new LocalizedException(
-            __("XXXXX-" . $order->getId())
-        );
-        return $this;
+		return $this;
     }
 
 }

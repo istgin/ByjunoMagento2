@@ -151,16 +151,21 @@ class InstallData implements InstallDataInterface
         );
 
         $data = [];
+        $dataSate = [];
         $statuses = [
-            'pending_byjuno' => __('Byjuno wait for payment'),
-            'pending_byjuno_payment' => __('Byjuno S2 confirmed'),
-            'byjuno_confirmed'  => __('Byjuno S3 confirmed'),
+            'pending_byjuno' => Array( "name" => __('Byjuno wait for payment'), 'is_default' => 1, "visible_on_front" => 1, "state" => "new"),
+            'pending_byjuno_payment' => Array( "name" =>__('Byjuno S2 confirmed'), 'is_default' => 0, "visible_on_front" => 1, "state" => "pending_payment"),
+            'byjuno_confirmed'  => Array( "name" =>__('Byjuno S3 confirmed'), 'is_default' => 0, "visible_on_front" => 1, "state" => "processing"),
         ];
         foreach ($statuses as $code => $info) {
-            $data[] = ['status' => $code, 'label' => $info];
+            $data[] = ['status' => $code, 'label' => $info["name"]];
+            $dataSate[] = ['status' => $code, 'state' => $info["state"], 'is_default' => $info["is_default"], 'visible_on_front' => $info["visible_on_front"]];
         }
         $setup->getConnection()
             ->insertArray($setup->getTable('sales_order_status'), ['status', 'label'], $data);
+
+        $setup->getConnection()
+            ->insertArray($setup->getTable('sales_order_status_state'), ['status', 'state', 'is_default', 'visible_on_front'], $dataSate);
 
         $setup->endSetup();
     }

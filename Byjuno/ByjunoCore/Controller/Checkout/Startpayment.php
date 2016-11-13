@@ -131,6 +131,7 @@ class Startpayment extends Action
 
     public function execute()
     {
+        exit();
         $order = $this->_checkoutSession->getLastRealOrder();
         /* @var $payment \Magento\Sales\Model\Order\Payment */
         $payment = $order->getPayment();
