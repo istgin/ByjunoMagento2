@@ -83,6 +83,14 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         $this->_dataHelper =  $objectManager->get('\Byjuno\ByjunoCore\Helper\DataHelper');
     }
 
+    public function refund(InfoInterface $payment, $amount)
+    {
+        throw new LocalizedException(
+            __("Error")
+        );
+        return $this;
+    }
+
     /* @var $payment \Magento\Sales\Model\Order\Payment */
     public function capture(InfoInterface $payment, $amount)
     {
