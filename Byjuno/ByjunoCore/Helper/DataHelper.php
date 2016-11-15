@@ -71,6 +71,25 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
         $this->_byjunoLogger->log($data);
     }
 
+    function saveS5Log(\Magento\Sales\Model\Order $order, \Byjuno\ByjunoCore\Helper\Api\ByjunoS5Request $request, $xml_request, $xml_response, $status, $type) {
+
+        $data = array( 'firstname'  => $order->getCustomerFirstname(),
+            'lastname'   => $order->getCustomerLastname(),
+            'postcode'   => '-',
+            'town'       => '-',
+            'country'    => '-',
+            'street1'    => '-',
+            'request_id' => $request->getRequestId(),
+            'status'     => $status,
+            'error'      => '',
+            'request'    => $xml_request,
+            'response'   => $xml_response,
+            'type'       => $type,
+            'ip'         => $_SERVER['REMOTE_ADDR']);
+
+        $this->_byjunoLogger->log($data);
+    }
+
 /*
     function saveS4Log(Mage_Sales_Model_Order $order, Byjuno_Cdp_Helper_Api_Classes_ByjunoS4Request $request, $xml_request, $xml_response, $status, $type) {
 
@@ -658,6 +677,46 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
 
     }
 
+    function CreateMagentoShopRequestS5Paid(\Magento\Sales\Model\Order $order, $amount, $transactionType, $invoiceId = '') {
+
+        $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoS5Request();
+        $request->setClientId($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/clientid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setUserID($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setPassword($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setVersion("1.00");
+        try {
+            $request->setRequestEmail($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/mail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        } catch (\Exception $e) {
+
+        }
+        $request->setRequestId(uniqid((String)$order->getIncrementId()."_"));
+
+        $request->setOrderId($order->getIncrementId());
+        $reference = $order->getCustomerId();
+        if (empty($reference)) {
+            $request->setClientRef("guest_".$order->getId());
+        } else {
+            $request->setClientRef($order->getCustomerId());
+        }
+        $orderDateString = \Zend_Locale_Format::getDate(
+            $order->getCreatedAt(),
+            array(
+                'date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+            )
+        );
+        $request->setTransactionDate($orderDateString["year"]."-".$orderDateString["month"].'-'.$orderDateString["day"]);
+        $request->setTransactionAmount(number_format($amount, 2, '.', ''));
+        $request->setTransactionCurrency($order->getBaseCurrencyCode());
+        $request->setTransactionType($transactionType);
+        $request->setAdditional2($invoiceId);
+        if ($transactionType == "EXPIRED") {
+            $request->setOpenBalance("0");
+        }
+
+        return $request;
+
+    }
+
 /*
 
 
@@ -940,41 +999,6 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper {
 
     }
 
-
-
-    function CreateMagentoShopRequestS5Paid(Mage_Sales_Model_Order $order, $amount, $transactionType, $webshopProfile, $invoiceId = '') {
-
-        $request = new Byjuno_Cdp_Helper_Api_Classes_ByjunoS5Request();
-        $request->setClientId(Mage::getStoreConfig('payment/cdp/clientid',$webshopProfile));
-        $request->setUserID(Mage::getStoreConfig('payment/cdp/userid',$webshopProfile));
-        $request->setPassword(Mage::getStoreConfig('payment/cdp/password',$webshopProfile));
-        $request->setVersion("1.3");
-        try {
-            $request->setRequestEmail(Mage::getStoreConfig('payment/cdp/mail',$webshopProfile));
-        } catch (Exception $e) {
-
-        }
-        $request->setRequestId(uniqid((String)$order->getCustomerId()."_"));
-
-        $request->setOrderId($order->getIncrementId());
-        $reference = $order->getCustomerId();
-        if (empty($reference)) {
-            $request->setClientRef("guest_".$order->getId());
-        } else {
-            $request->setClientRef($order->getCustomerId());
-        }
-        $request->setTransactionDate($order->getCreatedAtStoreDate()->toString(Varien_Date::DATE_INTERNAL_FORMAT));
-        $request->setTransactionAmount(number_format($amount, 2, '.', ''));
-        $request->setTransactionCurrency($order->getBaseCurrencyCode());
-        $request->setTransactionType($transactionType);
-        $request->setAdditional2($invoiceId);
-        if ($transactionType == "EXPIRED") {
-            $request->setOpenBalance("0");
-        }
-
-        return $request;
-
-    }
 
     function CreateMagentoShopRequestCreditCheck(Mage_Sales_Model_Quote $quote)
     {
