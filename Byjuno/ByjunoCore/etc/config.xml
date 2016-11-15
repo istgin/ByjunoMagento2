@@ -10,8 +10,8 @@
                     <minamount>10</minamount>
                     <maxamount>10000</maxamount>
                     <timeout>30</timeout>
-                    <tmxenabled>enable</tmxenabled>
-                    <tmxkey>lq866c5i</tmxkey>
+                    <!--<tmxenabled>enable</tmxenabled>
+                    <tmxkey>lq866c5i</tmxkey>-->
                     <businesstobusiness>disable</businesstobusiness>
                 </byjuno_setup>
                 <localization>
@@ -55,11 +55,11 @@
                     <title_invoice>Byjuno Rechnung</title_invoice>
                 </byjuno_invoice_setup>
             </byjunoinvoicesettings>
-            <byjunoinstallmentsettings>
+            <!--<byjunoinstallmentsettings>
                 <byjuno_setup>
                     <title_installment>Byjuno Ratenzahlung</title_installment>
                 </byjuno_setup>
-            </byjunoinstallmentsettings>
+            </byjunoinstallmentsettings>-->
         </german>
         <french>
             <byjunocheckoutsettings>
@@ -69,8 +69,8 @@
                     <minamount>10</minamount>
                     <maxamount>10000</maxamount>
                     <timeout>30</timeout>
-                    <tmxenabled>enable</tmxenabled>
-                    <tmxkey>lq866c5i</tmxkey>
+                    <!--<tmxenabled>enable</tmxenabled>
+                    <tmxkey>lq866c5i</tmxkey>-->
                     <businesstobusiness>disable</businesstobusiness>
                 </byjuno_setup>
                 <localization>
@@ -116,11 +116,11 @@
                     <title_invoice>Facture Byjuno</title_invoice>
                 </byjuno_invoice_setup>
             </byjunoinvoicesettings>
-            <byjunoinstallmentsettings>
+            <!--<byjunoinstallmentsettings>
                 <byjuno_setup>
                     <title_installment>Byjuno Paiement échelonné</title_installment>
                 </byjuno_setup>
-            </byjunoinstallmentsettings>
+            </byjunoinstallmentsettings>-->
 
         </french>
         <italian>
@@ -131,8 +131,8 @@
                     <minamount>10</minamount>
                     <maxamount>10000</maxamount>
                     <timeout>30</timeout>
-                    <tmxenabled>enable</tmxenabled>
-                    <tmxkey>lq866c5i</tmxkey>
+                    <!--<tmxenabled>enable</tmxenabled>
+                    <tmxkey>lq866c5i</tmxkey>-->
                     <businesstobusiness>disable</businesstobusiness>
                 </byjuno_setup>
                 <localization>
@@ -181,11 +181,11 @@
                     <title_invoice>Fattura Byjuno</title_invoice>
                 </byjuno_invoice_setup>
             </byjunoinvoicesettings>
-            <byjunoinstallmentsettings>
+            <!--<byjunoinstallmentsettings>
                 <byjuno_setup>
                     <title_installment>Byjuno Pagamento rateale</title_installment>
                 </byjuno_setup>
-            </byjunoinstallmentsettings>
+            </byjunoinstallmentsettings>-->
         </italian>
         <english>
             <byjunocheckoutsettings>
@@ -195,8 +195,8 @@
                     <minamount>10</minamount>
                     <maxamount>10000</maxamount>
                     <timeout>30</timeout>
-                    <tmxenabled>enable</tmxenabled>
-                    <tmxkey>lq866c5i</tmxkey>
+                    <!--<tmxenabled>enable</tmxenabled>
+                    <tmxkey>lq866c5i</tmxkey>-->
                     <businesstobusiness>disable</businesstobusiness>
                 </byjuno_setup>
                 <localization>
@@ -241,11 +241,11 @@
                     <title_invoice>Byjuno Rechnung</title_invoice>
                 </byjuno_invoice_setup>
             </byjunoinvoicesettings>
-            <byjunoinstallmentsettings>
+            <!--<byjunoinstallmentsettings>
                 <byjuno_setup>
                     <title_installment>Byjuno Ratenzahlung</title_installment>
                 </byjuno_setup>
-            </byjunoinstallmentsettings>
+            </byjunoinstallmentsettings>-->
         </english>
     </stores>
     <default>
@@ -260,7 +260,7 @@
                 <can_void>1</can_void>
                 <sort_order>1</sort_order>
             </byjuno_invoice>
-            <byjuno_installment>
+            <!--<byjuno_installment>
                 <model>InstallmentByjunoCoreFacade</model>
                 <order_status>pending_byjuno</order_status>
                 <title>Byjuno installment</title>
@@ -269,25 +269,25 @@
                 <can_refund>1</can_refund>
                 <can_void>1</can_void>
                 <sort_order>2</sort_order>
-            </byjuno_installment>
+            </byjuno_installment>-->
         </payment>
         <byjunocheckoutsettings>
             <byjuno_setup>
                 <active>0</active>
                 <currentmode>test</currentmode>
-                <minamount>10</minamount>
-                <maxamount>10000</maxamount>
+                <!--<minamount>10</minamount>
+                <maxamount>10000</maxamount>-->
                 <timeout>30</timeout>
-                <tmxenabled>0</tmxenabled>
-                <tmxkey>lq866c5i</tmxkey>
+                <!--<tmxenabled>0</tmxenabled>
+                <tmxkey>lq866c5i</tmxkey>-->
                 <businesstobusiness>disable</businesstobusiness>
                 <byjuno_prod_email>invoices@byjuno.ch</byjuno_prod_email>
                 <byjuno_test_email>test-invoices@byjuno.ch</byjuno_test_email>
-                <birthday_enable>0</birthday_enable>
-                <gender_enable>0</gender_enable>
+                <!--<birthday_enable>0</birthday_enable>
+                <gender_enable>0</gender_enable>-->
                 <byjunos4transacton>0</byjunos4transacton>
                 <byjunos5transacton>0</byjunos5transacton>
-                <cdpbeforeshow>0</cdpbeforeshow>
+                <!--<cdpbeforeshow>0</cdpbeforeshow>-->
             </byjuno_setup>
             <localization>
                 <byjuno_installment_paper>0</byjuno_installment_paper>
@@ -341,11 +341,11 @@
                 <byjuno_invoice_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_invoice_email_text>
             </byjuno_invoice_localization>
         </byjunoinvoicesettings>
-        <byjunoinstallmentsettings>
+        <!--<byjunoinstallmentsettings>
             <byjuno_installment_setup>
                 <title_installment>Byjuno Ratenzahlung</title_installment>
                 <sort_order_installment>2</sort_order_installment>
             </byjuno_installment_setup>
-        </byjunoinstallmentsettings>
+        </byjunoinstallmentsettings>-->
     </default>
 </config>

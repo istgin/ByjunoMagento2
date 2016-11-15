@@ -13,6 +13,7 @@ use Byjuno\ByjunoCore\Gateway\Http\Client\ClientMock;
  */
 final class ConfigProvider implements ConfigProviderInterface
 {
+    protected $_resolver;
     const CODE_INVOICE = 'byjuno_invoice';
     const CODE_INSTALLMENT = 'byjuno_installment';
     /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
@@ -25,10 +26,27 @@ final class ConfigProvider implements ConfigProviderInterface
      */
 
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Locale\Resolver $resolver
     )
     {
         $this->_scopeConfig = $scopeConfig;
+        $this->_resolver = $resolver;
+    }
+
+    private function getByjunoLogo()
+    {
+        $logo = '';
+        if (substr($this->_resolver->getLocale(), 0, 2) == 'en') {
+            $logo = 'https://byjuno.ch/Content/logo/en/6639/BJ_Invoice_BLK.gif';
+        } else if (substr($this->_resolver->getLocale(), 0, 2) == 'fr') {
+            $logo = 'https://byjuno.ch/Content/logo/fr/6639/BJ_Facture_BLK.gif';
+        } else if (substr($this->_resolver->getLocale(), 0, 2) == 'it') {
+            $logo = 'https://byjuno.ch/Content/logo/it/6639/BJ_Fattura_BLK.gif';
+        } else {
+            $logo = 'https://byjuno.ch/Content/logo/de/6639/BJ_Rechnung_BLK.gif';
+        }
+        return $logo;
     }
 
     public function getConfig()
@@ -53,12 +71,12 @@ final class ConfigProvider implements ConfigProviderInterface
 
         $invoiceDelivery[] = Array(
             "value" => "email",
-            "text" => __("Rechnungsversand via E-Mail (ohne Gebühr) an").": "
+            "text" => __("Rechnungsversand via E-Mail (ohne Gebühr) an") . ": "
         );
 
         $invoiceDelivery[] = Array(
             "value" => "postal",
-            "text" => __("Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.50) an").": "
+            "text" => __("Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.50) an") . ": "
         );
 
         return [
@@ -68,7 +86,8 @@ final class ConfigProvider implements ConfigProviderInterface
                     'methods' => $methodsAvailableInvoice,
                     'delivery' => $invoiceDelivery,
                     'default_payment' => 'invoice_single_enable',
-                    'default_delivery' => 'email'
+                    'default_delivery' => 'email',
+                    'logo' => $this->getByjunoLogo()
                 ],
                 self::CODE_INSTALLMENT => [
                     'redirectUrl' => 'byjunocore/checkout/startpayment'

@@ -71,6 +71,7 @@ class Installment extends \Magento\Payment\Model\Method\Adapter
     }
     public function isAvailable(CartInterface $quote = null)
     {
+        return false;
         $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active");
         $methodsAvailable =
             $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active") ||

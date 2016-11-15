@@ -39,23 +39,23 @@
                 <field id="mail" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Technical Contact (E-mail)</label>
                 </field>
-                <field id="minamount" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <!--<field id="minamount" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Mininmal amount for checkout</label>
                 </field>
                 <field id="maxamount" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Maximal amount for checkout</label>
-                </field>
+                </field>-->
                 <field id="timeout" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Connection timeout to Byjuno CDP server in seconds</label>
                     <frontend_class>validate-number</frontend_class>
                 </field>
-                <field id="tmxenabled" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <!--<field id="tmxenabled" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable ThreatMetrix security check</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="tmxkey" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>ThreatMetrix Org Id</label>
-                </field>
+                </field>-->
                 <field id="cdpbeforeshow" translate="label" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Credit check before submit</label>
                     <comment>Enable credit check before show byjuno payment methods</comment>
@@ -75,16 +75,16 @@
                 <field id="byjunos5transactonexplain" translate="label" type="label" sortOrder="145" showInDefault="1" showInWebsite="1" showInStore="1">
                     <frontend_model>Byjuno\ByjunoCore\Model\Source\ExplainS5</frontend_model>
                 </field>
-                <field id="gender_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                <!--<field id="gender_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable gender selection</label>
                     <comment>Enable gender selection if gender is not provided in checkout</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="birthday_enable" translate="label" type="select" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                </field>-->
+                <!--<field id="birthday_enable" translate="label" type="select" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable birthday checking</label>
                     <comment>Enable birthday selection if birthday is not provided in checkout</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
+                </field>-->
                 <field id="byjuno_prod_email" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Production email of Byjuno</label>
                     <comment>Email used to send orders, invoices and credit memos</comment>
@@ -170,7 +170,7 @@
             </group>
         </section>
 
-        <section id="byjunoinstallmentsettings" translate="label" sortOrder="3" showInDefault="1"
+        <!--<section id="byjunoinstallmentsettings" translate="label" sortOrder="3" showInDefault="1"
                  showInWebsite="1" showInStore="1">
             <label>Byjuno installment settings</label>
             <tab>byjuno_main_tab</tab>
@@ -187,7 +187,7 @@
                     <frontend_class>validate-number</frontend_class>
                 </field>
             </group>
-        </section>
+        </section>-->
 
     </system>
 </config>

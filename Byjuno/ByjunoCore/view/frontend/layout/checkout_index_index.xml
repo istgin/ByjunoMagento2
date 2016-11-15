@@ -31,14 +31,14 @@
                                                                         </item>
                                                                     </item>
                                                                 </item>
-                                                                <item name="byjuno_installment" xsi:type="array">
+                                                                <!--<item name="byjuno_installment" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Byjuno_ByjunoCore/js/view/payment/byjuno_installment</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="byjuno_installment" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>
-                                                                </item>
+                                                                </item>-->
                                                             </item>
                                                         </item>
                                                     </item>

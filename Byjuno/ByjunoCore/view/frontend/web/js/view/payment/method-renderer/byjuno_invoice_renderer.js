@@ -58,6 +58,9 @@ define(
                     }
                 };
             },
+            getLogo: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.logo;
+            },
 
             getPaymentPlans: function () {
                 return _.map(window.checkoutConfig.payment.byjuno_invoice.methods, function (value, key) {
