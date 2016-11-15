@@ -2,13 +2,11 @@
     "name": "byjuno/byjunocore",
     "description": "Byjuno integration for Magento 2",
     "type": "magento2-module",
-    "version": "dev-master",
+    "version": "1.0.0",
     "license": [
         "OSL-3.0"
     ],
-    "require": {
-        "stripe/stripe-php": "2.*"
-    },
+    "require": { },
     "extra": {
         "map": [
             [

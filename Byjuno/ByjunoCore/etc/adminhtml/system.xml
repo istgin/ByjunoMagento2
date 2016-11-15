@@ -55,12 +55,12 @@
                 </field>
                 <field id="tmxkey" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>ThreatMetrix Org Id</label>
-                </field>-->
+                </field>
                 <field id="cdpbeforeshow" translate="label" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Credit check before submit</label>
                     <comment>Enable credit check before show byjuno payment methods</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
+                </field>-->
                 <field id="byjunos4transacton" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable S4 Transaction</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
