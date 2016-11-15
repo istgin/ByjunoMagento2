@@ -13,6 +13,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_countryHelper;
     protected $_resolver;
     public $_byjunoOrderSender;
+    public $_byjunoCreditmemoSender;
+    public $_byjunoInvoiceSender;
     public $_byjunoLogger;
     /**
      * @var \Psr\Log\LoggerInterface
@@ -234,6 +236,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse $response,
         \Byjuno\ByjunoCore\Helper\Api\ByjunoS4Response $responseS4,
         \Byjuno\ByjunoCore\Helper\ByjunoOrderSender $byjunoOrderSender,
+        \Byjuno\ByjunoCore\Helper\ByjunoCreditmemoSender $byjunoCreditmemoSender,
+        \Byjuno\ByjunoCore\Helper\ByjunoInvoiceSender $byjunoInvoiceSender,
         \Psr\Log\LoggerInterface $loggerPsr,
         \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger
     )
@@ -242,6 +246,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         parent::__construct($context);
         $this->_byjunoLogger = $byjunoLogger;
         $this->_byjunoOrderSender = $byjunoOrderSender;
+        $this->_byjunoCreditmemoSender = $byjunoCreditmemoSender;
+        $this->_byjunoInvoiceSender = $byjunoInvoiceSender;
         $this->_response = $response;
         $this->_responseS4 = $responseS4;
         $this->_communicator = $communicator;

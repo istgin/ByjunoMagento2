@@ -172,7 +172,7 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
                 __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s5_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE). " (error code: CDP_FAIL)")
             );
         } else {
-            $this->_dataHelper->_byjunoOrderSender->sendCreditMemo($memo, $email);
+            $this->_dataHelper->_byjunoCreditmemoSender->sendCreditMemo($memo, $email);
         }
 
         $payment->setTransactionId($payment->getParentTransactionId().'-refund');
@@ -234,7 +234,7 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
                 __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s4_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE). " (error code: CDP_FAIL)")
             );
         } else {
-            $this->_dataHelper->_byjunoOrderSender->sendInvoice($invoice, $email);
+            $this->_dataHelper->_byjunoInvoiceSender->sendInvoice($invoice, $email);
         }
 
         $invoice->setIncrementId($incrementValue);

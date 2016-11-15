@@ -7,7 +7,7 @@
  */
 namespace Byjuno\ByjunoCore\Helper;
 
-use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Order\Email\Sender\CreditmemoSender;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Sender;
 use Magento\Sales\Model\ResourceModel\Order as OrderResource;
@@ -16,7 +16,7 @@ use Magento\Sales\Model\ResourceModel\Order as OrderResource;
  * Class OrderSender
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ByjunoOrderSender extends OrderSender
+class ByjunoCreditmemoSender extends CreditmemoSender
 {
     private $email;
     protected function checkAndSend(\Magento\Sales\Model\Order $order)
@@ -37,17 +37,29 @@ class ByjunoOrderSender extends OrderSender
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
         }
-
         return true;
     }
 
-    public function sendOrder(\Magento\Sales\Model\Order $order, $email, $forceSyncMode = false)
+    public function sendCreditMemo(\Magento\Sales\Model\Order\Creditmemo $creditmemo, $email, $forceSyncMode = false)
     {
         $this->email = $email;
+        $order = $creditmemo->getOrder();
+        $transport = [
+            'order' => $order,
+            'creditmemo' => $creditmemo,
+            'comment' => $creditmemo->getCustomerNoteNotify() ? $creditmemo->getCustomerNote() : '',
+            'billing' => $order->getBillingAddress(),
+            'payment_html' => $this->getPaymentHtml($order),
+            'store' => $order->getStore(),
+            'formattedShippingAddress' => $this->getFormattedShippingAddress($order),
+            'formattedBillingAddress' => $this->getFormattedBillingAddress($order),
+        ];
+
+        $this->templateContainer->setTemplateVars($transport);
         if ($this->checkAndSend($order)) {
-                return true;
+            return true;
         }
+
         return false;
     }
-
 }
