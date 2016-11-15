@@ -105,8 +105,10 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($mode == 'production') {
             $byjunoCommunicator->setServer('live');
+            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         } else {
             $byjunoCommunicator->setServer('test');
+            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_test_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
         $response = $byjunoCommunicator->sendS4Request($xml, (int)$this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         if ($response) {
@@ -150,8 +152,10 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($mode == 'production') {
             $byjunoCommunicator->setServer('live');
+            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         } else {
             $byjunoCommunicator->setServer('test');
+            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_test_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
         $response = $byjunoCommunicator->sendS4Request($xml, (int)$this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         if ($response) {
@@ -168,8 +172,7 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
                 __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s5_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE). " (error code: CDP_FAIL)")
             );
         } else {
-            //email Refund
-            //$this->getHelper()->sendEmailInvoice($invoice);
+            $this->_dataHelper->_byjunoOrderSender->sendCreditMemo($memo, $email);
         }
 
         $payment->setTransactionId($payment->getParentTransactionId().'-refund');
@@ -211,8 +214,10 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($mode == 'production') {
             $byjunoCommunicator->setServer('live');
+            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         } else {
             $byjunoCommunicator->setServer('test');
+            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_test_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
         $response = $byjunoCommunicator->sendS4Request($xml, (int)$this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         if ($response) {
@@ -229,8 +234,7 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
                 __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s4_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE). " (error code: CDP_FAIL)")
             );
         } else {
-            //email Invoice
-            //$this->getHelper()->sendEmailInvoice($invoice);
+            $this->_dataHelper->_byjunoOrderSender->sendInvoice($invoice, $email);
         }
 
         $invoice->setIncrementId($incrementValue);

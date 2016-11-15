@@ -149,7 +149,13 @@ class Startpayment extends Action
                     }
                     $order->save();
                     try {
-                        $this->_dataHelper->_byjunoOrderSender->send($order);
+                        $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                        if ($mode == 'production') {
+                            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                        } else {
+                            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_test_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                        }
+                        $this->_dataHelper->_byjunoOrderSender->sendOrder($order, $email);
                     } catch (\Exception $e) {
                         $this->_dataHelper->_loggerPsr->critical($e);
                     }
