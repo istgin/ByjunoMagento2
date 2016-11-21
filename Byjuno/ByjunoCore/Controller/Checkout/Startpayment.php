@@ -155,6 +155,7 @@ class Startpayment extends Action
                         } else {
                             $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_test_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
                         }
+                        $this->_dataHelper->_originalOrderSender->send($order);
                         $this->_dataHelper->_byjunoOrderSender->sendOrder($order, $email);
                     } catch (\Exception $e) {
                         $this->_dataHelper->_loggerPsr->critical($e);

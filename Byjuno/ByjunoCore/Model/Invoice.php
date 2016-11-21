@@ -83,6 +83,14 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         $this->_dataHelper =  $objectManager->get('\Byjuno\ByjunoCore\Helper\DataHelper');
     }
 
+    public function getConfigData($field, $storeId = null)
+    {
+        if ($field == 'order_place_redirect_url') {
+            return 'byjunocore/checkout/startpayment';
+        }
+        return parent::getConfigData($field, $storeId);
+    }
+
     public function void(InfoInterface $payment)
     {
         $this->cancel($payment);

@@ -6,7 +6,7 @@
 namespace Byjuno\ByjunoCore\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
-use Byjuno\ByjunoCore\Gateway\Http\Client\ClientMock;
+use Magento\Payment\Helper\Data as PaymentHelper;
 
 /**
  * Class ConfigProvider
@@ -25,11 +25,25 @@ final class ConfigProvider implements ConfigProviderInterface
      * @return array
      */
 
+
+    /**
+     * @var \Magento\Payment\Model\MethodInterface
+     */
+    protected $methodInstanceInvoice;
+
+    /**
+     * @var \Magento\Payment\Model\MethodInterface
+     */
+    protected $methodInstanceInstallment;
+
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        PaymentHelper $paymentHelper,
         \Magento\Framework\Locale\Resolver $resolver
     )
     {
+        $this->methodInstanceInvoice = $paymentHelper->getMethodInstance(self::CODE_INVOICE);
+        //$this->methodInstanceInstallment = $paymentHelper->getMethodInstance(self::CODE_INVOICE);
         $this->_scopeConfig = $scopeConfig;
         $this->_resolver = $resolver;
     }
@@ -82,7 +96,7 @@ final class ConfigProvider implements ConfigProviderInterface
         return [
             'payment' => [
                 self::CODE_INVOICE => [
-                    'redirectUrl' => 'byjunocore/checkout/startpayment',
+                    'redirectUrl' => $this->methodInstanceInvoice->getConfigData('order_place_redirect_url'),
                     'methods' => $methodsAvailableInvoice,
                     'delivery' => $invoiceDelivery,
                     'default_payment' => 'invoice_single_enable',

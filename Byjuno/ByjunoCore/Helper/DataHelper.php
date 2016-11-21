@@ -12,6 +12,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_checkoutSession;
     protected $_countryHelper;
     protected $_resolver;
+    public $_originalOrderSender;
     public $_byjunoOrderSender;
     public $_byjunoCreditmemoSender;
     public $_byjunoInvoiceSender;
@@ -238,6 +239,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         \Byjuno\ByjunoCore\Helper\ByjunoOrderSender $byjunoOrderSender,
         \Byjuno\ByjunoCore\Helper\ByjunoCreditmemoSender $byjunoCreditmemoSender,
         \Byjuno\ByjunoCore\Helper\ByjunoInvoiceSender $byjunoInvoiceSender,
+        \Magento\Sales\Model\Order\Email\Sender\OrderSender $originalOrderSender,
         \Psr\Log\LoggerInterface $loggerPsr,
         \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger
     )
@@ -246,6 +248,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         parent::__construct($context);
         $this->_byjunoLogger = $byjunoLogger;
         $this->_byjunoOrderSender = $byjunoOrderSender;
+        $this->_originalOrderSender = $originalOrderSender;
         $this->_byjunoCreditmemoSender = $byjunoCreditmemoSender;
         $this->_byjunoInvoiceSender = $byjunoInvoiceSender;
         $this->_response = $response;
