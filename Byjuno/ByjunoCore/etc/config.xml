@@ -55,11 +55,11 @@
                     <title_invoice>Byjuno Rechnung</title_invoice>
                 </byjuno_invoice_setup>
             </byjunoinvoicesettings>
-            <!--<byjunoinstallmentsettings>
+            <byjunoinstallmentsettings>
                 <byjuno_setup>
                     <title_installment>Byjuno Ratenzahlung</title_installment>
                 </byjuno_setup>
-            </byjunoinstallmentsettings>-->
+            </byjunoinstallmentsettings>
         </german>
         <french>
             <byjunocheckoutsettings>
@@ -116,11 +116,11 @@
                     <title_invoice>Facture Byjuno</title_invoice>
                 </byjuno_invoice_setup>
             </byjunoinvoicesettings>
-            <!--<byjunoinstallmentsettings>
+            <byjunoinstallmentsettings>
                 <byjuno_setup>
                     <title_installment>Byjuno Paiement échelonné</title_installment>
                 </byjuno_setup>
-            </byjunoinstallmentsettings>-->
+            </byjunoinstallmentsettings>
 
         </french>
         <italian>
@@ -181,11 +181,11 @@
                     <title_invoice>Fattura Byjuno</title_invoice>
                 </byjuno_invoice_setup>
             </byjunoinvoicesettings>
-            <!--<byjunoinstallmentsettings>
+            <byjunoinstallmentsettings>
                 <byjuno_setup>
                     <title_installment>Byjuno Pagamento rateale</title_installment>
                 </byjuno_setup>
-            </byjunoinstallmentsettings>-->
+            </byjunoinstallmentsettings>
         </italian>
         <english>
             <byjunocheckoutsettings>
@@ -241,11 +241,11 @@
                     <title_invoice>Byjuno Rechnung</title_invoice>
                 </byjuno_invoice_setup>
             </byjunoinvoicesettings>
-            <!--<byjunoinstallmentsettings>
+            <byjunoinstallmentsettings>
                 <byjuno_setup>
                     <title_installment>Byjuno Ratenzahlung</title_installment>
                 </byjuno_setup>
-            </byjunoinstallmentsettings>-->
+            </byjunoinstallmentsettings>
         </english>
     </stores>
     <default>
@@ -260,7 +260,7 @@
                 <can_void>1</can_void>
                 <sort_order>1</sort_order>
             </byjuno_invoice>
-            <!--<byjuno_installment>
+            <byjuno_installment>
                 <model>InstallmentByjunoCoreFacade</model>
                 <order_status>pending_byjuno</order_status>
                 <title>Byjuno installment</title>
@@ -269,7 +269,7 @@
                 <can_refund>1</can_refund>
                 <can_void>1</can_void>
                 <sort_order>2</sort_order>
-            </byjuno_installment>-->
+            </byjuno_installment>
         </payment>
         <byjunocheckoutsettings>
             <byjuno_setup>
@@ -341,11 +341,11 @@
                 <byjuno_invoice_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_invoice_email_text>
             </byjuno_invoice_localization>
         </byjunoinvoicesettings>
-        <!--<byjunoinstallmentsettings>
+        <byjunoinstallmentsettings>
             <byjuno_installment_setup>
                 <title_installment>Byjuno Ratenzahlung</title_installment>
                 <sort_order_installment>2</sort_order_installment>
             </byjuno_installment_setup>
-        </byjunoinstallmentsettings>-->
+        </byjunoinstallmentsettings>
     </default>
 </config>

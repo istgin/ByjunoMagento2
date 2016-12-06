@@ -71,11 +71,13 @@ class Installment extends \Magento\Payment\Model\Method\Adapter
     }
     public function isAvailable(CartInterface $quote = null)
     {
-        return false;
         $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active");
         $methodsAvailable =
-            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active") ||
-            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active");
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_3installment/active") ||
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_10installment/active") ||
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_12installment/active") ||
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_24installment/active") ||
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_4x12installment/active");
         return $isAvaliable && $methodsAvailable;
     }
 
