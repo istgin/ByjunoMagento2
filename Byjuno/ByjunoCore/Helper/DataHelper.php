@@ -181,9 +181,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             return "8";
         } else if ($type == 'installment_24installment_enable') {
             return "9";
-        } else if ($type == 'installment_4x12installment') {
+        } else if ($type == 'installment_4x12installment_enable') {
             return "1";
-        } else if ($type == 'installment_4x10installment') {
+        } else if ($type == 'installment_4x10installment_enable') {
             return "2";
         } else if ($type == 'invoice_single_enable') {
             return "3";
@@ -379,7 +379,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setExtraInfo($extraInfo);
         }
 
-        if ($paymentmethod->getAdditionalInformation('invoice_send') == 'postal') {
+        if ($paymentmethod->getAdditionalInformation('payment_send') == 'postal') {
             $extraInfo["Name"] = 'PAPER_INVOICE';
             $extraInfo["Value"] = 'YES';
             $request->setExtraInfo($extraInfo);
@@ -573,7 +573,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $extraInfo["Value"] = $this->getClientIp();
         $request->setExtraInfo($extraInfo);
 
-        if ($paymentmethod->getAdditionalInformation('invoice_send') == 'postal') {
+        if ($paymentmethod->getAdditionalInformation('payment_send') == 'postal') {
             $extraInfo["Name"] = 'PAPER_INVOICE';
             $extraInfo["Value"] = 'YES';
             $request->setExtraInfo($extraInfo);

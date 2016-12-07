@@ -274,7 +274,7 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         $dataKey = $data->getDataByKey('additional_data');
         $payment = $this->getInfoInstance();
         $payment->setAdditionalInformation('payment_plan', null);
-        $payment->setAdditionalInformation('invoice_send', null);
+        $payment->setAdditionalInformation('payment_send', null);
         $payment->setAdditionalInformation('payment_send_to', null);
         $payment->setAdditionalInformation('s3_ok', null);
         $payment->setAdditionalInformation('webshop_profile_id', null);
@@ -290,7 +290,7 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
             } else if ($dataKey['invoice_send'] == 'email') {
                 $sentTo = (String)$this->_checkoutSession->getQuote()->getBillingAddress()->getEmail();
             }
-            $payment->setAdditionalInformation('invoice_send', $dataKey['invoice_send']);
+            $payment->setAdditionalInformation('payment_send', $dataKey['invoice_send']);
             $payment->setAdditionalInformation('payment_send_to', $sentTo);
         }
         $payment->setAdditionalInformation('s3_ok', 'false');
@@ -301,13 +301,17 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
     public function validate()
     {
         $payment = $this->getInfoInstance();
-        if ($payment->getAdditionalInformation('payment_plan') == null || ($payment->getAdditionalInformation('payment_plan') != 'invoice_single_enable' && $payment->getAdditionalInformation('payment_plan') != 'invoice_partial_enable')) {
+        if ($payment->getAdditionalInformation('payment_plan') == null ||
+            ($payment->getAdditionalInformation('payment_plan') != 'invoice_single_enable' &&
+                $payment->getAdditionalInformation('payment_plan') != 'invoice_partial_enable')) {
             throw new LocalizedException(
                 __("Invalid payment plan")
             );
         }
 
-        if ($payment->getAdditionalInformation('invoice_send') == null || ($payment->getAdditionalInformation('invoice_send') != 'email' && $payment->getAdditionalInformation('invoice_send') != 'postal')) {
+        if ($payment->getAdditionalInformation('payment_send') == null ||
+            ($payment->getAdditionalInformation('payment_send') != 'email' &&
+                $payment->getAdditionalInformation('payment_send') != 'postal')) {
             throw new LocalizedException(
                 __("Please select invoice send way")
             );
