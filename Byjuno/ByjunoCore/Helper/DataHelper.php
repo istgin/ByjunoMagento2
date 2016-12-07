@@ -173,17 +173,17 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     private function mapRepayment($type)
     {
-        if ($type == 'installment_3_enable') {
+        if ($type == 'installment_3installment_enable') {
             return "10";
-        } else if ($type == 'installment_10_enable') {
+        } else if ($type == 'installment_10installment_enable') {
             return "5";
-        } else if ($type == 'installment_12_enable') {
+        } else if ($type == 'installment_12installment_enable') {
             return "8";
-        } else if ($type == 'installment_24_enable') {
+        } else if ($type == 'installment_24installment_enable') {
             return "9";
-        } else if ($type == 'installment_4x12_enable') {
+        } else if ($type == 'installment_4x12installment') {
             return "1";
-        } else if ($type == 'installment_4x10_enable') {
+        } else if ($type == 'installment_4x10installment') {
             return "2";
         } else if ($type == 'invoice_single_enable') {
             return "3";

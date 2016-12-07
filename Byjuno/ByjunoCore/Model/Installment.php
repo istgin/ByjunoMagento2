@@ -69,6 +69,15 @@ class Installment extends \Magento\Payment\Model\Method\Adapter
         $this->_scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
 
     }
+
+    public function getConfigData($field, $storeId = null)
+    {
+        if ($field == 'order_place_redirect_url') {
+            return 'byjunocore/checkout/startpayment';
+        }
+        return parent::getConfigData($field, $storeId);
+    }
+
     public function isAvailable(CartInterface $quote = null)
     {
         $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active");

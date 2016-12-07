@@ -278,8 +278,8 @@ class Invoice extends \Magento\Payment\Model\Method\Adapter
         $payment->setAdditionalInformation('payment_send_to', null);
         $payment->setAdditionalInformation('s3_ok', null);
         $payment->setAdditionalInformation('webshop_profile_id', null);
-        if (isset($dataKey['payment_plan'])) {
-            $payment->setAdditionalInformation('payment_plan', $dataKey['payment_plan']);
+        if (isset($dataKey['invoice_payment_plan'])) {
+            $payment->setAdditionalInformation('payment_plan', $dataKey['invoice_payment_plan']);
         }
         if (isset($dataKey['invoice_send'])) {
             $sentTo = '';

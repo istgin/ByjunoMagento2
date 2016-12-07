@@ -32,7 +32,7 @@
                 <div data-bind="foreach: getPaymentPlans()" >
                     <label>
                         <input type="radio"
-                               name="payment[payment_plan]"
+                               name="payment[invoice_payment_plan]"
                                data-bind="
                                   attr: {value: value},
                                   checked: $parent.paymentPlan" />
@@ -44,7 +44,7 @@
         </div>
         <br />
         <div class="field required">
-            <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">
+            <label data-bind="attr: {for: getCode() + '_payment_delivery'}" class="label">
                 <b style="font-size: 16px"><!-- ko i18n: 'Select invoice delivery method'--><!-- /ko --></b>
             </label>
             <div class="control" style="margin: 8px 0 0 0">

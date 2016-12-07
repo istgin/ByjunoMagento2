@@ -24,7 +24,44 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
-        XXX
+        <br />
+        <div class="field required">
+            <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">
+                <b style="font-size: 16px"><!-- ko i18n: 'Select installment plan'--><!-- /ko --></b>
+            </label>
+            <div class="control" style="margin: 8px 0 0 0">
+                <div data-bind="foreach: getPaymentPlans()" >
+                    <label>
+                        <input type="radio"
+                               name="payment[installment_payment_plan]"
+                               data-bind="
+                                  attr: {value: value},
+                                  checked: $parent.paymentPlan" />
+                        <span data-bind="text: label"></span>
+                        <a data-bind="attr: {href: link, target: '_blank'}, text: $t('(T&C)')"></a>
+                    </label><br />
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="field required">
+            <label data-bind="attr: {for: getCode() + '_payment_delivery'}" class="label">
+                <b style="font-size: 16px"><!-- ko i18n: 'Select installment delivery method'--><!-- /ko --></b>
+            </label>
+            <div class="control" style="margin: 8px 0 0 0">
+                <div data-bind="foreach: getDeliveryPlans()" >
+                    <label>
+                        <input type="radio"
+                               name="payment[installment_send]"
+                               data-bind="
+                                  attr: {value: value},
+                                  checked: $parent.deliveryPlan" />
+                        <span data-bind="text: label"></span>
+                    </label><br />
+                </div>
+            </div>
+        </div>
+        <br />
         <div class="actions-toolbar">
             <div class="primary">
                 <button class="action primary checkout"

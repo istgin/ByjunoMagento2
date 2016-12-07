@@ -53,7 +53,7 @@ define(
                 return {
                     'method': this.item.method,
                     'additional_data': {
-                        'payment_plan': this.paymentPlan(),
+                        'invoice_payment_plan': this.paymentPlan(),
                         'invoice_send': this.deliveryPlan()
                     }
                 };
