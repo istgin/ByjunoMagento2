@@ -39,12 +39,12 @@
                 <field id="mail" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Technical Contact (E-mail)</label>
                 </field>
-                <!--<field id="minamount" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="minamount" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Mininmal amount for checkout</label>
                 </field>
                 <field id="maxamount" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Maximal amount for checkout</label>
-                </field>-->
+                </field>
                 <field id="timeout" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Connection timeout to Byjuno CDP server in seconds</label>
                     <frontend_class>validate-number</frontend_class>

@@ -46,6 +46,21 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         return $this;
     }
 
+    /* @var $quote \Magento\Quote\Model\Quote */
+    public function isAvailable(CartInterface $quote = null)
+    {
+        if ($quote != null) {
+            $total = $quote->getGrandTotal();
+            $active = true;
+            if ($total < $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/minamount', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ||
+                $total > $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/maxamount', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+                $active = false;
+            }
+            return parent::isAvailable($quote) && $active;
+        }
+        return parent::isAvailable($quote);
+    }
+
     /* @var $payment \Magento\Sales\Model\Order\Payment */
     public function cancel(InfoInterface $payment)
     {

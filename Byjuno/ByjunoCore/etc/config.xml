@@ -4,16 +4,6 @@
     <stores>
         <german>
             <byjunocheckoutsettings>
-                <byjuno_setup>
-                    <active>0</active>
-                    <currentmode>test</currentmode>
-                    <minamount>10</minamount>
-                    <maxamount>10000</maxamount>
-                    <timeout>30</timeout>
-                    <!--<tmxenabled>enable</tmxenabled>
-                    <tmxkey>lq866c5i</tmxkey>-->
-                    <businesstobusiness>disable</businesstobusiness>
-                </byjuno_setup>
                 <localization>
                     <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Rechnung mit Teilzahlungsoption,Byjuno
                         Einmalrechnung,http://byjuno.ch/de/terms,http://byjuno.ch/de/terms
@@ -104,16 +94,6 @@
         </german>
         <french>
             <byjunocheckoutsettings>
-                <byjuno_setup>
-                    <active>0</active>
-                    <currentmode>test</currentmode>
-                    <minamount>10</minamount>
-                    <maxamount>10000</maxamount>
-                    <timeout>30</timeout>
-                    <!--<tmxenabled>enable</tmxenabled>
-                    <tmxkey>lq866c5i</tmxkey>-->
-                    <businesstobusiness>disable</businesstobusiness>
-                </byjuno_setup>
                 <localization>
                     <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Facture avec option de paiement partiel,Byjuno
                         facture unique,http://byjuno.ch/fr/terms,http://byjuno.ch/fr/terms
@@ -206,16 +186,6 @@
         </french>
         <italian>
             <byjunocheckoutsettings>
-                <byjuno_setup>
-                    <active>0</active>
-                    <currentmode>test</currentmode>
-                    <minamount>10</minamount>
-                    <maxamount>10000</maxamount>
-                    <timeout>30</timeout>
-                    <!--<tmxenabled>enable</tmxenabled>
-                    <tmxkey>lq866c5i</tmxkey>-->
-                    <businesstobusiness>disable</businesstobusiness>
-                </byjuno_setup>
                 <localization>
                     <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno fattura con opzione di pagamento parziale,Byjuno
                         fattura singola,http://byjuno.ch/it/terms,http://byjuno.ch/it/terms
@@ -311,16 +281,6 @@
         </italian>
         <english>
             <byjunocheckoutsettings>
-                <byjuno_setup>
-                    <active>0</active>
-                    <currentmode>test</currentmode>
-                    <minamount>10</minamount>
-                    <maxamount>10000</maxamount>
-                    <timeout>30</timeout>
-                    <!--<tmxenabled>enable</tmxenabled>
-                    <tmxkey>lq866c5i</tmxkey>-->
-                    <businesstobusiness>disable</businesstobusiness>
-                </byjuno_setup>
                 <localization>
                     <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Invoice (with partial payment option),Byjuno
                         Single Invoice,http://byjuno.ch/en/terms,http://byjuno.ch/en/terms
@@ -422,6 +382,7 @@
                 <can_refund>1</can_refund>
                 <can_void>1</can_void>
                 <sort_order>1</sort_order>
+                <active>1</active>
             </byjuno_invoice>
             <byjuno_installment>
                 <model>InstallmentByjunoCoreFacade</model>
@@ -432,14 +393,15 @@
                 <can_refund>1</can_refund>
                 <can_void>1</can_void>
                 <sort_order>2</sort_order>
+                <active>1</active>
             </byjuno_installment>
         </payment>
         <byjunocheckoutsettings>
             <byjuno_setup>
                 <active>0</active>
                 <currentmode>test</currentmode>
-                <!--<minamount>10</minamount>
-                <maxamount>10000</maxamount>-->
+                <minamount>10</minamount>
+                <maxamount>10000</maxamount>
                 <timeout>30</timeout>
                 <!--<tmxenabled>0</tmxenabled>
                 <tmxkey>lq866c5i</tmxkey>-->

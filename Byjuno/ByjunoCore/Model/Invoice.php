@@ -85,7 +85,7 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         $methodsAvailable =
             $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active") ||
             $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active");
-        return $isAvaliable && $methodsAvailable;
+        return $isAvaliable && $methodsAvailable && parent::isAvailable($quote);
     }
 
     public function getTitle()
