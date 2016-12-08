@@ -17,21 +17,6 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 class UpgradeData implements UpgradeDataInterface
 {
     /**
-     * Vendor setup factory
-     *
-     * @var VendorSetupFactory
-     */
-    private $vendorSetupFactory;
-    /**
-     * Init
-     *
-     * @param VendorSetupFactory $taxSetupFactory
-     */
-    public function __construct(VendorSetupFactory $vendorSetupFactory)
-    {
-        $this->vendorSetupFactory = $vendorSetupFactory;
-    }
-    /**
      * {@inheritdoc}
      */
     public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
