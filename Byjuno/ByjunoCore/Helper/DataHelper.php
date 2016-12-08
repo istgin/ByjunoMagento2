@@ -9,7 +9,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_url;
     /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
     public $_scopeConfig;
-    protected $_checkoutSession;
+    public $_checkoutSession;
     protected $_countryHelper;
     protected $_resolver;
     public $_originalOrderSender;
@@ -372,10 +372,10 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $extraInfo["Value"] = $this->getClientIp();
         $request->setExtraInfo($extraInfo);
 
-        $sedId = $this->_checkoutSession->getData("byjuno_session_id");
+        $sedId = $this->_checkoutSession->getTmxSession();
         if ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/tmxenabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1' && !empty($sedId)) {
             $extraInfo["Name"] = 'DEVICE_FINGERPRINT_ID';
-            $extraInfo["Value"] = $this->_checkoutSession->getData("byjuno_session_id");
+            $extraInfo["Value"] = $sedId;
             $request->setExtraInfo($extraInfo);
         }
 
@@ -572,6 +572,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $extraInfo["Name"] = 'IP';
         $extraInfo["Value"] = $this->getClientIp();
         $request->setExtraInfo($extraInfo);
+
+        $sedId = $this->_checkoutSession->getTmxSession();
+        if ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/tmxenabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1' && !empty($sedId)) {
+            $extraInfo["Name"] = 'DEVICE_FINGERPRINT_ID';
+            $extraInfo["Value"] = $sedId;
+            $request->setExtraInfo($extraInfo);
+        }
 
         if ($paymentmethod->getAdditionalInformation('payment_send') == 'postal') {
             $extraInfo["Name"] = 'PAPER_INVOICE';

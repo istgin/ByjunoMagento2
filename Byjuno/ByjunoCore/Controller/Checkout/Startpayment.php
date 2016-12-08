@@ -123,9 +123,9 @@ class Startpayment extends Action
         $transaction->save();
         $payment->save();
 
-        $this->_checkoutSession->setIntrumStatus("intrum_status", $status);
-        $this->_checkoutSession->setIntrumRequestType("intrum_request_type", $requestType);
-        $this->_checkoutSession->setIntrumOrder("intrum_order", $order->getId());
+        $this->_checkoutSession->setIntrumStatus($status);
+        $this->_checkoutSession->setIntrumRequestType($requestType);
+        $this->_checkoutSession->setIntrumOrder($order->getId());
         return array($status, $requestType, $this->_dataHelper->_response);
     }
 
@@ -160,6 +160,7 @@ class Startpayment extends Action
                     } catch (\Exception $e) {
                         $this->_dataHelper->_loggerPsr->critical($e);
                     }
+                    $this->_dataHelper->_checkoutSession->setTmxSession('');
                     $resultRedirect->setPath('checkout/onepage/success');
                 } else {
                     $error = $this->_dataHelper->getByjunoErrorMessage($statusS3, $requestTypeS3). "(S3)";
