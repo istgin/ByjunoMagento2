@@ -13,6 +13,7 @@ define(
     function (Component, url, quote) {
         'use strict';
         return Component.extend({
+            redirectAfterPlaceOrder: false,
             defaults: {
                 template: 'Byjuno_ByjunoCore/payment/form_installment',
                 paymentPlan: window.checkoutConfig.payment.byjuno_installment.default_payment,
@@ -30,8 +31,9 @@ define(
 
             afterPlaceOrder: function () {
                 this.selectPaymentMethod();
-                window.location.replace(url.build(window.checkoutConfig.payment.byjuno_installment.redirectUrl));
+                window.location.replace(url.build(window.checkoutConfig.payment.byjuno_invoice.redirectUrl));
             },
+
 
             getCode: function () {
                 return 'byjuno_installment';

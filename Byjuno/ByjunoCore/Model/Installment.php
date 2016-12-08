@@ -27,18 +27,8 @@ use Byjuno\ByjunoCore\Helper\DataHelper;
 /**
  * Pay In Store payment method model
  */
-class Installment extends \Magento\Payment\Model\Method\Adapter
+class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
 {
-
-    /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
-    private $_scopeConfig;
-    private $eventManager;
-    private $_eavConfig;
-    /* @var $_dataHelper DataHelper */
-    private $_dataHelper;
-
-    /* @var $_scopeConfig \Magento\Checkout\Model\Session */
-    private $_checkoutSession;
 
     /**
      * @param ManagerInterface $eventManager
@@ -139,11 +129,6 @@ class Installment extends \Magento\Payment\Model\Method\Adapter
                 __("Invoice send way invalid address")
             );
         }
-        /*
-        throw new LocalizedException(
-            __("OK")
-        );
-        */
         return $this;
     }
 
