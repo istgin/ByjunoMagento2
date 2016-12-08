@@ -403,8 +403,8 @@
                 <minamount>10</minamount>
                 <maxamount>10000</maxamount>
                 <timeout>30</timeout>
-                <!--<tmxenabled>0</tmxenabled>
-                <tmxkey>lq866c5i</tmxkey>-->
+                <tmxenabled>0</tmxenabled>
+                <tmxkey>lq866c5i</tmxkey>
                 <businesstobusiness>disable</businesstobusiness>
                 <byjuno_prod_email>invoices@byjuno.ch</byjuno_prod_email>
                 <byjuno_test_email>test-invoices@byjuno.ch</byjuno_test_email>
