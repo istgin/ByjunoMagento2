@@ -173,6 +173,16 @@ final class ConfigProvider implements ConfigProviderInterface
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) . ": "
         );
 
+        $genders[] = Array(
+            "value" => "Herr",
+            "text" => "Herr"
+        );
+
+        $genders[] = Array(
+            "value" => "Frau",
+            "text" => "Frau",
+        );
+
         return [
             'payment' => [
                 self::CODE_INVOICE => [
@@ -181,7 +191,9 @@ final class ConfigProvider implements ConfigProviderInterface
                     'delivery' => $invoiceDelivery,
                     'default_payment' => $defaultInvoicePlan,
                     'default_delivery' => 'email',
-                    'logo' => $this->getByjunoLogoInvoice()
+                    'logo' => $this->getByjunoLogoInvoice(),
+                    'default_customgender' => $genders[0]["value"],
+                    'custom_genders' => $genders
                 ],
                 self::CODE_INSTALLMENT => [
                     'redirectUrl' => $this->methodInstanceInvoice->getConfigData('order_place_redirect_url'),
@@ -189,7 +201,9 @@ final class ConfigProvider implements ConfigProviderInterface
                     'delivery' => $invoiceDelivery,
                     'default_payment' => $defaultInstallmentPlan,
                     'default_delivery' => 'email',
-                    'logo' => $this->getByjunoLogoInstallment()
+                    'logo' => $this->getByjunoLogoInstallment(),
+                    'default_customgender' => $genders[0]["value"],
+                    'custom_genders' => $genders
                 ]
             ]
         ];

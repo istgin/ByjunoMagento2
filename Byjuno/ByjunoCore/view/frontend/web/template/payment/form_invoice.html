@@ -24,6 +24,55 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
+        <!-- ko if: (isDoBEnabled())-->
+        <label data-bind="attr: {for: getCode() + '_payment_delivery'}" class="label">
+            <b style="font-size: 16px"><!-- ko i18n: 'Provide information'--><!-- /ko --></b>
+        </label>
+        <br />
+        <br />
+        <fieldset class="fieldset">
+            <div class="billing-address-form" style="display: block;">
+                <fieldset class="fieldset address">
+                    <div class="field required">
+                        <label data-bind="attr: {for: getCode() + '_transaction_result'}" class="label">
+                            <span><!-- ko i18n: 'Gender'--><!-- /ko --></span>
+                        </label>
+                        <div class="control">
+                            <select name="payment[transaction_result]"
+                                    class="select"
+                                    style="width: 100px"
+                                    data-bind="
+                                  options: getGenders(),
+                                  optionsValue: 'value',
+                                  optionsText: 'label',
+                                  value: customGender">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label data-bind="attr: {for: getCode() + '_transaction_result'}" class="label">
+                            <span><!-- ko i18n: 'Date of birth'--><!-- /ko --></span>
+                        </label>
+                        <div class="control">
+                            <select name="payment[transaction_result]"
+                                    class="select"
+                                    style="width: 100px"
+                                    data-bind="
+                                  options: getGenders(),
+                                  optionsValue: 'value',
+                                  optionsText: 'label',
+                                  value: customGender">
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </fieldset>
+
+        <br />
+
+
+        <!-- /ko -->
         <div class="field required">
             <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">
                 <b style="font-size: 16px"><!-- ko i18n: 'Select payment plan'--><!-- /ko --></b>

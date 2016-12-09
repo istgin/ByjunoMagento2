@@ -17,14 +17,16 @@ define(
             defaults: {
                 template: 'Byjuno_ByjunoCore/payment/form_invoice',
                 paymentPlan: window.checkoutConfig.payment.byjuno_invoice.default_payment,
-                deliveryPlan: window.checkoutConfig.payment.byjuno_invoice.default_delivery
+                deliveryPlan: window.checkoutConfig.payment.byjuno_invoice.default_delivery,
+                customGender: window.checkoutConfig.payment.byjuno_invoice.default_customgender
             },
 
             initObservable: function () {
                 this._super()
                     .observe([
                         'paymentPlan',
-                        'deliveryPlan'
+                        'deliveryPlan',
+                        'customGender'
                     ]);
                 return this;
             },
@@ -36,6 +38,10 @@ define(
 
             getCode: function () {
                 return 'byjuno_invoice';
+            },
+
+            getDob: function () {
+                return '2013-01-08';
             },
 
             getEmail: function () {
@@ -95,7 +101,26 @@ define(
                     }
                 }
                 return list;
+            },
+
+            isDoBEnabled: function () {
+                return true;
+            },
+
+            getGenders: function() {
+                var list = [];
+                for (var i = 0; i < window.checkoutConfig.payment.byjuno_invoice.custom_genders.length; i++) {
+                    var value = window.checkoutConfig.payment.byjuno_invoice.custom_genders[i];
+                    list.push(
+                        {
+                            'value': value.value,
+                            'label': value.text
+                        }
+                    );
+                }
+                return list;
             }
+
         });
     }
 );
