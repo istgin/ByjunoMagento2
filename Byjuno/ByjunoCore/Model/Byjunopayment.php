@@ -106,6 +106,98 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         return $this;
     }
 
+    public function CDPRequest($quote) {
+        if ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/cdpbeforeshow', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
+            && $quote != null
+            && $quote->getShippingAddress() != null) {
+            $theSame = $this->_dataHelper->_checkoutSession->getIsTheSame();
+            $CDPStatus = $this->_dataHelper->_checkoutSession->getCDPStatus();
+            if ($CDPStatus != null && intval($CDPStatus) != 2 /*&& $this->isTheSame($request)*/)
+            {
+                return false;
+            }
+            $status = 2;
+            $this->_dataHelper->_checkoutSession->setIsTheSame("1");
+            $this->_dataHelper->_checkoutSession->setCDPStatus($status);
+            if ($status != 2) {
+                return false;
+            }
+            /*$session = Mage::getSingleton('checkout/session');
+            $theSame = $session->getData("isTheSame");
+            $CDPStatus = $session->getData("CDPStatus");
+            if ($theSame != null) {
+                $this->_savedUser = $theSame;
+            }
+            try {
+                $request = $this->getHelper()->CreateMagentoShopRequestCreditCheck($quote);
+                if ($CDPStatus != null && intval($CDPStatus) != 2 && $this->isTheSame($request))
+                {
+                    return false;
+                }
+                if (!$this->isTheSame($request) || $CDPStatus == null) {
+                    $ByjunoRequestName = "Credit check request";
+                    if ($request->getCompanyName1() != '' && Mage::getStoreConfig('payment/cdp/businesstobusiness', Mage::app()->getStore()) == 'enable') {
+                        $ByjunoRequestName = "Credit check request for Company";
+                        $xml = $request->createRequestCompany();
+                    } else {
+                        $xml = $request->createRequest();
+                    }
+                    $byjunoCommunicator = new Byjuno_Cdp_Helper_Api_Classes_ByjunoCommunicator();
+                    $mode = Mage::getStoreConfig('payment/cdp/currentmode', Mage::app()->getStore());
+                    if ($mode == 'production') {
+                        $byjunoCommunicator->setServer('live');
+                    } else {
+                        $byjunoCommunicator->setServer('test');
+                    }
+                    $response = $byjunoCommunicator->sendRequest($xml, (int)Mage::getStoreConfig('payment/cdp/timeout', Mage::app()->getStore()));
+                    $status = 0;
+                    $byjunoResponse = new Byjuno_Cdp_Helper_Api_Classes_ByjunoResponse();
+                    if ($response) {
+                        $byjunoResponse->setRawResponse($response);
+                        $byjunoResponse->processResponse();
+                        $status = (int)$byjunoResponse->getCustomerRequestStatus();
+                        $this->getHelper()->saveLog($quote, $request, $xml, $response, $status, $ByjunoRequestName);
+                        if (intval($status) > 15) {
+                            $status = 0;
+                        }
+                    } else {
+                        $this->getHelper()->saveLog($quote, $request, $xml, "empty response", "0", $ByjunoRequestName);
+                    }
+                    $this->_savedUser = Array(
+                        "FirstName" => $request->getFirstName(),
+                        "LastName" => $request->getLastName(),
+                        "FirstLine" => $request->getFirstLine(),
+                        "CountryCode" => $request->getCountryCode(),
+                        "PostCode" => $request->getPostCode(),
+                        "Town" => $request->getTown(),
+                        "CompanyName1" => $request->getCompanyName1(),
+                        "DateOfBirth" => $request->getDateOfBirth(),
+                        "Email" => $request->getEmail(),
+                        "Fax" => $request->getFax(),
+                        "TelephonePrivate" => $request->getTelephonePrivate(),
+                        "TelephoneOffice" => $request->getTelephoneOffice(),
+                        "Gender" => $request->getGender(),
+                        "DELIVERY_FIRSTNAME" => $request->getExtraInfoByKey("DELIVERY_FIRSTNAME"),
+                        "DELIVERY_LASTNAME" => $request->getExtraInfoByKey("DELIVERY_LASTNAME"),
+                        "DELIVERY_FIRSTLINE" => $request->getExtraInfoByKey("DELIVERY_FIRSTLINE"),
+                        "DELIVERY_HOUSENUMBER" => $request->getExtraInfoByKey("DELIVERY_HOUSENUMBER"),
+                        "DELIVERY_COUNTRYCODE" => $request->getExtraInfoByKey("DELIVERY_COUNTRYCODE"),
+                        "DELIVERY_POSTCODE" => $request->getExtraInfoByKey("DELIVERY_POSTCODE"),
+                        "DELIVERY_TOWN" => $request->getExtraInfoByKey("DELIVERY_TOWN"),
+                        "DELIVERY_COMPANYNAME" => $request->getExtraInfoByKey("DELIVERY_COMPANYNAME")
+                    );
+                    $session->setData("isTheSame", $this->_savedUser);
+                    $session->setData("CDPStatus", $status);
+                    if ($status != 2) {
+                        return false;
+                    }
+                }
+            } catch (Exception $e) {
+            }*/
+        }
+        return null;
+    }
+
     public function validateCustomFields(\Magento\Payment\Model\InfoInterface $payment) {
 
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_birthday_enable",

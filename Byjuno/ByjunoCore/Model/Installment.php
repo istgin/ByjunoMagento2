@@ -156,7 +156,15 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
             $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_12installment/active") ||
             $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_24installment/active") ||
             $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_4x12installment/active");
-        return $isAvaliable && $methodsAvailable && parent::isAvailable($quote);;
+
+        if (!$isAvaliable || !$methodsAvailable) {
+            return false;
+        }
+        $CDPresponse = $this->CDPRequest($quote);
+        if ($CDPresponse !== null) {
+            return false;
+        }
+        return $isAvaliable && $methodsAvailable && parent::isAvailable($quote);
     }
 
     public function getTitle()

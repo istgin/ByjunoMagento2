@@ -414,7 +414,7 @@
                 <gender_prefix>Herr;Frau</gender_prefix>
                 <gender_male_possible_prefix>Herr;Mr</gender_male_possible_prefix>
                 <gender_female_possible_prefix>Frau;Mrs;Ms</gender_female_possible_prefix>
-                <!--<cdpbeforeshow>0</cdpbeforeshow>-->
+                <cdpbeforeshow>0</cdpbeforeshow>
             </byjuno_setup>
             <localization>
                 <byjuno_installment_paper>0</byjuno_installment_paper>

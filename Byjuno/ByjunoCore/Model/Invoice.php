@@ -85,6 +85,14 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         $methodsAvailable =
             $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active") ||
             $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active");
+
+        if (!$isAvaliable || !$methodsAvailable) {
+            return false;
+        }
+        $CDPresponse = $this->CDPRequest($quote);
+        if ($CDPresponse !== null) {
+            return false;
+        }
         return $isAvaliable && $methodsAvailable && parent::isAvailable($quote);
     }
 
