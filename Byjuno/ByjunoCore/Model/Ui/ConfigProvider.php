@@ -172,16 +172,25 @@ final class ConfigProvider implements ConfigProviderInterface
             "text" => __($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_localization/byjuno_installment_postal_text",
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) . ": "
         );
-
-        $genders[] = Array(
-            "value" => "Herr",
-            "text" => "Herr"
-        );
-
-        $genders[] = Array(
-            "value" => "Frau",
-            "text" => "Frau",
-        );
+        $selectionEnable = false;
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_birthday_enable",
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $selectionEnable = true;
+        }
+        $gender_prefix = trim($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_prefix", \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $gendersArray = explode(";", $gender_prefix);
+        foreach($gendersArray as $g) {
+            if ($g != '') {
+                $genders[] = Array(
+                    "value" => trim($g),
+                    "text" => trim($g)
+                );
+            }
+        }
+        $dafualtGender = '';
+        if (!empty($genders[0]["value"])) {
+            $dafualtGender = $genders[0]["value"];
+        }
 
         return [
             'payment' => [
@@ -192,9 +201,9 @@ final class ConfigProvider implements ConfigProviderInterface
                     'default_payment' => $defaultInvoicePlan,
                     'default_delivery' => 'email',
                     'logo' => $this->getByjunoLogoInvoice(),
-                    'default_customgender' => $genders[0]["value"],
+                    'default_customgender' => $dafualtGender,
                     'custom_genders' => $genders,
-                    'enable_fields' => true
+                    'enable_fields' => $selectionEnable
                 ],
                 self::CODE_INSTALLMENT => [
                     'redirectUrl' => $this->methodInstanceInvoice->getConfigData('order_place_redirect_url'),
@@ -203,9 +212,9 @@ final class ConfigProvider implements ConfigProviderInterface
                     'default_payment' => $defaultInstallmentPlan,
                     'default_delivery' => 'email',
                     'logo' => $this->getByjunoLogoInstallment(),
-                    'default_customgender' => $genders[0]["value"],
+                    'default_customgender' => $dafualtGender,
                     'custom_genders' => $genders,
-                    'enable_fields' => false
+                    'enable_fields' => $selectionEnable
                 ]
             ]
         ];

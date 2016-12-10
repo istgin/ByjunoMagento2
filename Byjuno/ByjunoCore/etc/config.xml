@@ -408,10 +408,12 @@
                 <businesstobusiness>disable</businesstobusiness>
                 <byjuno_prod_email>invoices@byjuno.ch</byjuno_prod_email>
                 <byjuno_test_email>test-invoices@byjuno.ch</byjuno_test_email>
-                <!--<birthday_enable>0</birthday_enable>
-                <gender_enable>0</gender_enable>-->
                 <byjunos4transacton>0</byjunos4transacton>
                 <byjunos5transacton>0</byjunos5transacton>
+                <gender_birthday_enable>0</gender_birthday_enable>
+                <gender_prefix>Herr;Frau</gender_prefix>
+                <gender_male_possible_prefix>Herr;Mr</gender_male_possible_prefix>
+                <gender_female_possible_prefix>Frau;Mrs;Ms</gender_female_possible_prefix>
                 <!--<cdpbeforeshow>0</cdpbeforeshow>-->
             </byjuno_setup>
             <localization>

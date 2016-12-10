@@ -75,16 +75,23 @@
                 <field id="byjunos5transactonexplain" translate="label" type="label" sortOrder="145" showInDefault="1" showInWebsite="1" showInStore="1">
                     <frontend_model>Byjuno\ByjunoCore\Model\Source\ExplainS5</frontend_model>
                 </field>
-                <!--<field id="gender_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable gender selection</label>
-                    <comment>Enable gender selection if gender is not provided in checkout</comment>
+                <field id="gender_birthday_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable gender &amp; birthday selection</label>
+                    <comment>Enable gender &amp; birthday selection in checkout</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>-->
-                <!--<field id="birthday_enable" translate="label" type="select" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable birthday checking</label>
-                    <comment>Enable birthday selection if birthday is not provided in checkout</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>-->
+                </field>
+                <field id="gender_prefix" translate="label" type="text" sortOrder="152" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Gender prefix dropdown options</label>
+                    <comment>Semicolon (;) separated values. Put semicolon in the beginning for empty first option.</comment>
+                </field>
+                <field id="gender_male_possible_prefix" translate="label" type="text" sortOrder="154" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Specify male possible prefix</label>
+                    <comment>Semicolon (;) separated values.</comment>
+                </field>
+                <field id="gender_female_possible_prefix" translate="label" type="text" sortOrder="156" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Specify female possible prefix</label>
+                    <comment>Semicolon (;) separated values.</comment>
+                </field>
                 <field id="byjuno_prod_email" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Production email of Byjuno</label>
                     <comment>Email used to send orders, invoices and credit memos</comment>

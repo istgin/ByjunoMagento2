@@ -96,6 +96,12 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
             $payment->setAdditionalInformation('payment_send', $dataKey['installment_send']);
             $payment->setAdditionalInformation('payment_send_to', $sentTo);
         }
+        if (isset($dataKey['customer_gender'])) {
+            $payment->setAdditionalInformation('customer_gender', $dataKey['customer_gender']);
+        }
+        if (isset($dataKey['customer_dob'])) {
+            $payment->setAdditionalInformation('customer_dob', $dataKey['customer_dob']);
+        }
         $payment->setAdditionalInformation('s3_ok', 'false');
         $payment->setAdditionalInformation("webshop_profile_id", $this->getStore());
         return $this;
@@ -104,6 +110,7 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
     public function validate()
     {
         $payment = $this->getInfoInstance();
+        $this->validateCustomFields($payment);
         if ($payment->getAdditionalInformation('payment_plan') == null ||
             ($payment->getAdditionalInformation('payment_plan') != 'installment_3installment_enable' &&
                 $payment->getAdditionalInformation('payment_plan') != 'installment_10installment_enable' &&

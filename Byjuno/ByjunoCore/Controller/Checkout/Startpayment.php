@@ -42,9 +42,9 @@ class Startpayment extends Action
         parent::__construct($context);
     }
 
-    public function executeS3($order, \Magento\Sales\Model\Order\Payment $payment)
+    public function executeS3($order, \Magento\Sales\Model\Order\Payment $payment, $transaction)
     {
-        $request = $this->_dataHelper->CreateMagentoShopRequestPaid($order, $payment, 'transactionumber', '', '');
+        $request = $this->_dataHelper->CreateMagentoShopRequestPaid($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $transaction);
         $ByjunoRequestName = "Order paid";
         $requestType = 'b2c';
         if ($request->getCompanyName1() != '' && $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'enable') {
@@ -78,7 +78,7 @@ class Startpayment extends Action
 
     public function executeS2($order, \Magento\Sales\Model\Order\Payment $payment)
     {
-        $request = $this->_dataHelper->CreateMagentoShopRequestOrder($order, $payment, '', '');
+        $request = $this->_dataHelper->CreateMagentoShopRequestOrder($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'));
 
         $ByjunoRequestName = "Order request";
         $requestType = 'b2c';
@@ -137,9 +137,10 @@ class Startpayment extends Action
 
         $resultRedirect = $this->resultRedirectFactory->create();
         try {
+            /* @var $responseS2 \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse */
             list($statusS2, $requestTypeS2, $responseS2) = $this->executeS2($order, $payment);
             if ($statusS2 == 2) {
-                list($statusS3, $requestTypeS3) = $this->executeS3($order, $payment);
+                list($statusS3, $requestTypeS3) = $this->executeS3($order, $payment, $responseS2->getTransactionNumber());
                 if ($statusS3 == 2) {
                     $payment->setAdditionalInformation("s3_ok", 'true')->save();
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);

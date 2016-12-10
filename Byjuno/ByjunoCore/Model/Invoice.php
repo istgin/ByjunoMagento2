@@ -117,6 +117,12 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
             $payment->setAdditionalInformation('payment_send', $dataKey['invoice_send']);
             $payment->setAdditionalInformation('payment_send_to', $sentTo);
         }
+        if (isset($dataKey['customer_gender'])) {
+            $payment->setAdditionalInformation('customer_gender', $dataKey['customer_gender']);
+        }
+        if (isset($dataKey['customer_dob'])) {
+            $payment->setAdditionalInformation('customer_dob', $dataKey['customer_dob']);
+        }
         $payment->setAdditionalInformation('s3_ok', 'false');
         $payment->setAdditionalInformation("webshop_profile_id", $this->getStore());
         return $this;
@@ -124,10 +130,8 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
 
     public function validate()
     {
-        throw new LocalizedException(
-            __("TEST")
-        );
         $payment = $this->getInfoInstance();
+        $this->validateCustomFields($payment);
         if ($payment->getAdditionalInformation('payment_plan') == null ||
             ($payment->getAdditionalInformation('payment_plan') != 'invoice_single_enable' &&
                 $payment->getAdditionalInformation('payment_plan') != 'invoice_partial_enable')) {
@@ -149,11 +153,6 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
                 __("Invoice send way invalid address")
             );
         }
-        /*
-        throw new LocalizedException(
-            __("OK")
-        );
-        */
         return $this;
     }
 

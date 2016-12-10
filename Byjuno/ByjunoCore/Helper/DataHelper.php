@@ -301,7 +301,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
             }
         }
+        $gender_male_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_male_possible_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $gender_female_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_female_possible_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
+        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array));
+        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
 
         $g = $order->getCustomerGender();
         if (!empty($g)) {
@@ -313,9 +319,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
                 $request->setGender('0');
             }
         } else {
-            if (strtolower($order->getCustomerPrefix()) == 'herr') {
+            if (in_array(strtolower($order->getCustomerPrefix()), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if (strtolower($order->getCustomerPrefix()) == 'frau') {
+            } else if (in_array(strtolower($order->getCustomerPrefix()), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             } else {
                 $request->setGender('0');
@@ -323,12 +329,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         if (!empty($gender_custom)) {
-            if ($gender_custom == '1') {
+            if (in_array(strtolower($gender_custom), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if ($gender_custom == '2') {
+            } else if (in_array(strtolower($gender_custom), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             }
         }
+
         $billingStreet = $order->getBillingAddress()->getStreet();
         $billingStreet = implode("", $billingStreet);
         $requestId = uniqid((String)$order->getBillingAddress()->getEntityId() . "_");
@@ -499,6 +506,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
+        $gender_male_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_male_possible_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $gender_female_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_female_possible_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array));
+        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
 
         $g = $order->getCustomerGender();
         if (!empty($g)) {
@@ -510,9 +524,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
                 $request->setGender('0');
             }
         } else {
-            if (strtolower($order->getCustomerPrefix()) == 'herr') {
+            if (in_array(strtolower($order->getCustomerPrefix()), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if (strtolower($order->getCustomerPrefix()) == 'frau') {
+            } else if (in_array(strtolower($order->getCustomerPrefix()), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             } else {
                 $request->setGender('0');
@@ -520,9 +534,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         if (!empty($gender_custom)) {
-            if ($gender_custom == '1') {
+            if (in_array(strtolower($gender_custom), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if ($gender_custom == '2') {
+            } else if (in_array(strtolower($gender_custom), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             }
         }
