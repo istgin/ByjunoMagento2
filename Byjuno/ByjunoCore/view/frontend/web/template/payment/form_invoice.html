@@ -24,7 +24,7 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
-        <!-- ko if: (isDoBEnabled())-->
+        <!-- ko if: (isFieldsEnabled())-->
         <label data-bind="attr: {for: getCode() + '_payment_delivery'}" class="label">
             <b style="font-size: 16px"><!-- ko i18n: 'Provide information'--><!-- /ko --></b>
         </label>
@@ -35,11 +35,11 @@
                 <fieldset class="fieldset address">
 
                     <div class="field required">
-                        <label for="customer_gender" class="label">
+                        <label for="customer_gender_invoice" class="label">
                             <span><!-- ko i18n: 'Gender'--><!-- /ko --></span>
                         </label>
                         <div class="control">
-                            <select name="payment[customer_gender]" id="customer_gender"
+                            <select name="payment[customer_gender]" id="customer_gender_invoice"
                                     class="select"
                                     style="width: 150px"
                                     data-bind="
@@ -51,19 +51,19 @@
                         </div>
                     </div>
                     <div class="field required">
-                        <label for="customer_dob" class="label">
+                        <label for="customer_dob_invoice" class="label">
                             <span><!-- ko i18n: 'Date of birth'--><!-- /ko --></span>
                         </label>
                         <div class="control">
-                            <input name="payment[customer_dob]" id="customer_dob"
+                            <input name="payment[customer_dob]" id="customer_dob_invoice"
                                     style="width: 150px"
                                     placeholder="YYYY-MM-DD"
                                     type="text" class="input-text"
                                    data-bind="datepicker: { storage: getDob(), options: {
-                            changeMonth: true,
-                            changeYear: true,
-                            showButtonPanel: true,
-                            dateFormat: 'yy-MM-dd'} }">
+                                                                changeMonth: true,
+                                                                changeYear: true,
+                                                                showButtonPanel: true,
+                                                                dateFormat: 'yy-MM-dd'} }">
                         </div>
                     </div>
                 </fieldset>

@@ -6,11 +6,14 @@
 /*global define*/
 define(
     [
+        'ko',
         'Magento_Checkout/js/view/payment/default',
         'mage/url',
-        'Magento_Checkout/js/model/quote'
+        'Magento_Checkout/js/model/quote',
+        'jquery',
+        'mage/calendar'
     ],
-    function (Component, url, quote) {
+    function (ko, Component, url, quote, jquery, calendar) {
         'use strict';
         return Component.extend({
             redirectAfterPlaceOrder: false,
@@ -41,7 +44,12 @@ define(
             },
 
             getDob: function () {
-                return '2013-01-08';
+                var dob  = window.checkoutConfig.quoteData.customer_dob;
+                if (dob == null)
+                {
+                    return ko.observable(false);
+                }
+                return ko.observable(new Date(dob));
             },
 
             getEmail: function () {
@@ -56,13 +64,25 @@ define(
             },
 
             getData: function () {
-                return {
-                    'method': this.item.method,
-                    'additional_data': {
-                        'invoice_payment_plan': this.paymentPlan(),
-                        'invoice_send': this.deliveryPlan()
-                    }
-                };
+                if (this.isFieldsEnabled()) {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'invoice_payment_plan': this.paymentPlan(),
+                            'invoice_send': this.deliveryPlan(),
+                            'customer_gender': this.customGender(),
+                            'customer_dob': jquery("#customer_dob_invoice").val()
+                        }
+                    };
+                } else {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'invoice_payment_plan': this.paymentPlan(),
+                            'invoice_send': this.deliveryPlan()
+                        }
+                    };
+                }
             },
             getLogo: function () {
                 return window.checkoutConfig.payment.byjuno_invoice.logo;
@@ -103,8 +123,8 @@ define(
                 return list;
             },
 
-            isDoBEnabled: function () {
-                return true;
+            isFieldsEnabled: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.enable_fields;
             },
 
             getGenders: function() {

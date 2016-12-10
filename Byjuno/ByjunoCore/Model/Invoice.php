@@ -124,6 +124,9 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
 
     public function validate()
     {
+        throw new LocalizedException(
+            __("TEST")
+        );
         $payment = $this->getInfoInstance();
         if ($payment->getAdditionalInformation('payment_plan') == null ||
             ($payment->getAdditionalInformation('payment_plan') != 'invoice_single_enable' &&

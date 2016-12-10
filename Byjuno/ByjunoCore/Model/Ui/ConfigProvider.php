@@ -193,7 +193,8 @@ final class ConfigProvider implements ConfigProviderInterface
                     'default_delivery' => 'email',
                     'logo' => $this->getByjunoLogoInvoice(),
                     'default_customgender' => $genders[0]["value"],
-                    'custom_genders' => $genders
+                    'custom_genders' => $genders,
+                    'enable_fields' => true
                 ],
                 self::CODE_INSTALLMENT => [
                     'redirectUrl' => $this->methodInstanceInvoice->getConfigData('order_place_redirect_url'),
@@ -203,7 +204,8 @@ final class ConfigProvider implements ConfigProviderInterface
                     'default_delivery' => 'email',
                     'logo' => $this->getByjunoLogoInstallment(),
                     'default_customgender' => $genders[0]["value"],
-                    'custom_genders' => $genders
+                    'custom_genders' => $genders,
+                    'enable_fields' => false
                 ]
             ]
         ];
