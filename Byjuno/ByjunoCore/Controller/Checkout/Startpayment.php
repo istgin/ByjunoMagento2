@@ -162,6 +162,7 @@ class Startpayment extends Action
                         $this->_dataHelper->_loggerPsr->critical($e);
                     }
                     $this->_dataHelper->_checkoutSession->setTmxSession('');
+                    $this->_dataHelper->_checkoutSession->setCDPStatus('');
                     $resultRedirect->setPath('checkout/onepage/success');
                 } else {
                     $error = $this->_dataHelper->getByjunoErrorMessage($statusS3, $requestTypeS3). "(S3)";

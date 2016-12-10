@@ -160,9 +160,11 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
         if (!$isAvaliable || !$methodsAvailable) {
             return false;
         }
-        $CDPresponse = $this->CDPRequest($quote);
-        if ($CDPresponse !== null) {
-            return false;
+        if ($quote != null) {
+            $CDPresponse = $this->CDPRequest($quote);
+            if ($CDPresponse !== null) {
+                return false;
+            }
         }
         return $isAvaliable && $methodsAvailable && parent::isAvailable($quote);
     }

@@ -106,63 +106,108 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         return $this;
     }
 
+    protected $_savedUser = Array(
+        "FirstName" => "",
+        "LastName" => "",
+        "FirstLine" => "",
+        "CountryCode" => "",
+        "PostCode" => "",
+        "Town" => "",
+        "CompanyName1",
+        "DateOfBirth",
+        "Email",
+        "Fax",
+        "TelephonePrivate",
+        "TelephoneOffice",
+        "Gender",
+        "DELIVERY_FIRSTNAME",
+        "DELIVERY_LASTNAME",
+        "DELIVERY_FIRSTLINE",
+        "DELIVERY_HOUSENUMBER",
+        "DELIVERY_COUNTRYCODE",
+        "DELIVERY_POSTCODE",
+        "DELIVERY_TOWN",
+        "DELIVERY_COMPANYNAME"
+    );
+
+
+    public function isTheSame(\Byjuno\ByjunoCore\Helper\Api\ByjunoRequest $request) {
+
+        if ($request->getFirstName() != $this->_savedUser["FirstName"]
+            || $request->getLastName() != $this->_savedUser["LastName"]
+            || $request->getFirstLine() != $this->_savedUser["FirstLine"]
+            || $request->getCountryCode() != $this->_savedUser["CountryCode"]
+            || $request->getPostCode() != $this->_savedUser["PostCode"]
+            || $request->getTown() != $this->_savedUser["Town"]
+            || $request->getCompanyName1() != $this->_savedUser["CompanyName1"]
+            || $request->getDateOfBirth() != $this->_savedUser["DateOfBirth"]
+            || $request->getEmail() != $this->_savedUser["Email"]
+            || $request->getFax() != $this->_savedUser["Fax"]
+            || $request->getTelephonePrivate() != $this->_savedUser["TelephonePrivate"]
+            || $request->getTelephoneOffice() != $this->_savedUser["TelephoneOffice"]
+            || $request->getGender() != $this->_savedUser["Gender"]
+            || $request->getExtraInfoByKey("DELIVERY_FIRSTNAME") != $this->_savedUser["DELIVERY_FIRSTNAME"]
+            || $request->getExtraInfoByKey("DELIVERY_LASTNAME") != $this->_savedUser["DELIVERY_LASTNAME"]
+            || $request->getExtraInfoByKey("DELIVERY_FIRSTLINE") != $this->_savedUser["DELIVERY_FIRSTLINE"]
+            || $request->getExtraInfoByKey("DELIVERY_HOUSENUMBER") != $this->_savedUser["DELIVERY_HOUSENUMBER"]
+            || $request->getExtraInfoByKey("DELIVERY_COUNTRYCODE") != $this->_savedUser["DELIVERY_COUNTRYCODE"]
+            || $request->getExtraInfoByKey("DELIVERY_POSTCODE") != $this->_savedUser["DELIVERY_POSTCODE"]
+            || $request->getExtraInfoByKey("DELIVERY_TOWN") != $this->_savedUser["DELIVERY_TOWN"]
+            || $request->getExtraInfoByKey("DELIVERY_COMPANYNAME") != $this->_savedUser["DELIVERY_COMPANYNAME"]
+        ) {
+            return false;
+        }
+        return true;
+    }
+
+    /* @var $quote \Magento\Quote\Model\Quote */
     public function CDPRequest($quote) {
+        if ($quote == null) {
+            return null;
+        }
         if ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/cdpbeforeshow', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
             && $quote != null
-            && $quote->getShippingAddress() != null) {
+            && $quote->getBillingAddress() != null) {
             $theSame = $this->_dataHelper->_checkoutSession->getIsTheSame();
-            $CDPStatus = $this->_dataHelper->_checkoutSession->getCDPStatus();
-            if ($CDPStatus != null && intval($CDPStatus) != 2 /*&& $this->isTheSame($request)*/)
-            {
-                return false;
-            }
-            $status = 2;
-            $this->_dataHelper->_checkoutSession->setIsTheSame("1");
-            $this->_dataHelper->_checkoutSession->setCDPStatus($status);
-            if ($status != 2) {
-                return false;
-            }
-            /*$session = Mage::getSingleton('checkout/session');
-            $theSame = $session->getData("isTheSame");
-            $CDPStatus = $session->getData("CDPStatus");
-            if ($theSame != null) {
+            if (!empty($theSame) && is_array($theSame)) {
                 $this->_savedUser = $theSame;
             }
+            $CDPStatus = $this->_dataHelper->_checkoutSession->getCDPStatus();
             try {
-                $request = $this->getHelper()->CreateMagentoShopRequestCreditCheck($quote);
-                if ($CDPStatus != null && intval($CDPStatus) != 2 && $this->isTheSame($request))
-                {
+                $request = $this->_dataHelper->CreateMagentoShopRequestCreditCheck($quote);
+                if (!empty($CDPStatus) && intval($CDPStatus) != 2 && $this->isTheSame($request)) {
                     return false;
                 }
-                if (!$this->isTheSame($request) || $CDPStatus == null) {
+                if (!$this->isTheSame($request) || empty($CDPStatus)) {
                     $ByjunoRequestName = "Credit check request";
-                    if ($request->getCompanyName1() != '' && Mage::getStoreConfig('payment/cdp/businesstobusiness', Mage::app()->getStore()) == 'enable') {
+                    if ($request->getCompanyName1() != '' && $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'enable') {
                         $ByjunoRequestName = "Credit check request for Company";
                         $xml = $request->createRequestCompany();
                     } else {
                         $xml = $request->createRequest();
                     }
-                    $byjunoCommunicator = new Byjuno_Cdp_Helper_Api_Classes_ByjunoCommunicator();
-                    $mode = Mage::getStoreConfig('payment/cdp/currentmode', Mage::app()->getStore());
+                    $byjunoCommunicator = new \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator();
+                    $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
                     if ($mode == 'production') {
                         $byjunoCommunicator->setServer('live');
                     } else {
                         $byjunoCommunicator->setServer('test');
                     }
-                    $response = $byjunoCommunicator->sendRequest($xml, (int)Mage::getStoreConfig('payment/cdp/timeout', Mage::app()->getStore()));
-                    $status = 0;
-                    $byjunoResponse = new Byjuno_Cdp_Helper_Api_Classes_ByjunoResponse();
+                    $response = $byjunoCommunicator->sendRequest($xml, (int)$this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout',
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
                     if ($response) {
-                        $byjunoResponse->setRawResponse($response);
-                        $byjunoResponse->processResponse();
-                        $status = (int)$byjunoResponse->getCustomerRequestStatus();
-                        $this->getHelper()->saveLog($quote, $request, $xml, $response, $status, $ByjunoRequestName);
+                        $this->_dataHelper->_response->setRawResponse($response);
+                        $this->_dataHelper->_response->processResponse();
+                        $status = (int)$this->_dataHelper->_response->getCustomerRequestStatus();
                         if (intval($status) > 15) {
                             $status = 0;
                         }
+                        $this->_dataHelper->saveLog($request, $xml, $response, $status, $ByjunoRequestName);
                     } else {
-                        $this->getHelper()->saveLog($quote, $request, $xml, "empty response", "0", $ByjunoRequestName);
+                        $this->_dataHelper->saveLog($request, $xml, "empty response", "0", $ByjunoRequestName);
                     }
+
                     $this->_savedUser = Array(
                         "FirstName" => $request->getFirstName(),
                         "LastName" => $request->getLastName(),
@@ -186,14 +231,14 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                         "DELIVERY_TOWN" => $request->getExtraInfoByKey("DELIVERY_TOWN"),
                         "DELIVERY_COMPANYNAME" => $request->getExtraInfoByKey("DELIVERY_COMPANYNAME")
                     );
-                    $session->setData("isTheSame", $this->_savedUser);
-                    $session->setData("CDPStatus", $status);
+                    $this->_dataHelper->_checkoutSession->setIsTheSame($this->_savedUser);
+                    $this->_dataHelper->_checkoutSession->setCDPStatus($status);
                     if ($status != 2) {
                         return false;
                     }
                 }
-            } catch (Exception $e) {
-            }*/
+            } catch (\Exception $e) {
+            }
         }
         return null;
     }
