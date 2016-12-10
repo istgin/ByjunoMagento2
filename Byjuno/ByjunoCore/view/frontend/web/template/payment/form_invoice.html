@@ -33,14 +33,15 @@
         <fieldset class="fieldset">
             <div class="billing-address-form" style="display: block;">
                 <fieldset class="fieldset address">
+
                     <div class="field required">
-                        <label data-bind="attr: {for: getCode() + '_transaction_result'}" class="label">
+                        <label for="customer_gender" class="label">
                             <span><!-- ko i18n: 'Gender'--><!-- /ko --></span>
                         </label>
                         <div class="control">
-                            <select name="payment[transaction_result]"
+                            <select name="payment[customer_gender]" id="customer_gender"
                                     class="select"
-                                    style="width: 100px"
+                                    style="width: 150px"
                                     data-bind="
                                   options: getGenders(),
                                   optionsValue: 'value',
@@ -50,19 +51,19 @@
                         </div>
                     </div>
                     <div class="field required">
-                        <label data-bind="attr: {for: getCode() + '_transaction_result'}" class="label">
+                        <label for="customer_dob" class="label">
                             <span><!-- ko i18n: 'Date of birth'--><!-- /ko --></span>
                         </label>
                         <div class="control">
-                            <select name="payment[transaction_result]"
-                                    class="select"
-                                    style="width: 100px"
-                                    data-bind="
-                                  options: getGenders(),
-                                  optionsValue: 'value',
-                                  optionsText: 'label',
-                                  value: customGender">
-                            </select>
+                            <input name="payment[customer_dob]" id="customer_dob"
+                                    style="width: 150px"
+                                    placeholder="YYYY-MM-DD"
+                                    type="text" class="input-text"
+                                   data-bind="datepicker: { storage: getDob(), options: {
+                            changeMonth: true,
+                            changeYear: true,
+                            showButtonPanel: true,
+                            dateFormat: 'yy-MM-dd'} }">
                         </div>
                     </div>
                 </fieldset>
