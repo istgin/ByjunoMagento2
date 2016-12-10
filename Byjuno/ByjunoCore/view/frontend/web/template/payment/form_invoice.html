@@ -39,7 +39,7 @@
                             <span><!-- ko i18n: 'Gender'--><!-- /ko --></span>
                         </label>
                         <div class="control">
-                            <select name="payment[customer_gender]" id="customer_gender_invoice"
+                            <select name="payment[invoice_customer_gender]" id="customer_gender_invoice"
                                     class="select"
                                     style="width: 150px"
                                     data-bind="
@@ -55,7 +55,7 @@
                             <span><!-- ko i18n: 'Date of birth'--><!-- /ko --></span>
                         </label>
                         <div class="control">
-                            <input name="payment[customer_dob]" id="customer_dob_invoice"
+                            <input name="payment[invoice_customer_dob]" id="customer_dob_invoice"
                                     style="width: 150px"
                                     placeholder="YYYY-MM-DD"
                                     type="text" class="input-text"
@@ -69,10 +69,6 @@
                 </fieldset>
             </div>
         </fieldset>
-
-        <br />
-
-
         <!-- /ko -->
         <div class="field required">
             <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">

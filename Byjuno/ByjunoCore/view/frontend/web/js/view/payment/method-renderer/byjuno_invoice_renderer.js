@@ -10,10 +10,9 @@ define(
         'Magento_Checkout/js/view/payment/default',
         'mage/url',
         'Magento_Checkout/js/model/quote',
-        'jquery',
-        'mage/calendar'
+        'jquery'
     ],
-    function (ko, Component, url, quote, jquery, calendar) {
+    function (ko, Component, url, quote, jquery) {
         'use strict';
         return Component.extend({
             redirectAfterPlaceOrder: false,
@@ -70,8 +69,8 @@ define(
                         'additional_data': {
                             'invoice_payment_plan': this.paymentPlan(),
                             'invoice_send': this.deliveryPlan(),
-                            'customer_gender': this.customGender(),
-                            'customer_dob': jquery("#customer_dob_invoice").val()
+                            'invoice_customer_gender': this.customGender(),
+                            'invoice_customer_dob': jquery("#customer_dob_invoice").val()
                         }
                     };
                 } else {

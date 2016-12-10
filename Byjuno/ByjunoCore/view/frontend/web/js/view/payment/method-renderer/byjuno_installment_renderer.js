@@ -6,37 +6,50 @@
 /*global define*/
 define(
     [
+        'ko',
         'Magento_Checkout/js/view/payment/default',
         'mage/url',
-        'Magento_Checkout/js/model/quote'
+        'Magento_Checkout/js/model/quote',
+        'jquery'
     ],
-    function (Component, url, quote) {
+    function (ko, Component, url, quote, jquery) {
         'use strict';
         return Component.extend({
             redirectAfterPlaceOrder: false,
             defaults: {
                 template: 'Byjuno_ByjunoCore/payment/form_installment',
                 paymentPlan: window.checkoutConfig.payment.byjuno_installment.default_payment,
-                deliveryPlan: window.checkoutConfig.payment.byjuno_installment.default_delivery
+                deliveryPlan: window.checkoutConfig.payment.byjuno_installment.default_delivery,
+                customGender: window.checkoutConfig.payment.byjuno_installment.default_customgender
             },
 
             initObservable: function () {
                 this._super()
                     .observe([
                         'paymentPlan',
-                        'deliveryPlan'
+                        'deliveryPlan',
+                        'customGender'
                     ]);
                 return this;
             },
 
             afterPlaceOrder: function () {
                 this.selectPaymentMethod();
-                window.location.replace(url.build(window.checkoutConfig.payment.byjuno_invoice.redirectUrl));
+                window.location.replace(url.build(window.checkoutConfig.payment.byjuno_installment.redirectUrl));
             },
 
 
             getCode: function () {
                 return 'byjuno_installment';
+            },
+
+            getDob: function () {
+                var dob  = window.checkoutConfig.quoteData.customer_dob;
+                if (dob == null)
+                {
+                    return ko.observable(false);
+                }
+                return ko.observable(new Date(dob));
             },
 
             getEmail: function () {
@@ -51,13 +64,25 @@ define(
             },
 
             getData: function () {
-                return {
-                    'method': this.item.method,
-                    'additional_data': {
-                        'installment_payment_plan': this.paymentPlan(),
-                        'installment_send': this.deliveryPlan()
-                    }
-                };
+                if (this.isFieldsEnabled()) {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'installment_payment_plan': this.paymentPlan(),
+                            'installment_send': this.deliveryPlan(),
+                            'installment_customer_gender': this.customGender(),
+                            'installment_customer_dob': jquery("#customer_dob_installment").val()
+                        }
+                    };
+                } else {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'installment_payment_plan': this.paymentPlan(),
+                            'installment_send': this.deliveryPlan()
+                        }
+                    };
+                }
             },
             getLogo: function () {
                 return window.checkoutConfig.payment.byjuno_installment.logo;
@@ -94,6 +119,24 @@ define(
                             );
                         }
                     }
+                }
+                return list;
+            },
+
+            isFieldsEnabled: function () {
+                return window.checkoutConfig.payment.byjuno_installment.enable_fields;
+            },
+
+            getGenders: function() {
+                var list = [];
+                for (var i = 0; i < window.checkoutConfig.payment.byjuno_installment.custom_genders.length; i++) {
+                    var value = window.checkoutConfig.payment.byjuno_installment.custom_genders[i];
+                    list.push(
+                        {
+                            'value': value.value,
+                            'label': value.text
+                        }
+                    );
                 }
                 return list;
             }
