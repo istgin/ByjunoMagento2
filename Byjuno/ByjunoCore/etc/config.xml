@@ -405,7 +405,7 @@
                 <timeout>30</timeout>
                 <tmxenabled>0</tmxenabled>
                 <tmxkey>lq866c5i</tmxkey>
-                <businesstobusiness>disable</businesstobusiness>
+                <businesstobusiness>0</businesstobusiness>
                 <byjuno_prod_email>invoices@byjuno.ch</byjuno_prod_email>
                 <byjuno_test_email>test-invoices@byjuno.ch</byjuno_test_email>
                 <byjunos4transacton>0</byjunos4transacton>

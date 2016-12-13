@@ -416,7 +416,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $extraInfo["Value"] = $order->getShippingAddress()->getCity();
             $request->setExtraInfo($extraInfo);
 
-            if ($order->getShippingAddress()->getCompany() != '' && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'enable') {
+            if ($order->getShippingAddress()->getCompany() != '' && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
 
                 $extraInfo["Name"] = 'DELIVERY_COMPANYNAME';
                 $extraInfo["Value"] = $order->getShippingAddress()->getCompany();
@@ -625,7 +625,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $extraInfo["Value"] = $order->getShippingAddress()->getCity();
             $request->setExtraInfo($extraInfo);
 
-            if ($order->getShippingAddress()->getCompany() != '' && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'enable') {
+            if ($order->getShippingAddress()->getCompany() != '' && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
 
                 $extraInfo["Name"] = 'DELIVERY_COMPANYNAME';
                 $extraInfo["Value"] = $order->getShippingAddress()->getCompany();
@@ -842,7 +842,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $extraInfo["Value"] = $quote->getShippingAddress()->getCity();
             $request->setExtraInfo($extraInfo);
 
-            if ($quote->getShippingAddress()->getCompany() != '' && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'enable') {
+            if ($quote->getShippingAddress()->getCompany() != '' && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
 
                 $extraInfo["Name"] = 'DELIVERY_COMPANYNAME';
                 $extraInfo["Value"] = $quote->getShippingAddress()->getCompany();

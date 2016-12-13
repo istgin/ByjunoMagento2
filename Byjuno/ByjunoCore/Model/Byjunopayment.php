@@ -181,7 +181,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                 if (!$this->isTheSame($request) || empty($CDPStatus)) {
                     $ByjunoRequestName = "Credit check request";
                     if ($request->getCompanyName1() != '' && $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness',
-                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'enable') {
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
                         $ByjunoRequestName = "Credit check request for Company";
                         $xml = $request->createRequestCompany();
                     } else {

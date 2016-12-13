@@ -47,7 +47,7 @@ class Startpayment extends Action
         $request = $this->_dataHelper->CreateMagentoShopRequestPaid($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $transaction);
         $ByjunoRequestName = "Order paid";
         $requestType = 'b2c';
-        if ($request->getCompanyName1() != '' && $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'enable') {
+        if ($request->getCompanyName1() != '' && $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
             $ByjunoRequestName = "Order paid for Company";
             $requestType = 'b2b';
             $xml = $request->createRequestCompany();
@@ -82,7 +82,7 @@ class Startpayment extends Action
 
         $ByjunoRequestName = "Order request";
         $requestType = 'b2c';
-        if ($request->getCompanyName1() != '' && $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'enable') {
+        if ($request->getCompanyName1() != '' && $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
             $ByjunoRequestName = "Order request for Company";
             $requestType = 'b2b';
             $xml = $request->createRequestCompany();
