@@ -244,7 +244,8 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
     }
 
     /* @var $payment \Magento\Quote\Model\Quote\Payment */
-    public function validateCustomFields(\Magento\Payment\Model\InfoInterface $payment) {
+    public function validateCustomFields(\Magento\Payment\Model\InfoInterface $payment)
+    {
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_birthday_enable",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
             if ($payment->getAdditionalInformation('customer_gender') == null || $payment->getAdditionalInformation('customer_gender') == '') {
@@ -273,9 +274,10 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             }
         }
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/country_phone_validation",
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1 && $payment->getQuote() != null) {
+
             $pattern = "/^[0-9]{4}$/";
-            if (strtolower($payment->getQuote()->getShippingAddress()->getCountryId()) == 'ch' && !preg_match($pattern, $payment->getQuote()->getBillingAddress()->getPostcode())) {
+            if (strtolower($payment->getQuote()->getBillingAddress()->getCountryId()) == 'ch' && !preg_match($pattern, $payment->getQuote()->getBillingAddress()->getPostcode())) {
                 throw new LocalizedException(
                     __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/postal_code_wrong', \Magento\Store\Model\ScopeInterface::SCOPE_STORE).
                         ": " . $payment->getQuote()->getBillingAddress()->getPostcode())
