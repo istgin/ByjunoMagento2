@@ -415,8 +415,7 @@
                 <gender_male_possible_prefix>Herr;Mr</gender_male_possible_prefix>
                 <gender_female_possible_prefix>Frau;Mrs;Ms</gender_female_possible_prefix>
                 <cdpbeforeshow>0</cdpbeforeshow>
-                <country_phone_validation>0</country_phone_validation>
-                <force_email_end_customer>0</force_email_end_customer>
+                <country_phone_validation>1</country_phone_validation>
             </byjuno_setup>
             <localization>
                 <byjuno_installment_paper>0</byjuno_installment_paper>

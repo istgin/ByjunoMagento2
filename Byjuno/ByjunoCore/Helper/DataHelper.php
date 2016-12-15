@@ -463,7 +463,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.2';
+        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.3';
         $request->setExtraInfo($extraInfo);
         return $request;
     }
@@ -669,7 +669,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.2';
+        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.3';
         $request->setExtraInfo($extraInfo);
 
         return $request;
@@ -873,7 +873,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.2';
+        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.3';
         $request->setExtraInfo($extraInfo);
         return $request;
     }

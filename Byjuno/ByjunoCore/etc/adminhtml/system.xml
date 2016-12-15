@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="byjuno_main_tab" translate="label" sortOrder="1">
-            <label>Byjuno payments (1.0.2)</label>
+            <label>Byjuno payments (1.0.3)</label>
         </tab>
         <section id="byjunocheckoutsettings" translate="label" sortOrder="1" showInDefault="1"
                  showInWebsite="1" showInStore="1">
@@ -104,11 +104,6 @@
                     <label>Enable country &amp; phone validation</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="force_email_end_customer" translate="label" type="select" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Force send email to end customer</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-
             </group>
             <group id="localization" translate="label" type="text" sortOrder="20" showInDefault="1"
                    showInWebsite="1" showInStore="1">
