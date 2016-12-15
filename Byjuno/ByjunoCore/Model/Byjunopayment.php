@@ -243,8 +243,8 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         return null;
     }
 
+    /* @var $payment \Magento\Quote\Model\Quote\Payment */
     public function validateCustomFields(\Magento\Payment\Model\InfoInterface $payment) {
-
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_birthday_enable",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
             if ($payment->getAdditionalInformation('customer_gender') == null || $payment->getAdditionalInformation('customer_gender') == '') {
@@ -270,6 +270,22 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                         __("Provided date is not valid")
                     );
                 }
+            }
+        }
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/country_phone_validation",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $pattern = "/^[0-9]{4}$/";
+            if (strtolower($payment->getQuote()->getShippingAddress()->getCountryId()) == 'ch' && !preg_match($pattern, $payment->getQuote()->getBillingAddress()->getPostcode())) {
+                throw new LocalizedException(
+                    __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/postal_code_wrong', \Magento\Store\Model\ScopeInterface::SCOPE_STORE).
+                        ": " . $payment->getQuote()->getBillingAddress()->getPostcode())
+                );
+            }
+            if (!preg_match("/^[0-9\+\(\)\s]+$/", $payment->getQuote()->getBillingAddress()->getTelephone())) {
+                throw new LocalizedException(
+                    __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/telephone_code_wrong', \Magento\Store\Model\ScopeInterface::SCOPE_STORE).
+                        ": " . $payment->getQuote()->getBillingAddress()->getTelephone())
+                );
             }
         }
     }
