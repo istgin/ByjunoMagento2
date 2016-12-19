@@ -7,6 +7,7 @@
 -->
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Sales\Model\Order\Invoice" type="Byjuno\ByjunoCore\Model\Invoicebyjunooverride" />
     <!-- Payment Method Facade configuration -->
     <virtualType name="InvoiceByjunoCoreFacade" type="Byjuno\ByjunoCore\Model\Invoice">
         <arguments>

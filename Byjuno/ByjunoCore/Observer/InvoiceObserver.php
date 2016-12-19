@@ -7,23 +7,8 @@
  */
 
 namespace Byjuno\ByjunoCore\Observer;
-use Magento\Framework\Event\ObserverInterface;
 
-class InvoiceObserver implements ObserverInterface
+class InvoiceObserver
 {
     public static $Invoice;
-    public function execute(\Magento\Framework\Event\Observer $observer)
-    {
-        /* @var $payment \Magento\Sales\Model\Order\Payment\Interceptor */
-        $payment = $observer->getData('payment');
-        /* @var $invoice \Magento\Sales\Model\Order\Invoice */
-        $invoice = $observer->getData('invoice');
-
-        if ($payment->getMethodInstance()->getCode() == \Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INVOICE
-            || $payment->getMethodInstance()->getCode() == \Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INSTALLMENT  ) {
-            //WTF? How to get invoice in other way?? no processInvoice like in magento 1.X
-            self::$Invoice = $invoice;
-        }
-
-    }
 }

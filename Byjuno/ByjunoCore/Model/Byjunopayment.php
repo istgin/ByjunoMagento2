@@ -352,9 +352,8 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                 __("Internal invoice (InvoiceObserver) error")
             );
         }
-
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/byjunos4transacton", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '0') {
-            //return $this;
+            return $this;
         }
         if ($payment->getAdditionalInformation("s3_ok") == null || $payment->getAdditionalInformation("s3_ok") == 'false') {
             throw new LocalizedException (
@@ -363,6 +362,9 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         }
         $webshopProfileId = $payment->getAdditionalInformation("webshop_profile_id");
         $incrementValue =  $this->_eavConfig->getEntityType($invoice->getEntityType())->fetchNewIncrementId($invoice->getStore()->getId());
+        if ($invoice->getIncrementId() == null) {
+            $invoice->setIncrementId($incrementValue);
+        }
         $request = $this->_dataHelper->CreateMagentoShopRequestS4Paid($order, $invoice, $webshopProfileId);
 
 
@@ -387,7 +389,6 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             $status = "ERR";
             $this->_dataHelper->saveS4Log($order, $request, $xml, "empty response", $status, $ByjunoRequestName);
         }
-        $invoice->setIncrementId($incrementValue);
         if ($status == 'ERR') {
             throw new LocalizedException(
                 __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s4_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE). " (error code: CDP_FAIL)")
