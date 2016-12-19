@@ -387,6 +387,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             $status = "ERR";
             $this->_dataHelper->saveS4Log($order, $request, $xml, "empty response", $status, $ByjunoRequestName);
         }
+        $invoice->setIncrementId($incrementValue);
         if ($status == 'ERR') {
             throw new LocalizedException(
                 __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s4_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE). " (error code: CDP_FAIL)")
@@ -395,7 +396,6 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             $this->_dataHelper->_byjunoInvoiceSender->sendInvoice($invoice, $email);
         }
 
-        $invoice->setIncrementId($incrementValue);
         $payment->setTransactionId($incrementValue.'-invoice');
         $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE, null, true);
         $transaction->setIsClosed(true);
