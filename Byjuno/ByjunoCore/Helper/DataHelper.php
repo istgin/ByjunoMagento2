@@ -58,8 +58,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     function saveS4Log(\Magento\Sales\Model\Order $order, \Byjuno\ByjunoCore\Helper\Api\ByjunoS4Request $request, $xml_request, $xml_response, $status, $type)
     {
 
-        $data = array('firstname' => $order->getCustomerFirstname(),
-            'lastname' => $order->getCustomerLastname(),
+        $data = array('firstname' => $order->getBillingAddress()->getFirstname(),
+            'lastname' => $order->getBillingAddress()->getFirstname(),
             'postcode' => '-',
             'town' => '-',
             'country' => '-',
@@ -78,8 +78,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     function saveS5Log(\Magento\Sales\Model\Order $order, \Byjuno\ByjunoCore\Helper\Api\ByjunoS5Request $request, $xml_request, $xml_response, $status, $type)
     {
 
-        $data = array('firstname' => $order->getCustomerFirstname(),
-            'lastname' => $order->getCustomerLastname(),
+        $data = array('firstname' => $order->getBillingAddress()->getFirstname(),
+            'lastname' => $order->getBillingAddress()->getFirstname(),
             'postcode' => '-',
             'town' => '-',
             'country' => '-',
