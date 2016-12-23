@@ -319,9 +319,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
                 $request->setGender('0');
             }
         } else {
-            if (in_array(strtolower($order->getCustomerPrefix()), $gender_male_possible_prefix)) {
+            if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if (in_array(strtolower($order->getCustomerPrefix()), $gender_female_possible_prefix)) {
+            } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             } else {
                 $request->setGender('0');
@@ -524,9 +524,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
                 $request->setGender('0');
             }
         } else {
-            if (in_array(strtolower($order->getCustomerPrefix()), $gender_male_possible_prefix)) {
+            if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if (in_array(strtolower($order->getCustomerPrefix()), $gender_female_possible_prefix)) {
+            } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             } else {
                 $request->setGender('0');
@@ -759,9 +759,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
                 $request->setGender('0');
             }
         } else {
-            if (in_array(strtolower($quote->getCustomerPrefix()), $gender_male_possible_prefix)) {
+            if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if (in_array(strtolower($quote->getCustomerPrefix()), $gender_female_possible_prefix)) {
+            } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             } else {
                 $request->setGender('0');
