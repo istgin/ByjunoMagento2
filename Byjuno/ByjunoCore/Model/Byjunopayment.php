@@ -295,6 +295,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
     /* @var $payment \Magento\Sales\Model\Order\Payment */
     public function refund(InfoInterface $payment, $amount)
     {
+		$this->_dataHelper->_objectManager->configure($this->_dataHelper->_configLoader->load('adminhtml'));
         if ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjunos5transacton', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '0') {
             return $this;
         }
