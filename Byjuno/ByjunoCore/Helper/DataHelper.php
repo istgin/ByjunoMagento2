@@ -17,6 +17,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     public $_byjunoCreditmemoSender;
     public $_byjunoInvoiceSender;
     public $_byjunoLogger;
+    public $_objectManager;
+    public $_configLoader;
+	
     /**
      * @var \Psr\Log\LoggerInterface
      */
@@ -241,11 +244,15 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         \Byjuno\ByjunoCore\Helper\ByjunoInvoiceSender $byjunoInvoiceSender,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $originalOrderSender,
         \Psr\Log\LoggerInterface $loggerPsr,
-        \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger
+        \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger,		
+        \Magento\Framework\ObjectManagerInterface $objectManager,		
+        \Magento\Framework\ObjectManager\ConfigLoaderInterface $configLoader
     )
     {
 
         parent::__construct($context);
+        $this->_configLoader = $configLoader;
+        $this->_objectManager = $objectManager;
         $this->_byjunoLogger = $byjunoLogger;
         $this->_byjunoOrderSender = $byjunoOrderSender;
         $this->_originalOrderSender = $originalOrderSender;

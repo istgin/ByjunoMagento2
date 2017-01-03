@@ -344,6 +344,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
     /* @var $payment \Magento\Sales\Model\Order\Payment */
     public function capture(InfoInterface $payment, $amount)
     {
+		$this->_dataHelper->_objectManager->configure($this->_dataHelper->_configLoader->load('adminhtml'));
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
         $order = $payment->getOrder();
         $invoice = \Byjuno\ByjunoCore\Observer\InvoiceObserver::$Invoice;

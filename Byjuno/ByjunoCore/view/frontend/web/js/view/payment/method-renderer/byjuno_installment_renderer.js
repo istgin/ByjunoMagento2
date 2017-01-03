@@ -53,7 +53,11 @@ define(
             },
 
             getEmail: function () {
-                return window.checkoutConfig.quoteData.customer_email;
+                if (window.checkoutConfig.quoteData.customer_email != null) {
+                    return window.checkoutConfig.quoteData.customer_email;
+                } else {
+                    return quote.guestEmail;
+                }
             },
 
             getBillingAddress: function () {
