@@ -40,6 +40,10 @@ class UpgradeData implements UpgradeDataInterface
             //code to upgrade to 1.0.3
             //no changes
         }
+        if (version_compare($context->getVersion(), '1.0.4') < 0) {
+            //code to upgrade to 1.0.3
+            //no changes
+        }
 
         $setup->endSetup();
     }
