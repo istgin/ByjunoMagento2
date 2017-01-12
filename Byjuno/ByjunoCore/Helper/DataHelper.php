@@ -191,7 +191,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         } else if ($type == 'invoice_single_enable') {
             return "3";
         } else if ($type == 'invoice_partial_enable') {
-            return "3";
+            return "4";
         }
         return "0";
     }
