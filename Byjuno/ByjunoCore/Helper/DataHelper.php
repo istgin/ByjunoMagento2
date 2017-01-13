@@ -165,13 +165,26 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         return $ipaddress;
     }
 
-    public function mapMethod($method)
+    public function mapMethod($type)
     {
-        if ($method == 'cdp_installment') {
+        if ($type == 'installment_3installment_enable') {
             return "INSTALLMENT";
-        } else {
+        } else if ($type == 'installment_10installment_enable') {
+            return "INSTALLMENT";
+        } else if ($type == 'installment_12installment_enable') {
+            return "INSTALLMENT";
+        } else if ($type == 'installment_24installment_enable') {
+            return "INSTALLMENT";
+        } else if ($type == 'installment_4x12installment_enable') {
+            return "INSTALLMENT";
+        } else if ($type == 'installment_4x10installment_enable') {
+            return "INSTALLMENT";
+        } else if ($type == 'invoice_single_enable') {
             return "INVOICE";
+        } else if ($type == 'invoice_partial_enable') {
+            return "BYJUNO-INVOICE";
         }
+        return "INVOICE";
     }
 
     private function mapRepayment($type)
@@ -458,7 +471,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'PAYMENTMETHOD';
-        $extraInfo["Value"] = $this->mapMethod($paymentmethod->getMethod());
+        $extraInfo["Value"] = $this->mapMethod($paymentmethod->getAdditionalInformation('payment_plan'));
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'REPAYMENTTYPE';
@@ -664,7 +677,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'PAYMENTMETHOD';
-        $extraInfo["Value"] = $this->mapMethod($paymentmethod->getMethod());
+        $extraInfo["Value"] = $this->mapMethod($paymentmethod->getAdditionalInformation('payment_plan'));
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'REPAYMENTTYPE';
