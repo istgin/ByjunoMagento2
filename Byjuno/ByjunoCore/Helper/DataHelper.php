@@ -182,7 +182,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         } else if ($type == 'invoice_single_enable') {
             return "INVOICE";
         } else if ($type == 'invoice_partial_enable') {
-            return "BYJUNO-INVOICE";
+            return "INVOICE";
         }
         return "INVOICE";
     }
