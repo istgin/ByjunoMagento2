@@ -32,7 +32,8 @@ class Threatmetrix extends \Magento\Framework\View\Element\Template
             $this->_helper->_checkoutSession->setTmxSession($this->_helper->_checkoutSession->getSessionId());
         }
         if ($this->_helper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/tmxenabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1 &&
-            $this->_helper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/tmxkey', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) != '') {
+            $this->_helper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/tmxkey', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) != '' &&
+            empty($tmxSession)) {
 
             return true;
         }

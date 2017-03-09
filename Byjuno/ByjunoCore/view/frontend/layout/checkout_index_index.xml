@@ -53,8 +53,5 @@
                 </argument>
             </arguments>
         </referenceBlock>
-        <referenceContainer name="after.body.start">
-            <block class="Byjuno\ByjunoCore\Block\Threatmetrix" name="byjuno_threatmetrix" as="byjuno_threatmetrix" template="Byjuno_ByjunoCore::byjuno_threatmetrix.phtml"/>
-        </referenceContainer>
     </body>
 </page>
