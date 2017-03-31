@@ -389,7 +389,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'ORDERCURRENCY';
-        $extraInfo["Value"] = $order->getBaseCurrencyCode();
+        $extraInfo["Value"] = $order->getOrderCurrencyCode();
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'IP';
@@ -594,7 +594,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'ORDERCURRENCY';
-        $extraInfo["Value"] = $order->getBaseCurrencyCode();
+        $extraInfo["Value"] = $order->getOrderCurrencyCode();
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'IP';
@@ -722,7 +722,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         );
         $request->setTransactionDate($orderDateString["year"] . "-" . $orderDateString["month"] . '-' . $orderDateString["day"]);
         $request->setTransactionAmount(number_format($invoice->getGrandTotal(), 2, '.', ''));
-        $request->setTransactionCurrency($order->getBaseCurrencyCode());
+        $request->setTransactionCurrency($order->getOrderCurrencyCode());
         $request->setAdditional1("INVOICE");
         $request->setAdditional2($invoice->getIncrementId());
         $request->setOpenBalance(number_format($invoice->getGrandTotal(), 2, '.', ''));
@@ -815,7 +815,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'ORDERCURRENCY';
-        $extraInfo["Value"] = $quote->getBaseCurrencyCode();
+        $extraInfo["Value"] = $quote->getQuoteCurrencyCode();
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'IP';
@@ -919,7 +919,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         );
         $request->setTransactionDate($orderDateString["year"] . "-" . $orderDateString["month"] . '-' . $orderDateString["day"]);
         $request->setTransactionAmount(number_format($amount, 2, '.', ''));
-        $request->setTransactionCurrency($order->getBaseCurrencyCode());
+        $request->setTransactionCurrency($order->getOrderCurrencyCode());
         $request->setTransactionType($transactionType);
         $request->setAdditional2($invoiceId);
         if ($transactionType == "EXPIRED") {
