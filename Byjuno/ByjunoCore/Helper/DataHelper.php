@@ -330,22 +330,19 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
 
         $g = $order->getCustomerGender();
+        $request->setGender('0');
         if (!empty($g)) {
             if ($g == '1') {
                 $request->setGender('1');
             } else if ($g == '2') {
                 $request->setGender('2');
-            } else {
-                $request->setGender('0');
             }
-        } else {
-            if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
-                $request->setGender('1');
-            } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
-                $request->setGender('2');
-            } else {
-                $request->setGender('0');
-            }
+        }
+
+        if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+            $request->setGender('1');
+        } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+            $request->setGender('2');
         }
 
         if (!empty($gender_custom)) {
@@ -535,22 +532,19 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
 
         $g = $order->getCustomerGender();
+        $request->setGender('0');
         if (!empty($g)) {
             if ($g == '1') {
                 $request->setGender('1');
             } else if ($g == '2') {
                 $request->setGender('2');
-            } else {
-                $request->setGender('0');
             }
-        } else {
-            if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
-                $request->setGender('1');
-            } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
-                $request->setGender('2');
-            } else {
-                $request->setGender('0');
-            }
+        }
+
+        if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+            $request->setGender('1');
+        } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+            $request->setGender('2');
         }
 
         if (!empty($gender_custom)) {
@@ -770,22 +764,19 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
 
         $g = $quote->getCustomerGender();
+        $request->setGender('0');
         if (!empty($g)) {
             if ($g == '1') {
                 $request->setGender('1');
             } else if ($g == '2') {
                 $request->setGender('2');
-            } else {
-                $request->setGender('0');
             }
-        } else {
-            if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
-                $request->setGender('1');
-            } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
-                $request->setGender('2');
-            } else {
-                $request->setGender('0');
-            }
+        }
+
+        if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+            $request->setGender('1');
+        } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+            $request->setGender('2');
         }
 
         $billingStreet = $quote->getBillingAddress()->getStreet();
