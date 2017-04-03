@@ -19,7 +19,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     public $_byjunoLogger;
     public $_objectManager;
     public $_configLoader;
-	
+    public $_customerMetadata;
+
     /**
      * @var \Psr\Log\LoggerInterface
      */
@@ -245,7 +246,6 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Backend\Block\Menu $blockMenu,
         \Magento\Backend\Model\UrlInterface $url,
         \Magento\Store\Model\StoreManager $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Directory\Model\Config\Source\Country $countryHelper,
         \Magento\Framework\Locale\Resolver $resolver,
@@ -256,14 +256,15 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         \Byjuno\ByjunoCore\Helper\ByjunoCreditmemoSender $byjunoCreditmemoSender,
         \Byjuno\ByjunoCore\Helper\ByjunoInvoiceSender $byjunoInvoiceSender,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $originalOrderSender,
-        \Psr\Log\LoggerInterface $loggerPsr,
-        \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger,		
-        \Magento\Framework\ObjectManagerInterface $objectManager,		
-        \Magento\Framework\ObjectManager\ConfigLoaderInterface $configLoader
+        \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \Magento\Framework\ObjectManager\ConfigLoaderInterface $configLoader,
+        \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata
     )
     {
 
         parent::__construct($context);
+        $this->_customerMetadata = $customerMetadata;
         $this->_configLoader = $configLoader;
         $this->_objectManager = $objectManager;
         $this->_byjunoLogger = $byjunoLogger;
@@ -277,7 +278,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_resolver = $resolver;
         $this->_countryHelper = $countryHelper;
         $this->_checkoutSession = $checkoutSession;
-        $this->_scopeConfig = $scopeConfig;
+        $this->_scopeConfig = $context->getScopeConfig();
         $this->_storeManager = $storeManager;
         $this->_iteratorFactory = $iteratorFactory;
         $this->_blockMenu = $blockMenu;
@@ -331,18 +332,21 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
         $g = $order->getCustomerGender();
         $request->setGender('0');
-        if (!empty($g)) {
-            if ($g == '1') {
-                $request->setGender('1');
-            } else if ($g == '2') {
-                $request->setGender('2');
+        if ($this->_customerMetadata->getAttributeMetadata('gender')->isVisible()) {
+            if (!empty($g)) {
+                if ($g == '1') {
+                    $request->setGender('1');
+                } else if ($g == '2') {
+                    $request->setGender('2');
+                }
             }
         }
-
-        if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
-            $request->setGender('1');
-        } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
-            $request->setGender('2');
+        if ($this->_customerMetadata->getAttributeMetadata('prefix')->isVisible()) {
+            if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+                $request->setGender('1');
+            } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+                $request->setGender('2');
+            }
         }
 
         if (!empty($gender_custom)) {
@@ -533,18 +537,21 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
         $g = $order->getCustomerGender();
         $request->setGender('0');
-        if (!empty($g)) {
-            if ($g == '1') {
-                $request->setGender('1');
-            } else if ($g == '2') {
-                $request->setGender('2');
+        if ($this->_customerMetadata->getAttributeMetadata('gender')->isVisible()) {
+            if (!empty($g)) {
+                if ($g == '1') {
+                    $request->setGender('1');
+                } else if ($g == '2') {
+                    $request->setGender('2');
+                }
             }
         }
-
-        if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
-            $request->setGender('1');
-        } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
-            $request->setGender('2');
+        if ($this->_customerMetadata->getAttributeMetadata('prefix')->isVisible()) {
+            if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+                $request->setGender('1');
+            } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+                $request->setGender('2');
+            }
         }
 
         if (!empty($gender_custom)) {
@@ -765,18 +772,21 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
         $g = $quote->getCustomerGender();
         $request->setGender('0');
-        if (!empty($g)) {
-            if ($g == '1') {
-                $request->setGender('1');
-            } else if ($g == '2') {
-                $request->setGender('2');
+        if ($this->_customerMetadata->getAttributeMetadata('gender')->isVisible()) {
+            if (!empty($g)) {
+                if ($g == '1') {
+                    $request->setGender('1');
+                } else if ($g == '2') {
+                    $request->setGender('2');
+                }
             }
         }
-
-        if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
-            $request->setGender('1');
-        } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
-            $request->setGender('2');
+        if ($this->_customerMetadata->getAttributeMetadata('prefix')->isVisible()) {
+            if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+                $request->setGender('1');
+            } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+                $request->setGender('2');
+            }
         }
 
         $billingStreet = $quote->getBillingAddress()->getStreet();
