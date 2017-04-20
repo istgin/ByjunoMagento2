@@ -75,7 +75,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         $xml = $request->createRequest();
         $byjunoCommunicator = new \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator();
         $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        if ($mode == 'production') {
+        if ($mode == 'live') {
             $byjunoCommunicator->setServer('live');
             $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         } else {
@@ -189,7 +189,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                     }
                     $byjunoCommunicator = new \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator();
                     $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-                    if ($mode == 'production') {
+                    if ($mode == 'live') {
                         $byjunoCommunicator->setServer('live');
                     } else {
                         $byjunoCommunicator->setServer('test');
@@ -309,7 +309,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         $xml = $request->createRequest();
         $byjunoCommunicator = new \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator();
         $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        if ($mode == 'production') {
+        if ($mode == 'live') {
             $byjunoCommunicator->setServer('live');
             $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         } else {
@@ -374,7 +374,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         $xml = $request->createRequest();
         $byjunoCommunicator = new \Byjuno\ByjunoCore\Helper\Api\ByjunoCommunicator();
         $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        if ($mode == 'production') {
+        if ($mode == 'live') {
             $byjunoCommunicator->setServer('live');
             $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         } else {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 Pay.nl All rights reserved.
+ * Copyright Â© 2015 Pay.nl All rights reserved.
  */
 namespace Byjuno\ByjunoCore\Controller\Checkout;
 
@@ -55,7 +55,7 @@ class Startpayment extends Action
             $xml = $request->createRequest();
         }
         $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        if ($mode == 'production') {
+        if ($mode == 'live') {
             $this->_dataHelper->_communicator->setServer('live');
         } else {
             $this->_dataHelper->_communicator->setServer('test');
@@ -90,7 +90,7 @@ class Startpayment extends Action
             $xml = $request->createRequest();
         }
         $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        if ($mode == 'production') {
+        if ($mode == 'live') {
             $this->_dataHelper->_communicator->setServer('live');
         } else {
             $this->_dataHelper->_communicator->setServer('test');
@@ -151,7 +151,7 @@ class Startpayment extends Action
                     $order->save();
                     try {
                         $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-                        if ($mode == 'production') {
+                        if ($mode == 'live') {
                             $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
                         } else {
                             $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_test_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
