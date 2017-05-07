@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="byjuno_main_tab" translate="label" sortOrder="1">
-            <label>Byjuno payments (1.0.8)</label>
+            <label>Byjuno payments (1.0.9)</label>
         </tab>
         <section id="byjunocheckoutsettings" translate="label" sortOrder="1" showInDefault="1"
                  showInWebsite="1" showInStore="1">
@@ -110,6 +110,18 @@
                 <label>Byjuno localizations</label>
                 <field id="byjuno_fail_message" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Fail message of byjuno order</label>
+                </field>
+            </group>
+            <group id="advanced" translate="label" type="text" sortOrder="30" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Byjuno advanced settings (for developers only)</label>
+                <field id="ip_detect_string" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Real IP detection method</label>
+                    <comment>In some cases this is required to detect valid IP. example: REMOTE_ADDR, HTTP_CLIENT_IP, HTTP_CF_CONNECTING_IP for CloudFlare etc. Keep empty for default</comment>
+                </field>
+                <field id="ip_array_place" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Real IP place in array (number)</label>
+                    <comment>In some cases this is required to detect valid IP. Keep empty for default IP place</comment>
                 </field>
             </group>
         </section>

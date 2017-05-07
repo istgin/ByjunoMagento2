@@ -145,24 +145,37 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         return $status[0];
     }
 
-    public function getClientIp() {
+    public function getClientIp()
+    {
         $ipaddress = '';
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-        } else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        } else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else if(!empty($_SERVER['HTTP_X_FORWARDED'])) {
+        } else if (!empty($_SERVER['HTTP_X_FORWARDED'])) {
             $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-        } else if(!empty($_SERVER['HTTP_FORWARDED_FOR'])) {
+        } else if (!empty($_SERVER['HTTP_FORWARDED_FOR'])) {
             $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-        } else if(!empty($_SERVER['HTTP_FORWARDED'])) {
+        } else if (!empty($_SERVER['HTTP_FORWARDED'])) {
             $ipaddress = $_SERVER['HTTP_FORWARDED'];
-        } else if(!empty($_SERVER['REMOTE_ADDR'])) {
+        } else if (!empty($_SERVER['REMOTE_ADDR'])) {
             $ipaddress = $_SERVER['REMOTE_ADDR'];
         } else {
             $ipaddress = 'UNKNOWN';
         }
+        $addrMethod = $this->_scopeConfig->getValue('byjunocheckoutsettings/advanced/ip_detect_string', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if (!empty($addrMethod) && !empty($_SERVER[$addrMethod])) {
+            $ipaddress = $_SERVER[$addrMethod];
+        }
+        $addrPlace = $this->_scopeConfig->getValue('byjunocheckoutsettings/advanced/ip_array_place', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $ipd = explode(",", $ipaddress);
+        if (!empty($addrPlace))
+        {
+            $addrPlace = intval($addrPlace);
+            if (!empty($ipd[$addrPlace])) {
+                return trim($ipd[$addrPlace]);
+            }
+        }
         return trim(end($ipd));
     }
 
@@ -484,7 +497,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.8';
+        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.9';
         $request->setExtraInfo($extraInfo);
         return $request;
     }
@@ -690,7 +703,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.8';
+        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.9';
         $request->setExtraInfo($extraInfo);
 
         return $request;
@@ -894,7 +907,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.8';
+        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.0.9';
         $request->setExtraInfo($extraInfo);
         return $request;
     }
