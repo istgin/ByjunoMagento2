@@ -18,6 +18,7 @@ final class ConfigProvider implements ConfigProviderInterface
     const CODE_INSTALLMENT = 'byjuno_installment';
     /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
     private $_scopeConfig;
+    private $_customerMetadata;
 
     /**
      * Retrieve assoc array of checkout configuration
@@ -39,13 +40,15 @@ final class ConfigProvider implements ConfigProviderInterface
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         PaymentHelper $paymentHelper,
-        \Magento\Framework\Locale\Resolver $resolver
+        \Magento\Framework\Locale\Resolver $resolver,
+        \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata
     )
     {
         $this->methodInstanceInvoice = $paymentHelper->getMethodInstance(self::CODE_INVOICE);
         $this->methodInstanceInstallment = $paymentHelper->getMethodInstance(self::CODE_INSTALLMENT);
         $this->_scopeConfig = $scopeConfig;
         $this->_resolver = $resolver;
+        $this->_customerMetadata = $customerMetadata;
     }
 
     private function getByjunoLogoInstallment()
@@ -179,6 +182,7 @@ final class ConfigProvider implements ConfigProviderInterface
         }
         $gender_prefix = trim($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_prefix", \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $gendersArray = explode(";", $gender_prefix);
+        $genders = Array();
         foreach($gendersArray as $g) {
             if ($g != '') {
                 $genders[] = Array(
@@ -188,8 +192,57 @@ final class ConfigProvider implements ConfigProviderInterface
             }
         }
         $dafualtGender = '';
-        if (!empty($genders[0]["value"])) {
-            $dafualtGender = $genders[0]["value"];
+        $dafualtGenderId = 0;
+        $gender_male_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_male_possible_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $gender_female_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_female_possible_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array));
+        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+        if ($cart != null) {
+            $quote = $cart->getQuote();
+            if ($quote != null) {
+                $g = $quote->getCustomerGender();
+                if ($this->_customerMetadata->getAttributeMetadata('gender')->isVisible()) {
+                    if (!empty($g)) {
+                        if ($g == '1') {
+                            $dafualtGenderId = 1;
+                        } else if ($g == '2') {
+                            $dafualtGenderId = 2;
+                        }
+                    }
+                }
+                if ($this->_customerMetadata->getAttributeMetadata('prefix')->isVisible()) {
+                    if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+                        $dafualtGenderId = 1;
+                    } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+                        $dafualtGenderId = 2;
+                    }
+                }
+                if ($dafualtGenderId == 1) {
+                    foreach ($genders as $gd) {
+                        if (in_array(strtolower($gd["value"]), $gender_male_possible_prefix)) {
+                            $dafualtGender = $gd["value"];
+                            break;
+                        }
+                    }
+
+                } else if ($dafualtGenderId == 2) {
+                    foreach ($genders as $gd) {
+                        if (in_array(strtolower($gd["value"]), $gender_female_possible_prefix)) {
+                            $dafualtGender = $gd["value"];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if ($dafualtGender == '' && !empty($genders[0]["value"])) {
+            $dafualtGender = $genders[1]["value"];
         }
 
         return [
