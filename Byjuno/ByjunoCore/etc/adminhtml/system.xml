@@ -119,10 +119,6 @@
                     <label>Real IP detection method</label>
                     <comment>In some cases this is required to detect valid IP. example: REMOTE_ADDR, HTTP_CLIENT_IP, HTTP_CF_CONNECTING_IP for CloudFlare etc. Keep empty for default</comment>
                 </field>
-                <field id="ip_array_place" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Real IP place in array (number)</label>
-                    <comment>In some cases this is required to detect valid IP. Keep empty for default IP place</comment>
-                </field>
             </group>
         </section>
         <section id="byjunoinvoicesettings" translate="label" sortOrder="2" showInDefault="1"

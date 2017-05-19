@@ -417,7 +417,6 @@
                 <cdpbeforeshow>0</cdpbeforeshow>
                 <country_phone_validation>1</country_phone_validation>
                 <ip_detect_string />
-                <ip_array_place />
             </byjuno_setup>
             <localization>
                 <byjuno_installment_paper>0</byjuno_installment_paper>

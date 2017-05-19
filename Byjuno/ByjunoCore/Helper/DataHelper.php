@@ -54,7 +54,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             'request' => $xml_request,
             'response' => $xml_response,
             'type' => $type,
-            'ip' => $_SERVER['REMOTE_ADDR']);
+            'ip' => $this->getClientIp());
 
         $this->_byjunoLogger->log($data);
     }
@@ -74,7 +74,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             'request' => $xml_request,
             'response' => $xml_response,
             'type' => $type,
-            'ip' => $_SERVER['REMOTE_ADDR']);
+            'ip' => $this->getClientIp());
 
         $this->_byjunoLogger->log($data);
     }
@@ -94,33 +94,11 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             'request' => $xml_request,
             'response' => $xml_response,
             'type' => $type,
-            'ip' => $_SERVER['REMOTE_ADDR']);
+            'ip' => $this->getClientIp());
 
         $this->_byjunoLogger->log($data);
     }
 
-    /*
-        function saveS4Log(Mage_Sales_Model_Order $order, Byjuno_Cdp_Helper_Api_Classes_ByjunoS4Request $request, $xml_request, $xml_response, $status, $type) {
-
-            $data = array( 'firstname'  => $order->getCustomerFirstname(),
-                'lastname'   => $order->getCustomerLastname(),
-                'postcode'   => '-',
-                'town'       => '-',
-                'country'    => '-',
-                'street1'    => '-',
-                'request_id' => $request->getRequestId(),
-                'status'     => $status,
-                'error'      => '',
-                'request'    => $xml_request,
-                'response'   => $xml_response,
-                'type'       => $type,
-                'ip'         => $_SERVER['REMOTE_ADDR']);
-
-            $byjuno_model = Mage::getModel('byjuno/byjuno');
-            $byjuno_model->setData($data);
-            $byjuno_model->save();
-        }
-    */
     public function valueToStatus($val)
     {
         $status[0] = 'Fail to connect (status Error)';
@@ -167,16 +145,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         if (!empty($addrMethod) && !empty($_SERVER[$addrMethod])) {
             $ipaddress = $_SERVER[$addrMethod];
         }
-        $addrPlace = $this->_scopeConfig->getValue('byjunocheckoutsettings/advanced/ip_array_place', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        $ipd = explode(",", $ipaddress);
-        if (!empty($addrPlace))
-        {
-            $addrPlace = intval($addrPlace);
-            if (!empty($ipd[$addrPlace])) {
-                return trim($ipd[$addrPlace]);
-            }
-        }
-        return trim(end($ipd));
+        return $ipaddress;
     }
 
     public function mapMethod($type)
