@@ -242,7 +242,7 @@ final class ConfigProvider implements ConfigProviderInterface
             }
         }
         if ($dafualtGender == '' && !empty($genders[0]["value"])) {
-            $dafualtGender = $genders[1]["value"];
+            $dafualtGender = $genders[0]["value"];
         }
 
         return [
