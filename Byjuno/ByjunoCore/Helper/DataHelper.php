@@ -3,6 +3,11 @@ namespace Byjuno\ByjunoCore\Helper;
 
 class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * @var \Magento\Quote\Api\CartRepositoryInterface
+     */
+    public $quoteRepository;
+
     protected $_storeManager;
     protected $_iteratorFactory;
     protected $_blockMenu;
@@ -241,7 +246,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\ObjectManager\ConfigLoaderInterface $configLoader,
-        \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata
+        \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
+        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
     )
     {
 
@@ -265,6 +271,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_iteratorFactory = $iteratorFactory;
         $this->_blockMenu = $blockMenu;
         $this->_url = $url;
+        $this->quoteRepository = $quoteRepository;
     }
 
     function CreateMagentoShopRequestOrder(\Magento\Sales\Model\Order $order,
