@@ -30,6 +30,10 @@ use Byjuno\ByjunoCore\Helper\DataHelper;
 class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
 {
 
+	public function setId($id)
+    {
+		//Magento bug https://github.com/magento/magento2/issues/5413
+    }
     /**
      * @param ManagerInterface $eventManager
      * @param ValueHandlerPoolInterface $valueHandlerPool
