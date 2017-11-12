@@ -42,6 +42,12 @@ define(
             getCode: function () {
                 return 'byjuno_installment';
             },
+			
+            getYearRange: function () {
+                var dataYReange = new Date();
+                var yRange = dataYReange.getFullYear();
+                return '1900:'+yRange;
+            },
 
             getDob: function () {
                 var dob  = window.checkoutConfig.quoteData.customer_dob;

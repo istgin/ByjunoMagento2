@@ -40,6 +40,12 @@ define(
 
             getCode: function () {
                 return 'byjuno_invoice';
+            }, 
+			
+            getYearRange: function () {
+                var dataYReange = new Date();
+                var yRange = dataYReange.getFullYear();
+                return '1900:'+yRange;
             },
 
             getDob: function () {
