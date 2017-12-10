@@ -75,6 +75,11 @@ class UpgradeSchema implements UpgradeSchemaInterface
             //no changes
         }
 
+        if (version_compare($context->getVersion(), '1.1.1') < 0) {
+            //code to upgrade to 1.1.0
+            //no changes
+        }
+
         $setup->endSetup();
     }
 }
