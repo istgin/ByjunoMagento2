@@ -87,8 +87,8 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
     {
         $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active");
         $methodsAvailable =
-            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active") ||
-            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active");
+            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ||
+            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         if (!$isAvaliable || !$methodsAvailable) {
             return false;

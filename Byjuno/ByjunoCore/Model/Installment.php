@@ -155,11 +155,11 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
     {
         $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active");
         $methodsAvailable =
-            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_3installment/active") ||
-            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_10installment/active") ||
-            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_12installment/active") ||
-            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_24installment/active") ||
-            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_4x12installment/active");
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_3installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ||
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_10installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ||
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_12installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ||
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_24installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ||
+            $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_4x12installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         if (!$isAvaliable || !$methodsAvailable) {
             return false;
