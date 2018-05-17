@@ -11,7 +11,7 @@
     <!-- Payment Method Facade configuration -->
     <virtualType name="InvoiceByjunoCoreFacade" type="Byjuno\ByjunoCore\Model\Invoice">
         <arguments>
-            <argument name="code" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INVOICE</argument>
+            <argument name="code" xsi:type="const">Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INVOICE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">Byjuno\ByjunoCore\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">InvoiceByjunoCoreValueHandlerPool</argument>
@@ -22,7 +22,7 @@
     <!-- Configuration reader -->
     <virtualType name="InvoiceByjunoCoreConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INVOICE</argument>
+            <argument name="methodCode" xsi:type="const">Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INVOICE</argument>
         </arguments>
     </virtualType>
 
@@ -157,7 +157,7 @@
 
     <virtualType name="InstallmentByjunoCoreFacade" type="Byjuno\ByjunoCore\Model\Installment">
         <arguments>
-            <argument name="code" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INSTALLMENT</argument>
+            <argument name="code" xsi:type="const">Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INSTALLMENT</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">Byjuno\ByjunoCore\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">InstallmentByjunoCoreValueHandlerPool</argument>
@@ -168,7 +168,7 @@
     <!-- Configuration reader -->
     <virtualType name="InstallmentByjunoCoreConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INSTALLMENT</argument>
+            <argument name="methodCode" xsi:type="const">Byjuno\ByjunoCore\Model\Ui\ConfigProvider::CODE_INSTALLMENT</argument>
         </arguments>
     </virtualType>
 
