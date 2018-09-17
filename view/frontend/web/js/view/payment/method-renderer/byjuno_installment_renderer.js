@@ -70,6 +70,11 @@ define(
                 if (quote.billingAddress() == null) {
                     return null;
                 }
+
+                if (typeof quote.billingAddress().street === 'undefined' || typeof quote.billingAddress().street[0] === 'undefined') {
+                    return null;
+                }    
+
                 return quote.billingAddress().street[0] + ", " + quote.billingAddress().city + ", " + quote.billingAddress().postcode;
             },
 
