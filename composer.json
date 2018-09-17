@@ -7,12 +7,12 @@
         "OSL-3.0"
     ],
     "require": { },
-    "extra": {
-        "map": [
-            [
-                "*",
-                "Byjuno/ByjunoCore"
-            ]
-        ]
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Byjuno\\ByjunoCore\\": ""
+        }
     }
 }
