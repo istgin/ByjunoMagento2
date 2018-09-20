@@ -68,7 +68,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     {
 
         $data = array('firstname' => $order->getBillingAddress()->getFirstname(),
-            'lastname' => $order->getBillingAddress()->getFirstname(),
+            'lastname' => $order->getBillingAddress()->getLastname(),
             'postcode' => '-',
             'town' => '-',
             'country' => '-',
@@ -88,7 +88,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     {
 
         $data = array('firstname' => $order->getBillingAddress()->getFirstname(),
-            'lastname' => $order->getBillingAddress()->getFirstname(),
+            'lastname' => $order->getBillingAddress()->getLastname(),
             'postcode' => '-',
             'town' => '-',
             'country' => '-',
