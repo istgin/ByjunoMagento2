@@ -2,7 +2,7 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="after.body.start">
-            <block cacheable="false" class="Byjuno\ByjunoCore\Block\Threatmetrix" name="byjuno_threatmetrix" as="byjuno_threatmetrix" template="Byjuno_ByjunoCore::byjuno_threatmetrix.phtml"/>
+            <block class="Byjuno\ByjunoCore\Block\Threatmetrix" name="byjuno_threatmetrix" as="byjuno_threatmetrix" template="Byjuno_ByjunoCore::byjuno_threatmetrix.phtml"/>
         </referenceContainer>
     </body>
 </page>
