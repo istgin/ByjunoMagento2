@@ -119,7 +119,12 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         if (isset($dataKey['invoice_payment_plan'])) {
             $payment->setAdditionalInformation('payment_plan', $dataKey['invoice_payment_plan']);
         }
-        if (isset($dataKey['invoice_send'])) {
+        $paperInvoice = false;
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/byjuno_invoice_paper",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $paperInvoice = true;
+        }
+        if (isset($dataKey['invoice_send']) && $paperInvoice) {
             $sentTo = '';
             if ($dataKey['invoice_send'] == 'postal') {
                 $sentTo = (String)$this->_checkoutSession->getQuote()->getBillingAddress()->getStreetFull().', '.
@@ -130,6 +135,9 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
             }
             $payment->setAdditionalInformation('payment_send', $dataKey['invoice_send']);
             $payment->setAdditionalInformation('payment_send_to', $sentTo);
+        } else {
+            $payment->setAdditionalInformation('payment_send', 'email');
+            $payment->setAdditionalInformation('payment_send_to', (String)$this->_checkoutSession->getQuote()->getBillingAddress()->getEmail());
         }
         if (isset($dataKey['invoice_customer_gender'])) {
             $payment->setAdditionalInformation('customer_gender', $dataKey['invoice_customer_gender']);

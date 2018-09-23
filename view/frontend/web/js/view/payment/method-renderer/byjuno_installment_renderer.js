@@ -113,6 +113,10 @@ define(
                 });
             },
 
+            isDeliveryVisibility: function() {
+                return window.checkoutConfig.payment.byjuno_invoice.paper_invoice;
+            },
+
             getDeliveryPlans: function () {
                 var list = [];
                 for (var i = 0; i < window.checkoutConfig.payment.byjuno_installment.delivery.length; i++) {

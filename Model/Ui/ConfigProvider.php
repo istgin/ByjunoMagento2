@@ -192,6 +192,11 @@ final class ConfigProvider implements ConfigProviderInterface
             $dafualtGender = $genders[0]["value"];
         }
 
+        $paperInvoice = false;
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/byjuno_invoice_paper",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $paperInvoice = true;
+        }
         return [
             'payment' => [
                 self::CODE_INVOICE => [
@@ -200,6 +205,7 @@ final class ConfigProvider implements ConfigProviderInterface
                     'delivery' => $invoiceDelivery,
                     'default_payment' => $defaultInvoicePlan,
                     'default_delivery' => 'email',
+                    'paper_invoice' => $paperInvoice,
                     'logo' => $this->getByjunoLogoInvoice(),
                     'default_customgender' => $dafualtGender,
                     'custom_genders' => $genders,
@@ -211,6 +217,7 @@ final class ConfigProvider implements ConfigProviderInterface
                     'delivery' => $invoiceDelivery,
                     'default_payment' => $defaultInstallmentPlan,
                     'default_delivery' => 'email',
+                    'paper_invoice' => $paperInvoice,
                     'logo' => $this->getByjunoLogoInstallment(),
                     'default_customgender' => $dafualtGender,
                     'custom_genders' => $genders,

@@ -88,7 +88,12 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
         if (isset($dataKey['installment_payment_plan'])) {
             $payment->setAdditionalInformation('payment_plan', $dataKey['installment_payment_plan']);
         }
-        if (isset($dataKey['installment_send'])) {
+        $paperInvoice = false;
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/byjuno_invoice_paper",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $paperInvoice = true;
+        }
+        if (isset($dataKey['installment_send']) && $paperInvoice) {
             $sentTo = '';
             if ($dataKey['installment_send'] == 'postal') {
                 $sentTo = (String)$this->_checkoutSession->getQuote()->getBillingAddress()->getStreetFull().', '.
@@ -99,6 +104,9 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
             }
             $payment->setAdditionalInformation('payment_send', $dataKey['installment_send']);
             $payment->setAdditionalInformation('payment_send_to', $sentTo);
+        } else {
+            $payment->setAdditionalInformation('payment_send', 'email');
+            $payment->setAdditionalInformation('payment_send_to', (String)$this->_checkoutSession->getQuote()->getBillingAddress()->getEmail());
         }
         if (isset($dataKey['installment_customer_gender'])) {
             $payment->setAdditionalInformation('customer_gender', $dataKey['installment_customer_gender']);

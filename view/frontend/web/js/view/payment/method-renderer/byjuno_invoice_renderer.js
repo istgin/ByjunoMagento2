@@ -112,6 +112,10 @@ define(
                 });
             },
 
+            isDeliveryVisibility: function() {
+                return window.checkoutConfig.payment.byjuno_invoice.paper_invoice;
+            },
+
             getDeliveryPlans: function () {
                 var list = [];
                 for (var i = 0; i < window.checkoutConfig.payment.byjuno_invoice.delivery.length; i++) {
@@ -138,7 +142,7 @@ define(
             },
 
             isFieldsEnabled: function () {
-                return window.checkoutConfig.payment.byjuno_invoice.enable_fields;
+                return window.checkoutConfig.payment.byjuno_invoice.isDeliveryVisibility;
             },
 
             getGenders: function() {

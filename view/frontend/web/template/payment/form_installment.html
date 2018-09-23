@@ -89,6 +89,7 @@
                 </div>
             </div>
         </div>
+        <!-- ko if: (isDeliveryVisibility())-->
         <br />
         <div class="field required">
             <label data-bind="attr: {for: getCode() + '_payment_delivery'}" class="label">
@@ -107,6 +108,7 @@
                 </div>
             </div>
         </div>
+        <!-- /ko -->
         <br />
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->

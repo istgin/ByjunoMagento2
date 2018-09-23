@@ -417,6 +417,7 @@
                 <cdpbeforeshow>0</cdpbeforeshow>
                 <country_phone_validation>1</country_phone_validation>
                 <ip_detect_string />
+                <byjuno_invoice_paper>0</byjuno_invoice_paper>
             </byjuno_setup>
             <localization>
                 <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Rechnung mit Teilzahlungsoption,Byjuno
@@ -451,7 +452,6 @@
             <byjuno_invoice_setup>
                 <title_invoice>Byjuno Rechnung</title_invoice>
                 <sort_order_invoice>2</sort_order_invoice>
-                <byjuno_invoice_paper>0</byjuno_invoice_paper>
             </byjuno_invoice_setup>
             <byjuno_invoice_partial>
                 <active>0</active>
