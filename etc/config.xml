@@ -457,11 +457,13 @@
                 <active>0</active>
                 <name>Byjuno Rechnung mit Teilzahlungsoption</name>
                 <link>https://byjuno.ch/de/1b/terms/</link>
+                <byjuno_invoice_partial_allow>0</byjuno_invoice_partial_allow>
             </byjuno_invoice_partial>
             <byjuno_single_invoice>
                 <active>0</active>
                 <name>Byjuno Einmalrechnung</name>
                 <link>https://byjuno.ch/de/2b/terms/</link>
+                <byjuno_single_invoice_allow>0</byjuno_single_invoice_allow>
             </byjuno_single_invoice>
             <byjuno_invoice_localization>
                 <byjuno_invoice_toc_string>AGB</byjuno_invoice_toc_string>
@@ -479,26 +481,31 @@
                 <active>0</active>
                 <name>3 Raten</name>
                 <link>https://byjuno.ch/de/3a/terms/</link>
+                <byjuno_installment_3installment_allow>0</byjuno_installment_3installment_allow>
             </byjuno_installment_3installment>
             <byjuno_installment_10installment>
                 <active>0</active>
                 <name>10 Raten</name>
                 <link>https://byjuno.ch/de/1d/terms/</link>
+                <byjuno_installment_10installment_allow>0</byjuno_installment_10installment_allow>
             </byjuno_installment_10installment>
             <byjuno_installment_12installment>
                 <active>0</active>
                 <name>12 Raten</name>
                 <link>https://byjuno.ch/de/1d/terms/</link>
+                <byjuno_installment_12installment_allow>0</byjuno_installment_12installment_allow>
             </byjuno_installment_12installment>
             <byjuno_installment_24installment>
                 <active>0</active>
                 <name>24 Raten</name>
                 <link>https://byjuno.ch/de/1d/terms/</link>
+                <byjuno_installment_24installment_allow>0</byjuno_installment_24installment_allow>
             </byjuno_installment_24installment>
             <byjuno_installment_4x12installment>
                 <active>0</active>
                 <name>4 Raten innerhalb von 12 Monaten</name>
                 <link>https://byjuno.ch/de/1d/terms/</link>
+                <byjuno_installment_4x12installment_allow>0</byjuno_installment_4x12installment_allow>
             </byjuno_installment_4x12installment>
             <byjuno_installment_localization>
                 <byjuno_installment_toc_string>AGB</byjuno_installment_toc_string>

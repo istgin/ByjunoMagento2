@@ -85,10 +85,23 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
     }
     public function isAvailable(CartInterface $quote = null)
     {
+        $isCompany = false;
+        if (!empty($this->_checkoutSession->getQuote()->getBillingAddress()->getCompany()) &&
+            $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/businesstobusiness", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
+        )
+        {
+            $isCompany = true;
+        }
+        $byjuno_invoice_partial_allow = $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/byjuno_invoice_partial_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $byjuno_single_invoice_allow = $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/byjuno_single_invoice_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
         $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active");
         $methodsAvailable =
-            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ||
-            $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            && ($byjuno_invoice_partial_allow == '0' || ($byjuno_invoice_partial_allow == '1' && !$isCompany) || ($byjuno_invoice_partial_allow == '2' && $isCompany)))
+            ||
+            ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            && ($byjuno_single_invoice_allow == '0' || ($byjuno_single_invoice_allow == '1' && !$isCompany) || ($byjuno_single_invoice_allow == '2' && $isCompany)));
 
         if (!$isAvaliable || !$methodsAvailable) {
             return false;

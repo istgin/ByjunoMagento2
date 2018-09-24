@@ -156,6 +156,10 @@
                 <field id="link" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>T&amp;C URL</label>
                 </field>
+                <field id="byjuno_invoice_partial_allow" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed when</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\AllowPayment</source_model>
+                </field>
             </group>
             <group id="byjuno_single_invoice" translate="label" type="text" sortOrder="20" showInDefault="1"
                    showInWebsite="1" showInStore="1">
@@ -169,6 +173,10 @@
                 </field>
                 <field id="link" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>T&amp;C URL</label>
+                </field>
+                <field id="byjuno_single_invoice_allow" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed when</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\AllowPayment</source_model>
                 </field>
             </group>
             <group id="byjuno_invoice_localization" translate="label" type="text" sortOrder="30" showInDefault="1"
@@ -219,6 +227,10 @@
                 <field id="link" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>T&amp;C URL</label>
                 </field>
+                <field id="byjuno_installment_3installment_allow" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed when</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\AllowPayment</source_model>
+                </field>
             </group>
             <group id="byjuno_installment_10installment" translate="label" type="text" sortOrder="20" showInDefault="1"
                    showInWebsite="1" showInStore="1">
@@ -232,6 +244,10 @@
                 </field>
                 <field id="link" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>T&amp;C URL</label>
+                </field>
+                <field id="byjuno_installment_10installment_allow" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed when</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\AllowPayment</source_model>
                 </field>
             </group>
             <group id="byjuno_installment_12installment" translate="label" type="text" sortOrder="30" showInDefault="1"
@@ -247,6 +263,10 @@
                 <field id="link" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>T&amp;C URL</label>
                 </field>
+                <field id="byjuno_installment_12installment_allow" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed when</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\AllowPayment</source_model>
+                </field>
             </group>
             <group id="byjuno_installment_24installment" translate="label" type="text" sortOrder="40" showInDefault="1"
                    showInWebsite="1" showInStore="1">
@@ -261,6 +281,10 @@
                 <field id="link" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>T&amp;C URL</label>
                 </field>
+                <field id="byjuno_installment_24installment_allow" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed when</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\AllowPayment</source_model>
+                </field>
             </group>
             <group id="byjuno_installment_4x12installment" translate="label" type="text" sortOrder="50" showInDefault="1"
                    showInWebsite="1" showInStore="1">
@@ -274,6 +298,10 @@
                 </field>
                 <field id="link" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>T&amp;C URL</label>
+                </field>
+                <field id="byjuno_installment_4x12installment_allow" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allowed when</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\AllowPayment</source_model>
                 </field>
             </group>
             <group id="byjuno_installment_localization" translate="label" type="text" sortOrder="60" showInDefault="1"

@@ -24,7 +24,10 @@ final class ConfigProvider implements ConfigProviderInterface
      *
      * @return array
      */
-
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
 
     /**
      * @var \Magento\Payment\Model\MethodInterface
@@ -39,9 +42,11 @@ final class ConfigProvider implements ConfigProviderInterface
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         PaymentHelper $paymentHelper,
-        \Magento\Framework\Locale\Resolver $resolver
+        \Magento\Framework\Locale\Resolver $resolver,
+        \Magento\Checkout\Model\Session $checkoutSession
     )
     {
+        $this->_checkoutSession = $checkoutSession;
         $this->methodInstanceInvoice = $paymentHelper->getMethodInstance(self::CODE_INVOICE);
         $this->methodInstanceInstallment = $paymentHelper->getMethodInstance(self::CODE_INSTALLMENT);
         $this->_scopeConfig = $scopeConfig;
@@ -80,9 +85,20 @@ final class ConfigProvider implements ConfigProviderInterface
 
     public function getConfig()
     {
+        $isCompany = false;
+        if (!empty($this->_checkoutSession->getQuote()->getBillingAddress()->getCompany()) &&
+            $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/businesstobusiness", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
+        )
+        {
+            $isCompany = true;
+        }
+
         $methodsAvailableInvoice = Array();
 
-        if ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        $byjuno_single_invoice_allow = $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/byjuno_single_invoice_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+        && ($byjuno_single_invoice_allow == '0' || ($byjuno_single_invoice_allow == '1' && !$isCompany) || ($byjuno_single_invoice_allow == '2' && $isCompany))
+        ) {
             $methodsAvailableInvoice[] = Array(
                 "value" => 'invoice_single_enable',
                 "name" => $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
@@ -90,7 +106,9 @@ final class ConfigProvider implements ConfigProviderInterface
             );
         }
 
-        if ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        $byjuno_invoice_partial_allow = $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/byjuno_invoice_partial_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            && ($byjuno_invoice_partial_allow == '0' || ($byjuno_invoice_partial_allow == '1' && !$isCompany) || ($byjuno_invoice_partial_allow == '2' && $isCompany))) {
             $methodsAvailableInvoice[] = Array(
                 "value" => 'invoice_partial_enable',
                 "name" => $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
@@ -104,7 +122,9 @@ final class ConfigProvider implements ConfigProviderInterface
 
         $methodsAvailableInstallment = Array();
 
-        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_3installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        $byjuno_installment_3installment_allow = $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_3installment/byjuno_installment_3installment_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_3installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            && ($byjuno_installment_3installment_allow == '0' || ($byjuno_installment_3installment_allow == '1' && !$isCompany) || ($byjuno_installment_3installment_allow == '2' && $isCompany))) {
             $methodsAvailableInstallment[] = Array(
                 "value" => 'installment_3installment_enable',
                 "name" => $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_3installment/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
@@ -112,7 +132,9 @@ final class ConfigProvider implements ConfigProviderInterface
             );
         }
 
-        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_10installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        $byjuno_installment_10installment_allow = $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_10installment/byjuno_installment_10installment_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_10installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            && ($byjuno_installment_10installment_allow == '0' || ($byjuno_installment_10installment_allow == '1' && !$isCompany) || ($byjuno_installment_10installment_allow == '2' && $isCompany))) {
             $methodsAvailableInstallment[] = Array(
                 "value" => 'installment_10installment_enable',
                 "name" => $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_10installment/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
@@ -120,7 +142,9 @@ final class ConfigProvider implements ConfigProviderInterface
             );
         }
 
-        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_12installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        $byjuno_installment_12installment_allow = $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_12installment/byjuno_installment_12installment_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_12installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            && ($byjuno_installment_12installment_allow == '0' || ($byjuno_installment_12installment_allow == '1' && !$isCompany) || ($byjuno_installment_12installment_allow == '2' && $isCompany))) {
             $methodsAvailableInstallment[] = Array(
                 "value" => 'installment_12installment_enable',
                 "name" => $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_12installment/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
@@ -128,7 +152,9 @@ final class ConfigProvider implements ConfigProviderInterface
             );
         }
 
-        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_24installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        $byjuno_installment_24installment_allow = $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_24installment/byjuno_installment_24installment_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_24installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            && ($byjuno_installment_24installment_allow == '0' || ($byjuno_installment_24installment_allow == '1' && !$isCompany) || ($byjuno_installment_24installment_allow == '2' && $isCompany))) {
             $methodsAvailableInstallment[] = Array(
                 "value" => 'installment_24installment_enable',
                 "name" => $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_24installment/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
@@ -136,7 +162,9 @@ final class ConfigProvider implements ConfigProviderInterface
             );
         }
 
-        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_4x12installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        $byjuno_installment_4x12installment_allow = $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_4x12installment/byjuno_installment_4x12installment_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if ($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_4x12installment/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            && ($byjuno_installment_4x12installment_allow == '0' || ($byjuno_installment_4x12installment_allow == '1' && !$isCompany) || ($byjuno_installment_4x12installment_allow == '2' && $isCompany))) {
             $methodsAvailableInstallment[] = Array(
                 "value" => 'installment_4x12installment_enable',
                 "name" => $this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_4x12installment/name", \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
