@@ -33,7 +33,7 @@
         <fieldset class="fieldset">
             <div class="billing-address-form" style="display: block;">
                 <fieldset class="fieldset address">
-
+                    <!-- ko if: (isGenderEnabled())-->
                     <div class="field required">
                         <label for="customer_gender_invoice" class="label">
                             <span><!-- ko i18n: 'Gender'--><!-- /ko --></span>
@@ -50,6 +50,8 @@
                             </select>
                         </div>
                     </div>
+                    <!-- /ko -->
+                    <!-- ko if: (isBirthdayEnabled())-->
                     <div class="field required">
                         <label for="customer_dob_invoice" class="label">
                             <span><!-- ko i18n: 'Date of birth'--><!-- /ko --></span>
@@ -67,6 +69,7 @@
                                                                 dateFormat: 'yy-MM-dd'} }">
                         </div>
                     </div>
+                    <!-- /ko -->
                 </fieldset>
             </div>
         </fieldset>

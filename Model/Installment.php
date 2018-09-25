@@ -110,9 +110,13 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
         }
         if (isset($dataKey['installment_customer_gender'])) {
             $payment->setAdditionalInformation('customer_gender', $dataKey['installment_customer_gender']);
+        } else {
+            $payment->setAdditionalInformation('customer_gender', '');
         }
         if (isset($dataKey['installment_customer_dob'])) {
             $payment->setAdditionalInformation('customer_dob', $dataKey['installment_customer_dob']);
+        } else {
+            $payment->setAdditionalInformation('customer_dob', '');
         }
         $payment->setAdditionalInformation('s3_ok', 'false');
         $payment->setAdditionalInformation("webshop_profile_id", $this->getStore());

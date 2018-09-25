@@ -80,9 +80,14 @@
                     <label>Allow postal delivery</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="gender_birthday_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable gender &amp; birthday selection</label>
-                    <comment>Enable gender &amp; birthday selection in checkout</comment>
+                <field id="gender_enable" translate="label" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable gender selection</label>
+                    <comment>Enable gender selection in checkout</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="birthday_enable" translate="label" type="select" sortOrder="151" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable birthday selection</label>
+                    <comment>Enable birthday selection in checkout</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="gender_prefix" translate="label" type="text" sortOrder="152" showInDefault="1" showInWebsite="1" showInStore="1">

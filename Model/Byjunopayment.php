@@ -246,13 +246,16 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
     /* @var $payment \Magento\Quote\Model\Quote\Payment */
     public function validateCustomFields(\Magento\Payment\Model\InfoInterface $payment)
     {
-        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_birthday_enable",
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_enable",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
             if ($payment->getAdditionalInformation('customer_gender') == null || $payment->getAdditionalInformation('customer_gender') == '') {
                 throw new LocalizedException(
                     __("Gender not selected")
                 );
             }
+        }
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
             if ($payment->getAdditionalInformation('customer_dob') == null || $payment->getAdditionalInformation('customer_dob') == '') {
                 throw new LocalizedException(
                     __("Birthday not selected")

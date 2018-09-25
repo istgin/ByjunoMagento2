@@ -154,9 +154,13 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         }
         if (isset($dataKey['invoice_customer_gender'])) {
             $payment->setAdditionalInformation('customer_gender', $dataKey['invoice_customer_gender']);
+        } else {
+            $payment->setAdditionalInformation('customer_gender', '');
         }
         if (isset($dataKey['invoice_customer_dob'])) {
             $payment->setAdditionalInformation('customer_dob', $dataKey['invoice_customer_dob']);
+        } else {
+            $payment->setAdditionalInformation('customer_dob', '');
         }
         $payment->setAdditionalInformation('s3_ok', 'false');
         $payment->setAdditionalInformation("webshop_profile_id", $this->getStore());

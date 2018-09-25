@@ -200,10 +200,15 @@ final class ConfigProvider implements ConfigProviderInterface
             "text" => __($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_localization/byjuno_installment_postal_text",
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) . ": "
         );
-        $selectionEnable = false;
-        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_birthday_enable",
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
-            $selectionEnable = true;
+        $gender_enable = false;
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_enable",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $gender_enable = true;
+        }
+        $birthday_enable = false;
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $birthday_enable = true;
         }
         $gender_prefix = trim($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_prefix", \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $gendersArray = explode(";", $gender_prefix);
@@ -237,7 +242,8 @@ final class ConfigProvider implements ConfigProviderInterface
                     'logo' => $this->getByjunoLogoInvoice(),
                     'default_customgender' => $dafualtGender,
                     'custom_genders' => $genders,
-                    'enable_fields' => $selectionEnable
+                    'gender_enable' => $gender_enable,
+                    'birthday_enable' => $birthday_enable
                 ],
                 self::CODE_INSTALLMENT => [
                     'redirectUrl' => $this->methodInstanceInvoice->getConfigData('order_place_redirect_url'),
@@ -249,7 +255,8 @@ final class ConfigProvider implements ConfigProviderInterface
                     'logo' => $this->getByjunoLogoInstallment(),
                     'default_customgender' => $dafualtGender,
                     'custom_genders' => $genders,
-                    'enable_fields' => $selectionEnable
+                    'gender_enable' => $gender_enable,
+                    'birthday_enable' => $birthday_enable
                 ]
             ]
         ];

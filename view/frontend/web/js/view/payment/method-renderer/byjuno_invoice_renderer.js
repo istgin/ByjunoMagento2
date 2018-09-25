@@ -78,13 +78,31 @@ define(
             },
 
             getData: function () {
-                if (this.isFieldsEnabled()) {
+                if (this.isAllFieldsEnabled()) {
                     return {
                         'method': this.item.method,
                         'additional_data': {
                             'invoice_payment_plan': this.paymentPlan(),
                             'invoice_send': this.deliveryPlan(),
                             'invoice_customer_gender': this.customGender(),
+                            'invoice_customer_dob': jquery("#customer_dob_invoice").val()
+                        }
+                    };
+                } else if (this.isGenderEnabled()) {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'invoice_payment_plan': this.paymentPlan(),
+                            'invoice_send': this.deliveryPlan(),
+                            'invoice_customer_gender': this.customGender()
+                        }
+                    };
+                } else if (this.isBirthdayEnabled()) {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'invoice_payment_plan': this.paymentPlan(),
+                            'invoice_send': this.deliveryPlan(),
                             'invoice_customer_dob': jquery("#customer_dob_invoice").val()
                         }
                     };
@@ -141,8 +159,20 @@ define(
                 return list;
             },
 
+            isAllFieldsEnabled: function () {
+                return this.isGenderEnabled() && this.isBirthdayEnabled();
+            },
+
             isFieldsEnabled: function () {
-                return window.checkoutConfig.payment.byjuno_invoice.isDeliveryVisibility;
+                return this.isGenderEnabled() || this.isBirthdayEnabled();
+            },
+
+            isGenderEnabled: function () {
+                return window.checkoutConfig.payment.byjuno_installment.gender_enable;
+            },
+
+            isBirthdayEnabled: function () {
+                return window.checkoutConfig.payment.byjuno_installment.birthday_enable;
             },
 
             getGenders: function() {
