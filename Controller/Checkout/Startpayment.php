@@ -42,9 +42,9 @@ class Startpayment extends Action
         parent::__construct($context);
     }
 
-    public function executeS3($order, \Magento\Sales\Model\Order\Payment $payment, $transaction)
+    public function executeS3($order, \Magento\Sales\Model\Order\Payment $payment, $transaction, $accept)
     {
-        $request = $this->_dataHelper->CreateMagentoShopRequestPaid($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $transaction);
+        $request = $this->_dataHelper->CreateMagentoShopRequestPaid($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $transaction, $accept);
         $ByjunoRequestName = "Order paid";
         $requestType = 'b2c';
         if ($request->getCompanyName1() != '' && $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
@@ -139,9 +139,16 @@ class Startpayment extends Action
         try {
             /* @var $responseS2 \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse */
             list($statusS2, $requestTypeS2, $responseS2) = $this->executeS2($order, $payment);
-            if ($statusS2 == 2) {
-                list($statusS3, $requestTypeS3) = $this->executeS3($order, $payment, $responseS2->getTransactionNumber());
-                if ($statusS3 == 2) {
+            $accept = "";
+            if ($this->_dataHelper->byjunoIsStatusOk($statusS2, "byjunocheckoutsettings/byjuno_setup/merchant_risk")) {
+                $accept = "CLIENT";
+            }
+            if ($this->_dataHelper->byjunoIsStatusOk($statusS2, "byjunocheckoutsettings/byjuno_setup/byjuno_risk")) {
+                $accept = "IJ";
+            }
+            if ($accept != "") {
+                list($statusS3, $requestTypeS3) = $this->executeS3($order, $payment, $responseS2->getTransactionNumber(), $accept);
+                if ($this->_dataHelper->byjunoIsStatusOk($statusS3, "byjunocheckoutsettings/byjuno_setup/accepted_s3")) {
                     $payment->setAdditionalInformation("s3_ok", 'true')->save();
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
                     $order->setStatus("byjuno_confirmed");

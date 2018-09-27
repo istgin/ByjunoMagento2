@@ -274,6 +274,24 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $this->quoteRepository = $quoteRepository;
     }
 
+    function byjunoIsStatusOk($status, $position)
+    {
+        try {
+            $config = trim($this->_scopeConfig->getValue($position, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            if ($config === "")
+            {
+                return false;
+            }
+            $stateArray = explode(",", $this->_scopeConfig->getValue($position, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            if (in_array($status, $stateArray)) {
+                return true;
+            }
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     function CreateMagentoShopRequestOrder(\Magento\Sales\Model\Order $order,
                                            \Magento\Sales\Model\Order\Payment $paymentmethod,
                                            $gender_custom, $dob_custom)
@@ -480,7 +498,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     function CreateMagentoShopRequestPaid(\Magento\Sales\Model\Order $order,
                                           \Magento\Sales\Model\Order\Payment $paymentmethod,
-                                          $gender_custom, $dob_custom, $transaction)
+                                          $gender_custom, $dob_custom, $transaction, $riskOwner)
     {
 
         $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoRequest();
@@ -674,10 +692,11 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $extraInfo["Value"] = $this->mapRepayment($paymentmethod->getAdditionalInformation('payment_plan'));
         $request->setExtraInfo($extraInfo);
 
-        $extraInfo["Name"] = 'RISKOWNER';
-        $extraInfo["Value"] = 'IJ';
-        $request->setExtraInfo($extraInfo);
-
+        if ($riskOwner != "") {
+            $extraInfo["Name"] = 'RISKOWNER';
+            $extraInfo["Value"] = $riskOwner;
+            $request->setExtraInfo($extraInfo);
+        }
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
         $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.1.2';
         $request->setExtraInfo($extraInfo);

@@ -419,6 +419,9 @@
                 <country_phone_validation>1</country_phone_validation>
                 <ip_detect_string />
                 <byjuno_invoice_paper>0</byjuno_invoice_paper>
+                <byjuno_risk>2</byjuno_risk>
+                <merchant_risk></merchant_risk>
+                <accepted_s3>2</accepted_s3>
             </byjuno_setup>
             <localization>
                 <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Rechnung mit Teilzahlungsoption,Byjuno
