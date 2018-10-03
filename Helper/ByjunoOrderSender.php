@@ -30,8 +30,10 @@ class ByjunoOrderSender extends OrderSender
         /** @var \Magento\Sales\Model\Order\Email\SenderBuilder $sender */
         $this->identityContainer->setCustomerName("Byjuno");
         $this->identityContainer->setCustomerEmail($this->email);
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $objectManagerInterface = $objectManager->get('\Magento\Framework\ObjectManagerInterface');
+        $this->senderBuilderFactory = new \Magento\Sales\Model\Order\Email\SenderBuilderFactory($objectManagerInterface, '\\Byjuno\\ByjunoCore\\Helper\\ByjunoSenderBuilder');
         $sender = $this->getSender();
-
         try {
             $sender->send();
         } catch (\Exception $e) {
