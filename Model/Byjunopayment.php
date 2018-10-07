@@ -233,7 +233,16 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                     );
                     $this->_dataHelper->_checkoutSession->setIsTheSame($this->_savedUser);
                     $this->_dataHelper->_checkoutSession->setCDPStatus($status);
-                    if ($status != 2) {
+
+                    $accept = "";
+                    if ($this->_dataHelper->byjunoIsStatusOk($status, "byjunocheckoutsettings/byjuno_setup/merchant_risk")) {
+                        $accept = "CLIENT";
+                    }
+                    if ($this->_dataHelper->byjunoIsStatusOk($status, "byjunocheckoutsettings/byjuno_setup/byjuno_risk")) {
+                        $accept = "IJ";
+                    }
+
+                    if ($accept == "") {
                         return false;
                     }
                 }

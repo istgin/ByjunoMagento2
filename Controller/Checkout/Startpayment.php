@@ -115,7 +115,14 @@ class Startpayment extends Action
         $payment->setParentTransactionId($payment->getTransactionId());
 
         $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, true);
-        if ($status == 2) {
+        $accept = "";
+        if ($this->_dataHelper->byjunoIsStatusOk($status, "byjunocheckoutsettings/byjuno_setup/merchant_risk")) {
+            $accept = "CLIENT";
+        }
+        if ($this->_dataHelper->byjunoIsStatusOk($status, "byjunocheckoutsettings/byjuno_setup/byjuno_risk")) {
+            $accept = "IJ";
+        }
+        if ($accept != "") {
             $transaction->setIsClosed(false);
         } else {
             $transaction->setIsClosed(true);
