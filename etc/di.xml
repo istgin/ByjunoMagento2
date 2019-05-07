@@ -38,10 +38,7 @@
     </virtualType>
 
     <!-- Authorize command -->
-    <virtualType name="InvoiceByjunoCoreAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-        </arguments>
-    </virtualType>
+    <virtualType name="InvoiceByjunoCoreAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand"></virtualType>
 	
     <type name="Byjuno\ByjunoCore\Gateway\Request\AuthorizationRequest">
         <arguments>
@@ -50,10 +47,7 @@
     </type>
 
     <!-- Capture command -->
-    <virtualType name="InvoiceByjunoCoreCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-        </arguments>
-    </virtualType>
+    <virtualType name="InvoiceByjunoCoreCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand"></virtualType>
 
     <!-- Capture Request -->
     <type name="Byjuno\ByjunoCore\Gateway\Request\CaptureRequest">
@@ -63,10 +57,7 @@
     </type>
 
     <!-- Void command -->
-    <virtualType name="InvoiceByjunoCoreVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-        </arguments>
-    </virtualType>
+    <virtualType name="InvoiceByjunoCoreVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand"></virtualType>
 
     <!-- Void Request -->
     <type name="Byjuno\ByjunoCore\Gateway\Request\VoidRequest">
@@ -94,33 +85,6 @@
             <argument name="config" xsi:type="object">InvoiceByjunoCoreConfig</argument>
         </arguments>
     </type>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <virtualType name="InstallmentByjunoCoreFacade" type="Byjuno\ByjunoCore\Model\Installment">
         <arguments>
@@ -151,10 +115,7 @@
     </virtualType>
 
     <!-- Authorize command -->
-    <virtualType name="InstallmentByjunoCoreAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-        </arguments>
-    </virtualType>
+    <virtualType name="InstallmentByjunoCoreAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand"></virtualType>
 
     <!-- Authorization Request -->
     <virtualType name="InstallmentByjunoCoreAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
@@ -172,10 +133,7 @@
     </type>
 
     <!-- Capture command -->
-    <virtualType name="InstallmentByjunoCoreCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-        </arguments>
-    </virtualType>
+    <virtualType name="InstallmentByjunoCoreCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand"></virtualType>
 
     <!-- Capture Request -->
     <type name="Byjuno\ByjunoCore\Gateway\Request\CaptureRequest">
@@ -185,10 +143,7 @@
     </type>
 
     <!-- Void command -->
-    <virtualType name="InstallmentByjunoCoreVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-        </arguments>
-    </virtualType>
+    <virtualType name="InstallmentByjunoCoreVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand"></virtualType>
 
     <!-- Void Request -->
     <type name="Byjuno\ByjunoCore\Gateway\Request\VoidRequest">
