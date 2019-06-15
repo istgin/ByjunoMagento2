@@ -382,7 +382,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setPostCode((String)$order->getBillingAddress()->getPostcode());
         $request->setTown((String)$order->getBillingAddress()->getCity());
         $request->setFax((String)trim($order->getBillingAddress()->getFax(), '-'));
-        if ($pref_lang != "") {
+        if (!empty($pref_lang)) {
             $request->setLanguage($pref_lang);
         } else {
             $request->setLanguage((String)substr($this->_resolver->getLocale(), 0, 2));
@@ -591,7 +591,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setTown((String)$order->getBillingAddress()->getCity());
         $request->setFax((String)trim($order->getBillingAddress()->getFax(), '-'));
 
-        if ($pref_lang != "") {
+        if (!empty($pref_lang)) {
             $request->setLanguage($pref_lang);
         } else {
             $request->setLanguage((String)substr($this->_resolver->getLocale(), 0, 2));
