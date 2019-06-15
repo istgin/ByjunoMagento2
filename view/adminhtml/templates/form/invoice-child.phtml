@@ -1,0 +1,92 @@
+<?php
+/**
+ * @var \Byjuno\ByjunoCore\Block\Form\Invoice $block
+ */
+$code = "byjuno_invoice";
+$genders = $block->getGenders();
+$paymentPlans = $block->getPaymentPlans();
+$deliveryMethods = $block->getDeliveryMethods();
+?>
+
+<fieldset class="admin__fieldset payment-method" id="payment_form_<?= /* @noEscape */ $code ?>"
+          style="display:none;">
+    <div class="admin__field _required">
+        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_gender" >
+            <span><?= $block->escapeHtml(__('Gender')) ?></span>
+        </label>
+        <div class="admin__field-control control">
+            <select id="<?= /* @noEscape */ $code ?>_invoice_customer_gender" name="payment[invoice_customer_gender]"
+                    class="required-entry select admin__control-select ">
+                <?php foreach ($genders as $key => $val): ?>
+                    <option
+                        value="<?= $val["value"] ?>">
+                        <?= $val["text"] ?>
+                    </option>
+                <?php endforeach ?>
+            </select>
+        </div>
+    </div>
+    <div class="admin__field _required">
+        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_gender" >
+            <span><?= $block->escapeHtml(__('Date of birth')) ?></span>
+        </label>
+        <div class="admin__field-control control">
+            <input name="payment[invoice_customer_dob]" id="customer_dob_invoice"
+                   style="width: 150px"
+                   placeholder="YYYY-MM-DD"
+                   type="text" class="admin__control-text"
+                   data-bind="datepicker: { storage: ko.observable(new Date('01-01-2000')), options: {
+                                                                changeMonth: true,
+                                                                changeYear: true,
+																yearRange: '1900:2010',
+                                                                showButtonPanel: true,
+                                                                dateFormat: 'yy-MM-dd'} }">
+        </div>
+    </div>
+    <div class="admin__field _required">
+        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_gender" >
+            <span><?= $block->escapeHtml(__('Select payment plan')) ?></span>
+        </label>
+        <div class="admin__field-control control">
+            <?php
+            $i = 0;
+            foreach ($paymentPlans as $key => $val): ?>
+                <label>
+                    <input type="radio" class="admin__field-label"
+                           name="payment[invoice_payment_plan]"
+                           value="<?= $val["value"] ?>" <?php if ($i == 0) echo ' checked="checked"'; ?> />
+                    <span><?= $val["name"] ?></span>
+                    <a href="<?= $val["link"] ?>" target="_blank"><?= $block->escapeHtml(__('T&C')) ?></a>
+                </label><br />
+                <?php $i++; ?>
+            <?php endforeach ?>
+        </div>
+    </div>
+    <div class="admin__field _required">
+        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_gender" >
+            <span><?= $block->escapeHtml(__('Select invoice delivery method')) ?></span>
+        </label>
+        <div class="admin__field-control control">
+            <?php
+            $i = 0;
+            foreach ($deliveryMethods as $key => $val): ?>
+                <label>
+                    <input type="radio" class="admin__field-label"
+                           name="payment[invoice_send]"
+                           value="<?= $val["value"] ?>" <?php if ($i == 0) echo ' checked="checked"'; ?> />
+                    <span><?= $val["text"] ?></span>
+                </label><br />
+                <?php $i++; ?>
+            <?php endforeach ?>
+        </div>
+    </div>
+
+<?php
+
+
+?>
+    <input type="hidden" id="<?= /* @noEscape */ $code ?>_payment_method_nonce"
+           name="payment[payment_method_nonce]"/>
+    <input type="submit" name="Submit" style="display: none;">
+
+</fieldset>

@@ -71,7 +71,14 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         $this->eventManager = $eventManager;
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->_scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->_checkoutSession = $objectManager->get('Magento\Checkout\Model\Session');
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $state =  $objectManager->get('Magento\Framework\App\State');
+        if ($state->getAreaCode() == "adminhtml") {
+            $this->_checkoutSession = $objectManager->get('Magento\Backend\Model\Session\Quote');
+        } else {
+            $this->_checkoutSession = $objectManager->get('Magento\Checkout\Model\Session');
+        }
         $this->_eavConfig = $objectManager->get('\Magento\Eav\Model\Config');
         $this->_dataHelper =  $objectManager->get('\Byjuno\ByjunoCore\Helper\DataHelper');
     }
@@ -83,6 +90,7 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         }
         return parent::getConfigData($field, $storeId);
     }
+
     public function isAvailable(CartInterface $quote = null)
     {
         $isCompany = false;

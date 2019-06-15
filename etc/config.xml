@@ -382,6 +382,7 @@
                 <can_refund>1</can_refund>
                 <can_void>1</can_void>
                 <sort_order>1</sort_order>
+                <can_use_internal>1</can_use_internal>
                 <active>1</active>
             </byjuno_invoice>
             <byjuno_installment>
@@ -393,6 +394,7 @@
                 <can_refund>1</can_refund>
                 <can_void>1</can_void>
                 <sort_order>2</sort_order>
+                <can_use_internal>1</can_use_internal>
                 <active>1</active>
             </byjuno_installment>
         </payment>
