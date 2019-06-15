@@ -27,7 +27,7 @@ $deliveryMethods = $block->getDeliveryMethods();
         </div>
     </div>
     <div class="admin__field _required">
-        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_gender" >
+        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_dob" >
             <span><?= $block->escapeHtml(__('Date of birth')) ?></span>
         </label>
         <div class="admin__field-control control">
@@ -44,7 +44,7 @@ $deliveryMethods = $block->getDeliveryMethods();
         </div>
     </div>
     <div class="admin__field _required">
-        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_gender" >
+        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_plan" >
             <span><?= $block->escapeHtml(__('Select payment plan')) ?></span>
         </label>
         <div class="admin__field-control control">
@@ -63,7 +63,7 @@ $deliveryMethods = $block->getDeliveryMethods();
         </div>
     </div>
     <div class="admin__field _required">
-        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_gender" >
+        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_method" >
             <span><?= $block->escapeHtml(__('Select invoice delivery method')) ?></span>
         </label>
         <div class="admin__field-control control">
@@ -80,8 +80,23 @@ $deliveryMethods = $block->getDeliveryMethods();
             <?php endforeach ?>
         </div>
     </div>
+    <div class="admin__field _required">
+        <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_lang" >
+            <span><?= $block->escapeHtml(__('Customer communication language')) ?></span>
+        </label>
+        <div class="admin__field-control control">
+            <select id="<?= /* @noEscape */ $code ?>_invoice_customer_lang" name="payment[pref_lang]"
+                    class="required-entry select admin__control-select ">
+                    <option value="de" selected="selected">Deutsch</option>
+                    <option value="fr">Français</option>
+                    <option value="it">Italiano</option>
+                    <option value="en">English</option>
+            </select>
+        </div>
+    </div>
 
-<?php
+
+    <?php
 
 
 ?>

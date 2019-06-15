@@ -294,7 +294,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     function CreateMagentoShopRequestOrder(\Magento\Sales\Model\Order $order,
                                            \Magento\Sales\Model\Order\Payment $paymentmethod,
-                                           $gender_custom, $dob_custom)
+                                           $gender_custom, $dob_custom, $pref_lang)
     {
 
         $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoRequest();
@@ -382,7 +382,11 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setPostCode((String)$order->getBillingAddress()->getPostcode());
         $request->setTown((String)$order->getBillingAddress()->getCity());
         $request->setFax((String)trim($order->getBillingAddress()->getFax(), '-'));
-        $request->setLanguage((String)substr($this->_resolver->getLocale(), 0, 2));
+        if ($pref_lang != "") {
+            $request->setLanguage($pref_lang);
+        } else {
+            $request->setLanguage((String)substr($this->_resolver->getLocale(), 0, 2));
+        }
 
         if ($order->getBillingAddress()->getCompany()) {
             $request->setCompanyName1($order->getBillingAddress()->getCompany());
@@ -498,7 +502,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     function CreateMagentoShopRequestPaid(\Magento\Sales\Model\Order $order,
                                           \Magento\Sales\Model\Order\Payment $paymentmethod,
-                                          $gender_custom, $dob_custom, $transaction, $riskOwner)
+                                          $gender_custom, $dob_custom, $transaction, $riskOwner, $pref_lang)
     {
 
         $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoRequest();
@@ -586,7 +590,12 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setPostCode((String)$order->getBillingAddress()->getPostcode());
         $request->setTown((String)$order->getBillingAddress()->getCity());
         $request->setFax((String)trim($order->getBillingAddress()->getFax(), '-'));
-        $request->setLanguage((String)substr($this->_resolver->getLocale(), 0, 2));
+
+        if ($pref_lang != "") {
+            $request->setLanguage($pref_lang);
+        } else {
+            $request->setLanguage((String)substr($this->_resolver->getLocale(), 0, 2));
+        }
 
         if ($order->getBillingAddress()->getCompany()) {
             $request->setCompanyName1($order->getBillingAddress()->getCompany());

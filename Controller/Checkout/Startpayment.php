@@ -32,7 +32,7 @@ class Startpayment extends Action
 
     public static function executeS3($order, \Magento\Sales\Model\Order\Payment $payment, $transaction, $accept)
     {
-        $request = self::$_dataHelper->CreateMagentoShopRequestPaid($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $transaction, $accept);
+        $request = self::$_dataHelper->CreateMagentoShopRequestPaid($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $transaction, $accept, $payment->getAdditionalInformation('pref_lang'));
         $ByjunoRequestName = "Order paid";
         $requestType = 'b2c';
         if ($request->getCompanyName1() != '' && self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
@@ -66,7 +66,7 @@ class Startpayment extends Action
 
     public static function executeS2($order, \Magento\Sales\Model\Order\Payment $payment)
     {
-        $request = self::$_dataHelper->CreateMagentoShopRequestOrder($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'));
+        $request = self::$_dataHelper->CreateMagentoShopRequestOrder($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $payment->getAdditionalInformation('pref_lang'));
 
         $ByjunoRequestName = "Order request";
         $requestType = 'b2c';
