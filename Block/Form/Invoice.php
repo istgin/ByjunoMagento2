@@ -96,6 +96,7 @@ class Invoice extends \Magento\Payment\Block\Form
 
     public function getDeliveryMethods()
     {
+        $invoiceDelivery = Array();
         $invoiceDelivery[] = Array(
             "value" => "email",
             "text" => __($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_localization/byjuno_invoice_email_text",

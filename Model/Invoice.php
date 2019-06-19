@@ -165,13 +165,11 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         } else {
             $payment->setAdditionalInformation('customer_gender', '');
         }
-
         if (isset($dataKey['pref_lang'])) {
             $payment->setAdditionalInformation('pref_lang', $dataKey['pref_lang']);
         } else {
             $payment->setAdditionalInformation('pref_lang', '');
         }
-
         if (isset($dataKey['invoice_customer_dob'])) {
             $payment->setAdditionalInformation('customer_dob', $dataKey['invoice_customer_dob']);
         } else {

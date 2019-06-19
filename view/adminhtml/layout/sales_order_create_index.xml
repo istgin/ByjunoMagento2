@@ -6,6 +6,11 @@
                 <argument name="method" xsi:type="string">byjuno_invoice</argument>
                 <argument name="template" xsi:type="string">Byjuno_ByjunoCore::form/invoice.phtml</argument>
             </action>
+            <action method="setMethodFormTemplate">
+                <!-- your method code and template -->
+                <argument name="method" xsi:type="string">byjuno_installment</argument>
+                <argument name="template" xsi:type="string">Byjuno_ByjunoCore::form/installment.phtml</argument>
+            </action>
         </referenceBlock>
     </body>
 </page>
