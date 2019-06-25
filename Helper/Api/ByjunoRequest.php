@@ -129,8 +129,11 @@ class ByjunoRequest
      */
     public function setExtraInfo($ExtraInfo)
     {
-        if (empty($ExtraInfo["Name"]) || !isset($ExtraInfo["Value"])) {
-            throw new \Exception("ExtraInfo requires 'Name' and 'Value' keys");
+        if (empty($ExtraInfo["Name"])) {
+            throw new \Exception("ExtraInfo requires 'Name'");
+        }
+        if (!isset($ExtraInfo["Value"])) {
+            throw new \Exception("ExtraInfo (".$ExtraInfo["Name"].") requires 'Value'");
         }
         $this->ExtraInfo[] = $ExtraInfo;
     }

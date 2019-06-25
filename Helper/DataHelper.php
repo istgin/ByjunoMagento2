@@ -755,6 +755,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     }
 
+    function nullToString($str) {
+        if (!isset($str)) {
+            return "";
+        }
+        return $str;
+    }
+
     function CreateMagentoShopRequestCreditCheck(\Magento\Quote\Model\Quote $quote)
     {
         $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoRequest();
@@ -873,17 +880,17 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setExtraInfo($extraInfo);
 
             $extraInfo["Name"] = 'DELIVERY_POSTCODE';
-            $extraInfo["Value"] = $quote->getShippingAddress()->getPostcode();
+            $extraInfo["Value"] = $this->nullToString($quote->getShippingAddress()->getPostcode());
             $request->setExtraInfo($extraInfo);
 
             $extraInfo["Name"] = 'DELIVERY_TOWN';
-            $extraInfo["Value"] = $quote->getShippingAddress()->getCity();
+            $extraInfo["Value"] = $this->nullToString($quote->getShippingAddress()->getCity());
             $request->setExtraInfo($extraInfo);
 
             if ($quote->getShippingAddress()->getCompany() != '' && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
 
                 $extraInfo["Name"] = 'DELIVERY_COMPANYNAME';
-                $extraInfo["Value"] = $quote->getShippingAddress()->getCompany();
+                $extraInfo["Value"] = $this->nullToString($quote->getShippingAddress()->getCompany());
                 $request->setExtraInfo($extraInfo);
 
                 $extraInfo["Name"] = 'DELIVERY_FIRSTNAME';
@@ -891,17 +898,17 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
                 $request->setExtraInfo($extraInfo);
 
                 $extraInfo["Name"] = 'DELIVERY_LASTNAME';
-                $extraInfo["Value"] = $quote->getShippingAddress()->getCompany();
+                $extraInfo["Value"] = $this->nullToString($quote->getShippingAddress()->getCompany());
                 $request->setExtraInfo($extraInfo);
 
             } else {
 
                 $extraInfo["Name"] = 'DELIVERY_FIRSTNAME';
-                $extraInfo["Value"] = $quote->getShippingAddress()->getFirstname();
+                $extraInfo["Value"] = $this->nullToString($quote->getShippingAddress()->getFirstname());
                 $request->setExtraInfo($extraInfo);
 
                 $extraInfo["Name"] = 'DELIVERY_LASTNAME';
-                $extraInfo["Value"] = $quote->getShippingAddress()->getLastname();
+                $extraInfo["Value"] = $this->nullToString($quote->getShippingAddress()->getLastname());
                 $request->setExtraInfo($extraInfo);
             }
         }

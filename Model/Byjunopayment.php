@@ -175,8 +175,29 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             $CDPStatus = $this->_dataHelper->_checkoutSession->getCDPStatus();
             try {
                 $request = $this->_dataHelper->CreateMagentoShopRequestCreditCheck($quote);
-                if (!empty($CDPStatus) && intval($CDPStatus) != 2 && $this->isTheSame($request)) {
-                    return false;
+                $arrCheck = Array(
+                    "FirstName" => $request->getFirstName(),
+                    "LastName" => $request->getLastName(),
+                    "CountryCode" => $request->getCountryCode(),
+                    "Town" => $request->getTown()
+                );
+                foreach($arrCheck as $arrK => $arrV) {
+                   if (empty($arrV)) {
+                       return false;
+                   }
+                }
+                if (!empty($CDPStatus) && $this->isTheSame($request)) {
+                    $accept = "";
+                    if ($this->_dataHelper->byjunoIsStatusOk($CDPStatus, "byjunocheckoutsettings/byjuno_setup/merchant_risk")) {
+                        $accept = "CLIENT";
+                    }
+                    if ($this->_dataHelper->byjunoIsStatusOk($CDPStatus, "byjunocheckoutsettings/byjuno_setup/byjuno_risk")) {
+                        $accept = "IJ";
+                    }
+                    if ($accept == "") {
+                        return false;
+                    }
+                    return null;
                 }
                 if (!$this->isTheSame($request) || empty($CDPStatus)) {
                     $ByjunoRequestName = "Credit check request";
