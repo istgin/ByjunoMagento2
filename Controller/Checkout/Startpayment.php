@@ -241,7 +241,7 @@ class Startpayment extends Action
             }
 
         } catch (\Exception $e) {
-            $order = $this->_checkoutSession->getLastRealOrder();
+            $order = self::$_dataHelper->_checkoutSession->getLastRealOrder();
             $error = __("Unexpected error");
             $order->registerCancellation($error)->save();
             $this->restoreQuote();
@@ -255,13 +255,13 @@ class Startpayment extends Action
     private function restoreQuote()
     {
         /** @var \Magento\Sales\Model\Order $order */
-        $order = $this->_checkoutSession->getLastRealOrder();
+        $order = self::$_dataHelper->_checkoutSession->getLastRealOrder();
         if ($order->getId()) {
             try {
                 $quote = self::$_dataHelper->quoteRepository->get($order->getQuoteId());
                 $quote->setIsActive(1)->setReservedOrderId(null);
                 self::$_dataHelper->quoteRepository->save($quote);
-                $this->_checkoutSession->replaceQuote($quote)->unsLastRealOrderId();
+                self::$_dataHelper->_checkoutSession->replaceQuote($quote)->unsLastRealOrderId();
                 return true;
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             }
