@@ -34,8 +34,10 @@ define(
             },
 
             afterPlaceOrder: function () {
+                jquery('body').loader('show');
                 this.selectPaymentMethod();
-                window.location.replace(url.build(window.checkoutConfig.payment.byjuno_installment.redirectUrl));
+                jquery.mage.redirect(url.build(window.checkoutConfig.payment.byjuno_installment.redirectUrl));
+                return false;
             },
 
 
