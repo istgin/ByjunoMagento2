@@ -8,6 +8,7 @@
 
 namespace Byjuno\ByjunoCore\Model;
 
+use Byjuno\ByjunoCore\Controller\Checkout\Startpayment;
 use Magento\Framework\DataObject;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Observer\AbstractDataAssignObserver;
@@ -20,7 +21,6 @@ use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectFactory;
 use Magento\Payment\Gateway\Config\ValueHandlerPoolInterface;
 use Magento\Payment\Gateway\Validator\ValidatorPoolInterface;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Byjuno\ByjunoCore\Helper\DataHelper;
 
 
@@ -30,6 +30,7 @@ use Byjuno\ByjunoCore\Helper\DataHelper;
 class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
 {
 
+    protected $_dataHelper;
 	public function setId($id)
     {
 		//Magento bug https://github.com/magento/magento2/issues/5413
@@ -157,6 +158,29 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
                 __("Invoice send way invalid address")
             );
         }
+
+        if ($payment instanceof \Magento\Quote\Model\Quote\Payment) {
+            /* @var $payment \Magento\Quote\Model\Quote\Payment */
+            $quote = $this->_checkoutSession->getQuote();
+            list($statusS2, $requestTypeS2, $responseS2) = Startpayment::executeS2Quote($quote, $payment, $this->_dataHelper);
+            $accept = "";
+            if ($this->_dataHelper->byjunoIsStatusOk($statusS2, "byjunocheckoutsettings/byjuno_setup/merchant_risk")) {
+                $accept = "CLIENT";
+            }
+            if ($this->_dataHelper->byjunoIsStatusOk($statusS2, "byjunocheckoutsettings/byjuno_setup/byjuno_risk")) {
+                $accept = "IJ";
+            }
+            if ($accept == "") {
+                throw new LocalizedException(
+                    __($this->_dataHelper->getByjunoErrorMessage($statusS2, $requestTypeS2))
+                );
+            } else {
+                $payment->setAdditionalInformation('accept', $accept);
+            }
+        } else {
+            //skip
+        }
+
         return $this;
     }
 
