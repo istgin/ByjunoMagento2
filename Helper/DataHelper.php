@@ -218,12 +218,14 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function saveStatusToOrder(\Magento\Sales\Model\Order $order, \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse $byjunoS2Response)
     {
-        $order->addStatusHistoryComment('<b>Byjuno status: ' . $this->valueToStatus($byjunoS2Response->getCustomerRequestStatus()) . '</b>
-        <br/>Credit rating: ' . $this->_response->getCustomerCreditRating() . '
-        <br/>Credit rating level: ' . $this->_response->getCustomerCreditRatingLevel() . '<br/>Status code: ' . $byjunoS2Response->getCustomerRequestStatus() . '</b>');
-        $order->setByjunoStatus($byjunoS2Response->getCustomerRequestStatus());
-        $order->setByjunoCreditRating($byjunoS2Response->getCustomerCreditRating());
-        $order->setByjunoCreditLevel($byjunoS2Response->getCustomerCreditRatingLevel());
+        if ($byjunoS2Response) {
+            $order->addStatusHistoryComment('<b>Byjuno status: ' . $this->valueToStatus($byjunoS2Response->getCustomerRequestStatus()) . '</b>
+            <br/>Credit rating: ' . $byjunoS2Response->getCustomerCreditRating() . '
+            <br/>Credit rating level: ' . $byjunoS2Response->getCustomerCreditRatingLevel() . '<br/>Status code: ' . $byjunoS2Response->getCustomerRequestStatus() . '</b>');
+            $order->setByjunoStatus($byjunoS2Response->getCustomerRequestStatus());
+            $order->setByjunoCreditRating($byjunoS2Response->getCustomerCreditRating());
+            $order->setByjunoCreditLevel($byjunoS2Response->getCustomerCreditRatingLevel());
+        }
         $order->save();
     }
 
@@ -480,6 +482,209 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
         $extraInfo["Name"] = 'ORDERID';
         $extraInfo["Value"] = $order->getIncrementId();
+        $request->setExtraInfo($extraInfo);
+
+        $extraInfo["Name"] = 'PAYMENTMETHOD';
+        $extraInfo["Value"] = $this->mapMethod($paymentmethod->getAdditionalInformation('payment_plan'));
+        $request->setExtraInfo($extraInfo);
+
+        $extraInfo["Name"] = 'REPAYMENTTYPE';
+        $extraInfo["Value"] = $this->mapRepayment($paymentmethod->getAdditionalInformation('payment_plan'));
+        $request->setExtraInfo($extraInfo);
+
+        $extraInfo["Name"] = 'RISKOWNER';
+        $extraInfo["Value"] = 'IJ';
+        $request->setExtraInfo($extraInfo);
+
+        $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
+        $extraInfo["Value"] = 'Byjuno Magento 2.1 module 1.1.2';
+        $request->setExtraInfo($extraInfo);
+        return $request;
+    }
+
+    function CreateMagentoShopRequestOrderQuote(\Magento\Quote\Model\Quote $quote,
+                                                \Magento\Quote\Model\Quote\Payment $paymentmethod,
+                                           $gender_custom, $dob_custom, $pref_lang)
+    {
+
+        $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoRequest();
+        $request->setClientId($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/clientid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setUserID($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setPassword($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setVersion("1.00");
+        try {
+            $request->setRequestEmail($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/mail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        } catch (\Exception $e) {
+
+        }
+        $b = $quote->getCustomerDob();
+        if (!empty($b)) {
+            try {
+                $dobObject = new \DateTime($b);
+                if ($dobObject != null) {
+                    $request->setDateOfBirth($dobObject->format('Y-m-d'));
+                }
+            } catch (\Exception $e) {
+
+            }
+        }
+
+        if (!empty($dob_custom)) {
+            try {
+                $dobObject = new \DateTime($dob_custom);
+                if ($dobObject != null) {
+                    $request->setDateOfBirth($dobObject->format('Y-m-d'));
+                }
+            } catch (\Exception $e) {
+
+            }
+        }
+        $gender_male_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_male_possible_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $gender_female_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_female_possible_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array));
+        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
+
+        $g = $quote->getCustomerGender();
+        $request->setGender('0');
+        if ($this->_customerMetadata->getAttributeMetadata('gender')->isVisible()) {
+            if (!empty($g)) {
+                if ($g == '1') {
+                    $request->setGender('1');
+                } else if ($g == '2') {
+                    $request->setGender('2');
+                }
+            }
+        }
+        if ($this->_customerMetadata->getAttributeMetadata('prefix')->isVisible()) {
+            if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+                $request->setGender('1');
+            } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+                $request->setGender('2');
+            }
+        }
+
+        if (!empty($gender_custom)) {
+            if (in_array(strtolower($gender_custom), $gender_male_possible_prefix)) {
+                $request->setGender('1');
+            } else if (in_array(strtolower($gender_custom), $gender_female_possible_prefix)) {
+                $request->setGender('2');
+            }
+        }
+
+        $billingStreet = $quote->getBillingAddress()->getStreet();
+        $billingStreet = implode("", $billingStreet);
+        $requestId = uniqid((String)$quote->getEntityId() . "_");
+        $request->setRequestId($requestId);
+        $reference = $quote->getCustomerId();
+        if (empty($reference)) {
+            $request->setCustomerReference("guest_" . $quote->getId());
+        } else {
+            $request->setCustomerReference($quote->getCustomerId());
+        }
+        $request->setFirstName((String)$quote->getBillingAddress()->getFirstname());
+        $request->setLastName((String)$quote->getBillingAddress()->getLastname());
+        $request->setFirstLine(trim((String)$billingStreet));
+        $request->setCountryCode(strtoupper($quote->getBillingAddress()->getCountryId()));
+        $request->setPostCode((String)$quote->getBillingAddress()->getPostcode());
+        $request->setTown((String)$quote->getBillingAddress()->getCity());
+        $request->setFax((String)trim($quote->getBillingAddress()->getFax(), '-'));
+        if (!empty($pref_lang)) {
+            $request->setLanguage($pref_lang);
+        } else {
+            $request->setLanguage((String)substr($this->_resolver->getLocale(), 0, 2));
+        }
+
+        if ($quote->getBillingAddress()->getCompany()) {
+            $request->setCompanyName1($quote->getBillingAddress()->getCompany());
+        }
+
+        $request->setTelephonePrivate((String)trim($quote->getBillingAddress()->getTelephone(), '-'));
+        $request->setEmail((String)$quote->getBillingAddress()->getEmail());
+
+        $extraInfo["Name"] = 'ORDERCLOSED';
+        $extraInfo["Value"] = 'NO';
+        $request->setExtraInfo($extraInfo);
+
+        $extraInfo["Name"] = 'ORDERAMOUNT';
+        $extraInfo["Value"] = number_format($quote->getGrandTotal(), 2, '.', '');
+        $request->setExtraInfo($extraInfo);
+
+        $extraInfo["Name"] = 'ORDERCURRENCY';
+        $extraInfo["Value"] = $quote->getQuoteCurrencyCode();
+        $request->setExtraInfo($extraInfo);
+
+        $extraInfo["Name"] = 'IP';
+        $extraInfo["Value"] = $this->getClientIp();
+        $request->setExtraInfo($extraInfo);
+
+        $sedId = $this->_checkoutSession->getTmxSession();
+        if ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/tmxenabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1' && !empty($sedId)) {
+            $extraInfo["Name"] = 'DEVICE_FINGERPRINT_ID';
+            $extraInfo["Value"] = $sedId;
+            $request->setExtraInfo($extraInfo);
+        }
+
+        if ($paymentmethod->getAdditionalInformation('payment_send') == 'postal') {
+            $extraInfo["Name"] = 'PAPER_INVOICE';
+            $extraInfo["Value"] = 'YES';
+            $request->setExtraInfo($extraInfo);
+        }
+
+        if (!$quote->isVirtual()) {
+            $shippingStreet = $quote->getShippingAddress()->getStreet();
+            $shippingStreet = implode("", $shippingStreet);
+
+            $extraInfo["Name"] = 'DELIVERY_FIRSTLINE';
+            $extraInfo["Value"] = trim((String)$shippingStreet);
+            $request->setExtraInfo($extraInfo);
+
+            $extraInfo["Name"] = 'DELIVERY_HOUSENUMBER';
+            $extraInfo["Value"] = '';
+            $request->setExtraInfo($extraInfo);
+
+            $extraInfo["Name"] = 'DELIVERY_COUNTRYCODE';
+            $extraInfo["Value"] = strtoupper($quote->getShippingAddress()->getCountryId());
+            $request->setExtraInfo($extraInfo);
+
+            $extraInfo["Name"] = 'DELIVERY_POSTCODE';
+            $extraInfo["Value"] = $quote->getShippingAddress()->getPostcode();
+            $request->setExtraInfo($extraInfo);
+
+            $extraInfo["Name"] = 'DELIVERY_TOWN';
+            $extraInfo["Value"] = $quote->getShippingAddress()->getCity();
+            $request->setExtraInfo($extraInfo);
+
+            if ($quote->getShippingAddress()->getCompany() != '' && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
+
+                $extraInfo["Name"] = 'DELIVERY_COMPANYNAME';
+                $extraInfo["Value"] = $quote->getShippingAddress()->getCompany();
+                $request->setExtraInfo($extraInfo);
+
+                $extraInfo["Name"] = 'DELIVERY_FIRSTNAME';
+                $extraInfo["Value"] = '';
+                $request->setExtraInfo($extraInfo);
+
+                $extraInfo["Name"] = 'DELIVERY_LASTNAME';
+                $extraInfo["Value"] = $quote->getShippingAddress()->getCompany();
+                $request->setExtraInfo($extraInfo);
+
+            } else {
+
+                $extraInfo["Name"] = 'DELIVERY_FIRSTNAME';
+                $extraInfo["Value"] = $quote->getShippingAddress()->getFirstname();
+                $request->setExtraInfo($extraInfo);
+
+                $extraInfo["Name"] = 'DELIVERY_LASTNAME';
+                $extraInfo["Value"] = $quote->getShippingAddress()->getLastname();
+                $request->setExtraInfo($extraInfo);
+            }
+        }
+
+        $extraInfo["Name"] = 'PP_TRANSACTION_NUMBER';
+        $extraInfo["Value"] = $requestId;
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'PAYMENTMETHOD';
