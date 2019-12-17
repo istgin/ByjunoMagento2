@@ -30,13 +30,13 @@ class Startpayment extends Action
         parent::__construct($context);
     }
 
-    public static function executeS3($order, \Magento\Sales\Model\Order\Payment $payment, $transaction, $accept)
+    public static function executeS3($order, \Magento\Sales\Model\Order\Payment $payment, $transaction, $accept, $savePrefix = "")
     {
         $request = self::$_dataHelper->CreateMagentoShopRequestPaid($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $transaction, $accept, $payment->getAdditionalInformation('pref_lang'));
-        $ByjunoRequestName = "Order paid";
+        $ByjunoRequestName = "Order paid".$savePrefix;
         $requestType = 'b2c';
         if ($request->getCompanyName1() != '' && self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
-            $ByjunoRequestName = "Order paid for Company";
+            $ByjunoRequestName = "Order paid for Company".$savePrefix;
             $requestType = 'b2b';
             $xml = $request->createRequestCompany();
         } else {
@@ -64,14 +64,14 @@ class Startpayment extends Action
         return array($status, $requestType);
     }
 
-    public static function executeS2Quote(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Payment $payment, DataHelper $_internalDataHelper)
+    public static function executeS2Quote(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Payment $payment, DataHelper $_internalDataHelper, $savePrefix = "")
     {
         $request = $_internalDataHelper->CreateMagentoShopRequestOrderQuote($quote, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $payment->getAdditionalInformation('pref_lang'));
 
-        $ByjunoRequestName = "Order request";
+        $ByjunoRequestName = "Order request".$savePrefix;
         $requestType = 'b2c';
         if ($request->getCompanyName1() != '' && $_internalDataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
-            $ByjunoRequestName = "Order request for Company";
+            $ByjunoRequestName = "Order request for Company".$savePrefix;
             $requestType = 'b2b';
             $xml = $request->createRequestCompany();
         } else {
@@ -181,21 +181,30 @@ class Startpayment extends Action
         self::$_dataHelper = $helper;
         /* @var $payment \Magento\Sales\Model\Order\Payment */
         $payment = $order->getPayment();
-
         try {
-            /* @var $responseS2 \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse */
-            list($statusS2, $requestTypeS2, $responseS2) = self::executeS2($order, $payment);
-            $accept = "";
-            if (self::$_dataHelper->byjunoIsStatusOk($statusS2, "byjunocheckoutsettings/byjuno_setup/merchant_risk")) {
-                $accept = "CLIENT";
+            $statusS2 = self::$_dataHelper->_checkoutSession->getIntrumStatus();
+            $typeS2 = self::$_dataHelper->_checkoutSession->getIntrumRequestType();
+            $responseS2String = self::$_dataHelper->_checkoutSession->getS2Response();
+            if ($responseS2String == "") {
+                throw new \Exception("Empty response set");
             }
-            if (self::$_dataHelper->byjunoIsStatusOk($statusS2, "byjunocheckoutsettings/byjuno_setup/byjuno_risk")) {
-                $accept = "IJ";
-            }
-            if ($accept != "") {
-                list($statusS3, $requestTypeS3) = self::executeS3($order, $payment, $responseS2->getTransactionNumber(), $accept);
+            self::$_dataHelper->_response->setRawResponse($responseS2String);
+            self::$_dataHelper->_response->processResponse();
+            $responseS2 = clone self::$_dataHelper->_response;
+
+            if ($payment->getAdditionalInformation('accept') != "") {
+                $byjunoTrx =  self::$_dataHelper->_checkoutSession->getByjunoTransaction();
+                list($statusS3, $requestTypeS3) = self::executeS3($order, $payment, $responseS2->getTransactionNumber(), $payment->getAdditionalInformation('accept'), " (Backend)");
                 if (self::$_dataHelper->byjunoIsStatusOk($statusS3, "byjunocheckoutsettings/byjuno_setup/accepted_s3")) {
-                    $payment->setAdditionalInformation("s3_ok", 'true')->save();
+                    if ($byjunoTrx != "") {
+                        $payment->setTransactionId($byjunoTrx);
+                        $payment->setParentTransactionId($payment->getTransactionId());
+                        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, true);
+                        $transaction->setIsClosed(true);
+                        $transaction->save();
+                    }
+                    $payment->setAdditionalInformation("s3_ok", 'true');
+                    $payment->save();
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
                     $order->setStatus("byjuno_confirmed");
                     self::$_dataHelper->saveStatusToOrder($order, $responseS2);
@@ -218,7 +227,10 @@ class Startpayment extends Action
                     throw new \Exception($error);
                 }
             } else {
-                $error = self::$_dataHelper->getByjunoErrorMessage($statusS2, $requestTypeS2);
+                $error = self::$_dataHelper->getByjunoErrorMessage(
+                    $statusS2,
+                    $typeS2
+                );
                 $order->registerCancellation($error)->save();
                 throw new \Exception($error);
             }

@@ -30,6 +30,7 @@ use Byjuno\ByjunoCore\Helper\DataHelper;
 class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
 {
 
+    protected $_executed;
     protected $_dataHelper;
 	public function setId($id)
     {
@@ -80,8 +81,10 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         } else {
             $this->_checkoutSession = $objectManager->get('Magento\Checkout\Model\Session');
         }
+        $this->_state = $state;
         $this->_eavConfig = $objectManager->get('\Magento\Eav\Model\Config');
         $this->_dataHelper =  $objectManager->get('\Byjuno\ByjunoCore\Helper\DataHelper');
+        $this->_executed = false;
     }
 
     public function getConfigData($field, $storeId = null)
@@ -203,14 +206,19 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
 
         if ($payment->getAdditionalInformation('payment_send_to') == null) {
             throw new LocalizedException(
-                __("Invoice send way invalid address")
+                __("Invalid invoice send way")
             );
         }
 
-        if ($payment instanceof \Magento\Quote\Model\Quote\Payment) {
+        if ($payment instanceof \Magento\Quote\Model\Quote\Payment && !$this->_executed) {
+            $this->_executed  = true;
             /* @var $payment \Magento\Quote\Model\Quote\Payment */
             $quote = $this->_checkoutSession->getQuote();
-            list($statusS2, $requestTypeS2, $responseS2) = Startpayment::executeS2Quote($quote, $payment, $this->_dataHelper);
+            $prefix = "";
+            if ($this->_state->getAreaCode() == "adminhtml") {
+                $prefix = " (Backend)";
+            }
+            list($statusS2, $requestTypeS2, $responseS2) = Startpayment::executeS2Quote($quote, $payment, $this->_dataHelper, $prefix);
             $accept = "";
             if ($this->_dataHelper->byjunoIsStatusOk($statusS2, "byjunocheckoutsettings/byjuno_setup/merchant_risk")) {
                 $accept = "CLIENT";

@@ -29,13 +29,13 @@ use Byjuno\ByjunoCore\Helper\DataHelper;
  */
 class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
 {
-
     /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $_scopeConfig;
     protected $eventManager;
     protected $_eavConfig;
     /* @var $_dataHelper DataHelper */
     protected $_dataHelper;
+    protected $_state;
 
     /* @var $_scopeConfig \Magento\Checkout\Model\Session */
     protected $_checkoutSession;
