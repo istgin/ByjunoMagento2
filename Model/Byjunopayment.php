@@ -46,6 +46,12 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         return $this;
     }
 
+
+    public function canCapture()
+    {
+        return true;
+    }
+
     /* @var $quote \Magento\Quote\Model\Quote */
     public function isAvailable(CartInterface $quote = null)
     {
@@ -146,6 +152,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             || $request->getTelephonePrivate() != $this->_savedUser["TelephonePrivate"]
             || $request->getTelephoneOffice() != $this->_savedUser["TelephoneOffice"]
             || $request->getGender() != $this->_savedUser["Gender"]
+            || $request->getExtraInfoByKey("ORDERAMOUNT") != $this->_savedUser["Amount"]
             || $request->getExtraInfoByKey("DELIVERY_FIRSTNAME") != $this->_savedUser["DELIVERY_FIRSTNAME"]
             || $request->getExtraInfoByKey("DELIVERY_LASTNAME") != $this->_savedUser["DELIVERY_LASTNAME"]
             || $request->getExtraInfoByKey("DELIVERY_FIRSTLINE") != $this->_savedUser["DELIVERY_FIRSTLINE"]
@@ -243,6 +250,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                         "TelephonePrivate" => $request->getTelephonePrivate(),
                         "TelephoneOffice" => $request->getTelephoneOffice(),
                         "Gender" => $request->getGender(),
+                        "Amount" => $request->getExtraInfoByKey("ORDERAMOUNT"),
                         "DELIVERY_FIRSTNAME" => $request->getExtraInfoByKey("DELIVERY_FIRSTNAME"),
                         "DELIVERY_LASTNAME" => $request->getExtraInfoByKey("DELIVERY_LASTNAME"),
                         "DELIVERY_FIRSTLINE" => $request->getExtraInfoByKey("DELIVERY_FIRSTLINE"),

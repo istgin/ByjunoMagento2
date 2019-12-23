@@ -153,7 +153,7 @@ class Startpayment extends Action
         $payment->setTransactionId($trxId);
         $payment->setParentTransactionId($payment->getTransactionId());
 
-        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, true);
+        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER, null, true);
         $accept = "";
         if (self::$_dataHelper->byjunoIsStatusOk($status, "byjunocheckoutsettings/byjuno_setup/merchant_risk")) {
             $accept = "CLIENT";
@@ -199,7 +199,7 @@ class Startpayment extends Action
                     if ($byjunoTrx != "") {
                         $payment->setTransactionId($byjunoTrx);
                         $payment->setParentTransactionId($payment->getTransactionId());
-                        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, true);
+                        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER, null, true);
                         $transaction->setIsClosed(true);
                         $transaction->save();
                     }
@@ -264,7 +264,7 @@ class Startpayment extends Action
                     if ($byjunoTrx != "") {
                         $payment->setTransactionId($byjunoTrx);
                         $payment->setParentTransactionId($payment->getTransactionId());
-                        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, true);
+                        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER, null, true);
                         $transaction->setIsClosed(true);
                         $transaction->save();
                     }
