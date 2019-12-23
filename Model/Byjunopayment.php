@@ -182,6 +182,9 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             $CDPStatus = $this->_dataHelper->_checkoutSession->getCDPStatus();
             try {
                 $request = $this->_dataHelper->CreateMagentoShopRequestCreditCheck($quote);
+                if ($request->getExtraInfoByKey("ORDERAMOUNT") == 0) {
+                    return false;
+                }
                 $arrCheck = Array(
                     "FirstName" => $request->getFirstName(),
                     "LastName" => $request->getLastName(),
