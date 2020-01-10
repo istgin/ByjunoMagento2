@@ -112,70 +112,6 @@ class Startpayment extends Action
 
     }
 
-
-    public static function executeS2($order, \Magento\Sales\Model\Order\Payment $payment)
-    {
-        $request = self::$_dataHelper->CreateMagentoShopRequestOrder($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $payment->getAdditionalInformation('pref_lang'));
-
-        $ByjunoRequestName = "Order request";
-        $requestType = 'b2c';
-        if ($request->getCompanyName1() != '' && self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
-            $ByjunoRequestName = "Order request for Company";
-            $requestType = 'b2b';
-            $xml = $request->createRequestCompany();
-        } else {
-            $xml = $request->createRequest();
-        }
-        $mode = self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        if ($mode == 'live') {
-            self::$_dataHelper->_communicator->setServer('live');
-        } else {
-            self::$_dataHelper->_communicator->setServer('test');
-        }
-        $response = self::$_dataHelper->_communicator->sendRequest($xml, (int)self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
-        $status = 0;
-        if ($response) {
-            self::$_dataHelper->_response->setRawResponse($response);
-            self::$_dataHelper->_response->processResponse();
-            $status = (int)self::$_dataHelper->_response->getCustomerRequestStatus();
-            if (self::$_dataHelper->_checkoutSession != null) {
-                self::$_dataHelper->_checkoutSession->setByjunoTransaction(self::$_dataHelper->_response->getTransactionNumber());
-            }
-            self::$_dataHelper->saveLog($request, $xml, $response, $status, $ByjunoRequestName);
-            if (intval($status) > 15) {
-                $status = 0;
-            }
-            $trxId = self::$_dataHelper->_response->getResponseId();
-        } else {
-            self::$_dataHelper->saveLog($request, $xml, "empty response", "0", $ByjunoRequestName);
-            $trxId = "empty";
-        }
-        $payment->setTransactionId($trxId);
-        $payment->setParentTransactionId($payment->getTransactionId());
-
-        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER, null, true);
-        $accept = "";
-        if (self::$_dataHelper->byjunoIsStatusOk($status, "byjunocheckoutsettings/byjuno_setup/merchant_risk")) {
-            $accept = "CLIENT";
-        }
-        if (self::$_dataHelper->byjunoIsStatusOk($status, "byjunocheckoutsettings/byjuno_setup/byjuno_risk")) {
-            $accept = "IJ";
-        }
-        if ($accept != "") {
-            $transaction->setIsClosed(false);
-        } else {
-            $transaction->setIsClosed(true);
-        }
-        $transaction->save();
-        $payment->save();
-        if (self::$_dataHelper->_checkoutSession != null) {
-            self::$_dataHelper->_checkoutSession->setIntrumStatus($status);
-            self::$_dataHelper->_checkoutSession->setIntrumRequestType($requestType);
-            self::$_dataHelper->_checkoutSession->setIntrumOrder($order->getId());
-        }
-        return array($status, $requestType, clone self::$_dataHelper->_response);
-    }
-
     public static function executeBackendOrder(DataHelper $helper, \Magento\Sales\Model\Order $order)
     {
         self::$_dataHelper = $helper;
@@ -196,13 +132,16 @@ class Startpayment extends Action
                 $byjunoTrx =  self::$_dataHelper->_checkoutSession->getByjunoTransaction();
                 list($statusS3, $requestTypeS3) = self::executeS3($order, $payment, $responseS2->getTransactionNumber(), $payment->getAdditionalInformation('accept'), " (Backend)");
                 if (self::$_dataHelper->byjunoIsStatusOk($statusS3, "byjunocheckoutsettings/byjuno_setup/accepted_s3")) {
-                    if ($byjunoTrx != "") {
-                        $payment->setTransactionId($byjunoTrx);
-                        $payment->setParentTransactionId($payment->getTransactionId());
-                        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER, null, true);
-                        $transaction->setIsClosed(true);
-                        $transaction->save();
+                    if ($byjunoTrx == "") {
+                        $byjunoTrx = "byjunotx-".uniqid();
                     }
+
+                    $payment->setTransactionId($byjunoTrx);
+                    $payment->setParentTransactionId($payment->getTransactionId());
+                    $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, true);
+                    $transaction->setIsClosed(false);
+                    $transaction->save();
+
                     $payment->setAdditionalInformation("s3_ok", 'true');
                     $payment->save();
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
@@ -261,13 +200,14 @@ class Startpayment extends Action
                 $byjunoTrx =  self::$_dataHelper->_checkoutSession->getByjunoTransaction();
                 list($statusS3, $requestTypeS3) = self::executeS3($order, $payment, $byjunoTrx, $payment->getAdditionalInformation('accept'));
                 if (self::$_dataHelper->byjunoIsStatusOk($statusS3, "byjunocheckoutsettings/byjuno_setup/accepted_s3")) {
-                    if ($byjunoTrx != "") {
-                        $payment->setTransactionId($byjunoTrx);
-                        $payment->setParentTransactionId($payment->getTransactionId());
-                        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER, null, true);
-                        $transaction->setIsClosed(true);
-                        $transaction->save();
+                    if ($byjunoTrx == "") {
+                        $byjunoTrx = "byjunotx-".uniqid();
                     }
+                    $payment->setTransactionId($byjunoTrx);
+                    $payment->setParentTransactionId($payment->getTransactionId());
+                    $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, true);
+                    $transaction->setIsClosed(false);
+                    $transaction->save();
                     $payment->setAdditionalInformation("s3_ok", 'true');
                     $payment->save();
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);

@@ -104,6 +104,11 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             );
         }
 
+        $authTransaction = $payment->getAuthorizationTransaction();
+        if ($authTransaction && !$authTransaction->getIsClosed()) {
+            $authTransaction->setIsClosed(true);
+            $authTransaction->save();
+        }
         $payment->setTransactionId($payment->getParentTransactionId().'-void');
         $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_VOID, null, true);
         $transaction->setIsClosed(true);
@@ -441,6 +446,12 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             );
         } else {
             $this->_dataHelper->_byjunoInvoiceSender->sendInvoice($invoice, $email);
+        }
+
+        $authTransaction = $payment->getAuthorizationTransaction();
+        if ($authTransaction && !$authTransaction->getIsClosed()) {
+            $authTransaction->setIsClosed(true);
+            $authTransaction->save();
         }
 
         $payment->setTransactionId($incrementValue.'-invoice');
