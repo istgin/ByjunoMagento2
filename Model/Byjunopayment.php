@@ -177,6 +177,17 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         if ($quote == null) {
             return null;
         }
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $state =  $objectManager->get('Magento\Framework\App\State');
+        if ($state->getAreaCode() == "adminhtml" && ($quote->getCustomer() == null || $quote->getCustomer()->getId() == 0)) {
+            //skip credit check for admin new customer
+            return null;
+        }
+        $_isBackend = "";
+        if ($state->getAreaCode() == "adminhtml") {
+            //skip credit check for admin new customer
+            $_isBackend = " (Backend)";
+        }
         if ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/cdpbeforeshow', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
             && $quote != null
             && $quote->getBillingAddress() != null) {
@@ -215,10 +226,10 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                     return null;
                 }
                 if (!$this->isTheSame($request) || empty($CDPStatus)) {
-                    $ByjunoRequestName = "Credit check request";
+                    $ByjunoRequestName = "Credit check request".$_isBackend;
                     if ($request->getCompanyName1() != '' && $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness',
                             \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
-                        $ByjunoRequestName = "Credit check request for Company";
+                        $ByjunoRequestName = "Credit check request for Company".$_isBackend;
                         $xml = $request->createRequestCompany();
                     } else {
                         $xml = $request->createRequest();
