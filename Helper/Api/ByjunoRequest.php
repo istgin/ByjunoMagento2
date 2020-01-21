@@ -515,15 +515,13 @@ class ByjunoRequest
         $Customer->addAttribute("Reference", $this->CustomerReference);
         $Company = $Customer->addChild("Company");
         $Company->CompanyName1 = $this->CompanyName1;
-
+        $Company->Language = $this->Language;
         $OrderingPerson = $Company->addChild('OrderingPerson');
         $Person = $OrderingPerson->addChild("Person");
         $Person->LastName = $this->LastName;
         $Person->FirstName = $this->FirstName;
         $Person->Gender = $this->Gender;
         $Person->DateOfBirth = $this->DateOfBirth;
-        $Person->Language = $this->Language;
-
         $CurrentAddress = $Company->addChild("CurrentAddress");
         $CurrentAddress->FirstLine = $this->FirstLine;
         $CurrentAddress->HouseNumber = $this->HouseNumber;
@@ -531,7 +529,6 @@ class ByjunoRequest
         $CurrentAddress->CountryCode = $this->CountryCode;
         $CurrentAddress->PostCode = $this->PostCode;
         $CurrentAddress->Town = $this->Town;
-
         $CommunicationNumbers = $Company->addChild("CommunicationNumbers");
         $CommunicationNumbers->TelephonePrivate = $this->TelephonePrivate;
         $CommunicationNumbers->TelephoneOffice = $this->TelephoneOffice;
