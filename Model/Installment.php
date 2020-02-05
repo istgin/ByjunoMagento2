@@ -87,6 +87,11 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
         $this->_executed = false;
     }
 
+    public function getInfoBlockType()
+    {
+        return \Byjuno\ByjunoCore\Block\Adminhtml\Info\ByjunoInstallment::class;
+    }
+
     public function assignData(\Magento\Framework\DataObject $data)
     {
         $dataKey = $data->getDataByKey('additional_data');

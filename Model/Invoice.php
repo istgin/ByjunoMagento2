@@ -87,6 +87,11 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         $this->_executed = false;
     }
 
+    public function getInfoBlockType()
+    {
+        return \Byjuno\ByjunoCore\Block\Adminhtml\Info\ByjunoInvoice::class;
+    }
+
     public function getConfigData($field, $storeId = null)
     {
         if ($field == 'order_place_redirect_url') {

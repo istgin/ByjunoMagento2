@@ -39,8 +39,10 @@ class Startpayment extends Action
             $ByjunoRequestName = "Order paid for Company".$savePrefix;
             $requestType = 'b2b';
             $xml = $request->createRequestCompany();
+            $payment->setAdditionalInformation("is_b2b", true);
         } else {
             $xml = $request->createRequest();
+            $payment->setAdditionalInformation("is_b2b", false);
         }
         $mode = self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($mode == 'live') {
@@ -74,8 +76,10 @@ class Startpayment extends Action
             $ByjunoRequestName = "Order request for Company".$savePrefix;
             $requestType = 'b2b';
             $xml = $request->createRequestCompany();
+            $payment->setAdditionalInformation("is_b2b", true);
         } else {
             $xml = $request->createRequest();
+            $payment->setAdditionalInformation("is_b2b", false);
         }
         $mode = $_internalDataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($mode == 'live') {
