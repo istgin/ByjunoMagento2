@@ -58,6 +58,26 @@ class Invoice extends \Magento\Payment\Block\Form
         return $genders;
     }
 
+    public function getGendersEnable()
+    {
+        $gender_enable = false;
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_enable",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $gender_enable = true;
+        }
+        return $gender_enable;
+    }
+
+    public function getBirthdayEnable()
+    {
+        $birthday_enable = false;
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $birthday_enable = true;
+        }
+        return $birthday_enable;
+    }
+
     public function getPaymentPlans()
     {
         $isCompany = false;

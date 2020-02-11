@@ -4,12 +4,15 @@
  */
 $code = "byjuno_installment";
 $genders = $block->getGenders();
+$gendersEnable = $block->getGendersEnable();
+$birthdayEnable = $block->getBirthdayEnable();
 $paymentPlans = $block->getPaymentPlans();
 $deliveryMethods = $block->getDeliveryMethods();
 ?>
 
 <fieldset class="admin__fieldset payment-method" id="payment_form_<?= /* @noEscape */ $code ?>"
           style="display:none;">
+    <?php if ($gendersEnable) { ?>
     <div class="admin__field _required">
         <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_installment_customer_gender" >
             <span><?= $block->escapeHtml(__('Gender')) ?></span>
@@ -26,6 +29,8 @@ $deliveryMethods = $block->getDeliveryMethods();
             </select>
         </div>
     </div>
+    <?php } ?>
+    <?php if ($birthdayEnable) { ?>
     <div class="admin__field _required">
         <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_installment_customer_dob" >
             <span><?= $block->escapeHtml(__('Date of birth')) ?></span>
@@ -43,6 +48,7 @@ $deliveryMethods = $block->getDeliveryMethods();
                                                                 dateFormat: 'yy-MM-dd'} }">
         </div>
     </div>
+    <?php } ?>
     <div class="admin__field _required">
         <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_installment_customer_plan" >
             <span><?= $block->escapeHtml(__('Select payment plan')) ?></span>
