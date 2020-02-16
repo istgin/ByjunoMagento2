@@ -47,15 +47,6 @@ class ByjunoOrderSender extends OrderSender
     {
         ByjunoSenderBuilder::$orderId = $order->getIncrementId();
         $this->email = $email;
-        $transport = [
-            'order' => $order,
-            'billing' => $order->getBillingAddress(),
-            'payment_html' => $this->getPaymentHtml($order),
-            'store' => $order->getStore(),
-            'formattedShippingAddress' => $this->getFormattedShippingAddress($order),
-            'formattedBillingAddress' => $this->getFormattedBillingAddress($order)
-        ];
-        $this->templateContainer->setTemplateVars($transport);
         if ($this->checkAndSend($order)) {
                 return true;
         }
