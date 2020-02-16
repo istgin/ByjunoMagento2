@@ -10,13 +10,15 @@ class ByjunoSenderBuilder extends SenderBuilder
 {
     public function send()
     {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        /* @var $transportBuilder \Byjuno\ByjunoCore\Mail\Template\ByjunoTransportBuilder */
+        $transportBuilder = $objectManager->get('\Byjuno\ByjunoCore\Mail\Template\ByjunoTransportBuilder');
+        $this->transportBuilder = $transportBuilder;
         $this->configureEmailTemplate();
-
         $this->transportBuilder->addTo(
             $this->identityContainer->getCustomerEmail(),
             $this->identityContainer->getCustomerName()
         );
-
         $transport = $this->transportBuilder->getTransport();
         $transport->sendMessage();
     }

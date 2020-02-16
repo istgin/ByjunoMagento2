@@ -43,9 +43,18 @@ class ByjunoOrderSender extends OrderSender
         return true;
     }
 
-    public function sendOrder(\Magento\Sales\Model\Order $order, $email, $forceSyncMode = false)
+    public function sendOrder(\Magento\Sales\Model\Order $order, $email)
     {
         $this->email = $email;
+        $transport = [
+            'order' => $order,
+            'billing' => $order->getBillingAddress(),
+            'payment_html' => $this->getPaymentHtml($order),
+            'store' => $order->getStore(),
+            'formattedShippingAddress' => $this->getFormattedShippingAddress($order),
+            'formattedBillingAddress' => $this->getFormattedBillingAddress($order)
+        ];
+        $this->templateContainer->setTemplateVars($transport);
         if ($this->checkAndSend($order)) {
                 return true;
         }
