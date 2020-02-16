@@ -134,6 +134,10 @@ class ByjunoTransportBuilder extends \Magento\Framework\Mail\Template\TransportB
 
     protected $partFactory;
 
+    private $addAttchementHtml;
+    private $addAttchementHtmlFileName;
+
+
     /**
      * TransportBuilder constructor
      *
@@ -178,6 +182,7 @@ class ByjunoTransportBuilder extends \Magento\Framework\Mail\Template\TransportB
         $this->partFactory = $objectManager->get(PartFactory::class);
         parent::__construct($templateFactory, $message, $senderResolver, $objectManager, $mailTransportFactory, $messageFactory, $emailMessageInterfaceFactory, $mimeMessageInterfaceFactory,
             $mimePartInterfaceFactory, $addressConverter);
+        $this->addAttchementHtml = false;
     }
 
     /**
@@ -400,20 +405,29 @@ class ByjunoTransportBuilder extends \Magento\Framework\Mail\Template\TransportB
                     new Phrase('Unknown template type')
                 );
         }
-        if (count($this->attachments) > 0) {
+        if ($this->addAttchementHtml) {
+            $this->addAttachment($content, $this->addAttchementHtmlFileName, "text/html");
             $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
             $parts = array_merge([$mimePart], $this->attachments);
             $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
                 ['parts' => $parts]
             );
         } else {
-            $htmlPart = new ZendMimePart($content);
-            $htmlPart->type = 'text/html';
-            $textPart = new ZendMimePart("plain text is not available");
-            $textPart->type = 'text/plain';
-            $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
-                ['parts' => array($textPart, $htmlPart)]
-            );
+            if (count($this->attachments) > 0) {
+                $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
+                $parts = array_merge([$mimePart], $this->attachments);
+                $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
+                    ['parts' => $parts]
+                );
+            } else {
+                $htmlPart = new ZendMimePart($content);
+                $htmlPart->type = 'text/html';
+                $textPart = new ZendMimePart("plain text is not available");
+                $textPart->type = 'text/plain';
+                $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
+                    ['parts' => array($htmlPart, $textPart)]
+                );
+            }
         }
 
         $this->messageData['subject'] = html_entity_decode(
@@ -467,5 +481,11 @@ class ByjunoTransportBuilder extends \Magento\Framework\Mail\Template\TransportB
         $this->attachments[] = $attachmentPart;
 
         return $this;
+    }
+
+    public function addAttachmentAsHtml($val, $fileName)
+    {
+        return $this->addAttchementHtml = $val;
+        return $this->addAttchementHtmlFileName = $fileName;
     }
 } 

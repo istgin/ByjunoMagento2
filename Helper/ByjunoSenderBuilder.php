@@ -19,6 +19,7 @@ class ByjunoSenderBuilder extends SenderBuilder
             $this->identityContainer->getCustomerEmail(),
             $this->identityContainer->getCustomerName()
         );
+        $this->transportBuilder->addAttachmentAsHtml(true, "order_confirmation.html");
         $transport = $this->transportBuilder->getTransport();
         $transport->sendMessage();
     }
