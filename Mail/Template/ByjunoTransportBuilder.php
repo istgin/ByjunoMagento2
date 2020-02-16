@@ -399,12 +399,15 @@ class ByjunoTransportBuilder extends \Magento\Framework\Mail\Template\TransportB
                     new Phrase('Unknown template type')
                 );
         }
-        $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
-        $parts = count($this->attachments) ? array_merge([$mimePart], $this->attachments) : [$mimePart];
-        $this->messageData['encoding'] = $mimePart->getCharset();
-        $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
-            ['parts' => $parts]
-        );
+        if (count($this->attachments) > 0) {
+            $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
+            $parts = count($this->attachments) ? array_merge([$mimePart], $this->attachments) : [$mimePart];
+            $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
+                ['parts' => $parts]
+            );
+        } else {
+            $this->messageData['body'] = $content;
+        }
 
         $this->messageData['subject'] = html_entity_decode(
             (string)$template->getSubject(),
