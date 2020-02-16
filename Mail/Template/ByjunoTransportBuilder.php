@@ -406,7 +406,11 @@ class ByjunoTransportBuilder extends \Magento\Framework\Mail\Template\TransportB
                 ['parts' => $parts]
             );
         } else {
-            $this->messageData['body'] = $content;
+            $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
+            $parts = array_merge([$mimePart], []);
+            $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
+                ['parts' => $parts]
+            );
         }
 
         $this->messageData['subject'] = html_entity_decode(
