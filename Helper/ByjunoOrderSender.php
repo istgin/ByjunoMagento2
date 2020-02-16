@@ -45,6 +45,7 @@ class ByjunoOrderSender extends OrderSender
 
     public function sendOrder(\Magento\Sales\Model\Order $order, $email)
     {
+        ByjunoSenderBuilder::$orderId = $order->getIncrementId();
         $this->email = $email;
         $transport = [
             'order' => $order,

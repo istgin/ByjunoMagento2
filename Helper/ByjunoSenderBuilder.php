@@ -8,6 +8,7 @@ use Magento\Sales\Model\Order\Email\SenderBuilder;
 
 class ByjunoSenderBuilder extends SenderBuilder
 {
+    public static $orderId;
     public function send()
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -19,7 +20,7 @@ class ByjunoSenderBuilder extends SenderBuilder
             $this->identityContainer->getCustomerEmail(),
             $this->identityContainer->getCustomerName()
         );
-        $this->transportBuilder->addAttachmentAsHtml(true, "order_confirmation.html");
+        $this->transportBuilder->addAttachmentAsHtml(true, "order_confirmation_".self::$orderId.".html");
         $transport = $this->transportBuilder->getTransport();
         $transport->sendMessage();
     }

@@ -485,7 +485,7 @@ class ByjunoTransportBuilder extends \Magento\Framework\Mail\Template\TransportB
 
     public function addAttachmentAsHtml($val, $fileName)
     {
-        return $this->addAttchementHtml = $val;
-        return $this->addAttchementHtmlFileName = $fileName;
+        $this->addAttchementHtml = $val;
+        $this->addAttchementHtmlFileName = $fileName;
     }
 } 
