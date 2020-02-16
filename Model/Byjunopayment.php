@@ -451,7 +451,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                 __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s4_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE). " (error code: CDP_FAIL)")
             );
         } else {
-            $this->_dataHelper->_byjunoInvoiceSender->sendInvoice($invoice, $email);
+            $this->_dataHelper->_byjunoInvoiceSender->sendInvoice($invoice, $email, $this->_dataHelper);
         }
 
         $authTransaction = $payment->getAuthorizationTransaction();

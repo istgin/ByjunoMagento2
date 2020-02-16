@@ -29,6 +29,11 @@ class ByjunoInvoiceSender extends InvoiceSender
         /** @var \Magento\Sales\Model\Order\Email\SenderBuilder $sender */
         $this->identityContainer->setCustomerName("Byjuno");
         $this->identityContainer->setCustomerEmail($this->email);
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $objectManagerInterface = $objectManager->get('\Magento\Framework\ObjectManagerInterface');
+        $this->senderBuilderFactory = new \Magento\Sales\Model\Order\Email\SenderBuilderFactory($objectManagerInterface, '\\Byjuno\\ByjunoCore\\Helper\\ByjunoInvoiceSenderBuilder');
+
         $sender = $this->getSender();
 
         try {
@@ -39,9 +44,11 @@ class ByjunoInvoiceSender extends InvoiceSender
         return true;
     }
 
-    public function sendInvoice(\Magento\Sales\Model\Order\Invoice $invoice, $email, $forceSyncMode = false)
+    public function sendInvoice(\Magento\Sales\Model\Order\Invoice $invoice, $email, \Byjuno\ByjunoCore\Helper\DataHelper $helper)
     {
         $this->email = $email;
+        $pdfcls = $helper->_objectManager->create(\Magento\Sales\Model\Order\Pdf\Invoice::class)->getPdf([$invoice]);
+        $pdf = $pdfcls->render();
         $order = $invoice->getOrder();
         $transport = [
             'order' => $order,
@@ -53,13 +60,13 @@ class ByjunoInvoiceSender extends InvoiceSender
             'formattedShippingAddress' => $this->getFormattedShippingAddress($order),
             'formattedBillingAddress' => $this->getFormattedBillingAddress($order)
         ];
+        ByjunoInvoiceSenderBuilder::$pdf = $pdf;
+        ByjunoInvoiceSenderBuilder::$pdf_id = $invoice->getIncrementId();
 
         $this->templateContainer->setTemplateVars($transport);
 
-        if (!$this->globalConfig->getValue('sales_email/general/async_sending') || $forceSyncMode) {
-            if ($this->checkAndSend($order)) {
-                return true;
-            }
+        if ($this->checkAndSend($order)) {
+            return true;
         }
         return false;
     }
