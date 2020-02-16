@@ -24,6 +24,7 @@ use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Phrase;
 use Zend\Mime\Mime;
 use Zend\Mime\PartFactory;
+use Zend\Mime\Part as ZendMimePart;
 
 /**
  * TransportBuilder
@@ -401,15 +402,17 @@ class ByjunoTransportBuilder extends \Magento\Framework\Mail\Template\TransportB
         }
         if (count($this->attachments) > 0) {
             $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
-            $parts = count($this->attachments) ? array_merge([$mimePart], $this->attachments) : [$mimePart];
+            $parts = array_merge([$mimePart], $this->attachments);
             $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
                 ['parts' => $parts]
             );
         } else {
-            $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
-            $parts = array_merge([$mimePart], []);
+            $htmlPart = new ZendMimePart($content);
+            $htmlPart->type = 'text/html';
+            $textPart = new ZendMimePart("plain text is not available");
+            $textPart->type = 'text/plain';
             $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
-                ['parts' => $parts]
+                ['parts' => array($textPart, $htmlPart)]
             );
         }
 
