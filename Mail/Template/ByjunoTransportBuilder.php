@@ -401,6 +401,7 @@ class ByjunoTransportBuilder extends \Magento\Framework\Mail\Template\TransportB
         }
         $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
         $parts = count($this->attachments) ? array_merge([$mimePart], $this->attachments) : [$mimePart];
+        $this->messageData['encoding'] = $mimePart->getCharset();
         $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
             ['parts' => $parts]
         );
