@@ -27,13 +27,11 @@ class ByjunoInstallment extends \Magento\Payment\Block\Info
         $htmlAdd = '';
         if ($paymentSend == 'email')
         {
-            $htmlAdd = __($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_localization/byjuno_installment_email_text",
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $htmlAdd = __("Delivery method by E-Mail");
         }
         else if ($paymentSend == 'postal')
         {
-            $htmlAdd = __($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_localization/byjuno_installment_postal_text",
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $htmlAdd = __("Delivery method by Post");
         }
         $out = '(B2C)';
         if ($info == true) {
@@ -67,13 +65,11 @@ class ByjunoInstallment extends \Magento\Payment\Block\Info
         $htmlAdd = '';
         if ($paymentSend == 'email')
         {
-            $htmlAdd = __($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_localization/byjuno_installment_email_text",
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $htmlAdd = __("Delivery method by E-Mail");
         }
         else if ($paymentSend == 'postal')
         {
-            $htmlAdd = __($this->_scopeConfig->getValue("byjunoinstallmentsettings/byjuno_installment_localization/byjuno_installment_postal_text",
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $htmlAdd = __("Delivery method by Post");
         }
         $out = '(B2C)';
         if ($info == true) {

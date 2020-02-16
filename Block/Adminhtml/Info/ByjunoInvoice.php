@@ -21,13 +21,11 @@ class ByjunoInvoice extends \Magento\Payment\Block\Info
         $htmlAdd = '';
         if ($paymentSend == 'email')
         {
-            $htmlAdd = __($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_localization/byjuno_invoice_email_text",
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $htmlAdd = __("Delivery method by E-Mail");
         }
         else if ($paymentSend == 'postal')
         {
-            $htmlAdd = __($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_localization/byjuno_invoice_postal_text",
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $htmlAdd = __("Delivery method by Post");
         }
         $out = '(B2C)';
         if ($info == true) {
@@ -55,13 +53,11 @@ class ByjunoInvoice extends \Magento\Payment\Block\Info
         $htmlAdd = '';
         if ($paymentSend == 'email')
         {
-            $htmlAdd = __($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_localization/byjuno_invoice_email_text",
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $htmlAdd = __("Delivery method by E-Mail");
         }
         else if ($paymentSend == 'postal')
         {
-            $htmlAdd = __($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_localization/byjuno_invoice_postal_text",
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $htmlAdd = __("Delivery method by Post");
         }
         $out = '(B2C)';
         if ($info == true) {
