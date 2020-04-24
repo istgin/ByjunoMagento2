@@ -425,6 +425,7 @@
                 <merchant_risk></merchant_risk>
                 <accepted_s3>2</accepted_s3>
                 <can_edit>0</can_edit>
+                <force_send_email>1</force_send_email>
             </byjuno_setup>
             <localization>
                 <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Rechnung mit Teilzahlungsoption,Byjuno
