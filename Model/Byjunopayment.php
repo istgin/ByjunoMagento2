@@ -46,6 +46,10 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         return $this;
     }
 
+    public function canEdit()
+    {
+        return ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/can_edit', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1');
+    }
 
     public function canCapture()
     {
