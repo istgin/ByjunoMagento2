@@ -310,8 +310,20 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                 );
             }
         }
+        $birthday_provided = false;
+        $b = $this->_checkoutSession->getQuote()->getCustomerDob();
+        if (!empty($b)) {
+            try {
+                $dobObject = new \DateTime($b);
+                if ($dobObject != null) {
+                    $birthday_provided = true;
+                }
+            } catch (\Exception $e) {
+
+            }
+        }
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1 && !$birthday_provided) {
             if ($payment->getAdditionalInformation('customer_dob') == null || $payment->getAdditionalInformation('customer_dob') == '') {
                 throw new LocalizedException(
                     __("Birthday not selected")

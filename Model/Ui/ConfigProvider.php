@@ -209,6 +209,17 @@ final class ConfigProvider implements ConfigProviderInterface
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
             $birthday_enable = true;
+            $b = $this->_checkoutSession->getQuote()->getCustomerDob();
+            if (!empty($b)) {
+                try {
+                    $dobObject = new \DateTime($b);
+                    if ($dobObject != null) {
+                        $birthday_enable = false;
+                    }
+                } catch (\Exception $e) {
+
+                }
+            }
         }
         $gender_prefix = trim($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_prefix", \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $gendersArray = explode(";", $gender_prefix);
