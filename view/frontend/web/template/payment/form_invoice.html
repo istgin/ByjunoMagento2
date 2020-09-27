@@ -59,14 +59,14 @@
                         <div class="control">
                             <input name="payment[invoice_customer_dob]" id="customer_dob_invoice"
                                     style="width: 150px"
-                                    placeholder="YYYY-MM-DD"
+                                    placeholder=""
                                     type="text" class="input-text"
-                                   data-bind="datepicker: { storage: getDob(), options: {
+                                    data-bind="attr:{placeholder: $t('DD.MM.YYYY')}, datepicker: { storage: getDob(), options: {
                                                                 changeMonth: true,
                                                                 changeYear: true,
 																yearRange: getYearRange(),
                                                                 showButtonPanel: true,
-                                                                dateFormat: 'yy-MM-dd'} }">
+                                                                dateFormat: 'dd.MM.yy'} }">
                         </div>
                     </div>
                     <!-- /ko -->

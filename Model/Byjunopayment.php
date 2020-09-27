@@ -318,14 +318,14 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                 );
             }
 
-            if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $payment->getAdditionalInformation('customer_dob')))
+            if (!preg_match("/^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/", $payment->getAdditionalInformation('customer_dob')))
             {
                 throw new LocalizedException(
                     __("Birthday is invalid")
                 );
             } else {
-                $e = explode("-", $payment->getAdditionalInformation('customer_dob'));
-                if (!isset($e[0]) || intval($e[0]) < 1800 || intval($e[0]) > date("Y")) {
+                $e = explode(".", $payment->getAdditionalInformation('customer_dob'));
+                if (!isset($e[2]) || intval($e[2]) < 1800 || intval($e[2]) > date("Y")) {
                     throw new LocalizedException(
                         __("Provided date is not valid")
                     );
