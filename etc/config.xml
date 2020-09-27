@@ -22,10 +22,10 @@
                     <byjuno_invoice_payment_message>Bitte wählen Sie die Zahlungsart und akzeptieren Sie die Allgemeinen
                         Geschäftsbedingungen
                     </byjuno_invoice_payment_message>
-                    <byjuno_invoice_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.50) an
+                    <byjuno_invoice_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.95) an
                     </byjuno_invoice_postal_text>
                     <byjuno_invoice_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_invoice_email_text>
-                    <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.50 pro
+                    <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.95 pro
                         Rate) an
                     </byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an
@@ -55,7 +55,7 @@
                 <byjuno_invoice_localization>
                     <byjuno_invoice_toc_string>AGB</byjuno_invoice_toc_string>
                     <byjuno_invoice_payment_message>Bitte wählen Sie die Zahlungsart und akzeptieren Sie die Allgemeinen Geschäftsbedingungen</byjuno_invoice_payment_message>
-                    <byjuno_invoice_postal_text>Rechnungsversand in Papierform via Post  (gegen Gebühr von CHF 3.50) an</byjuno_invoice_postal_text>
+                    <byjuno_invoice_postal_text>Rechnungsversand in Papierform via Post  (gegen Gebühr von CHF 95) an</byjuno_invoice_postal_text>
                     <byjuno_invoice_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_invoice_email_text>
                 </byjuno_invoice_localization>
             </byjunoinvoicesettings>
@@ -87,7 +87,7 @@
                 <byjuno_installment_localization>
                     <byjuno_installment_toc_string>AGB</byjuno_installment_toc_string>
                     <byjuno_installment_payment_message>Bitte wählen Sie die Zahlungsart und akzeptieren Sie die Allgemeinen Geschäftsbedingungen</byjuno_installment_payment_message>
-                    <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.50) an</byjuno_installment_postal_text>
+                    <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.95) an</byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_installment_email_text>
                 </byjuno_installment_localization>
             </byjunoinstallmentsettings>
@@ -113,10 +113,10 @@
                     <byjuno_invoice_payment_message>Veuillez choisir le type de paiement et accepter les conditions
                         générales
                     </byjuno_invoice_payment_message>
-                    <byjuno_invoice_postal_text>Expédition facture sous forme papier (au prix de CHF 3.50) à
+                    <byjuno_invoice_postal_text>Expédition facture sous forme papier (au prix de CHF 3.95) à
                     </byjuno_invoice_postal_text>
                     <byjuno_invoice_email_text>Expédition facture via e-mail (sans frais) à</byjuno_invoice_email_text>
-                    <byjuno_installment_postal_text>Expédition facture sous forme papier (au prix de CHF 3.50 par tranche)
+                    <byjuno_installment_postal_text>Expédition facture sous forme papier (au prix de CHF 3.95 par tranche)
                         à
                     </byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Expédition facture via e-mail (sans frais) à
@@ -147,7 +147,7 @@
                 <byjuno_invoice_localization>
                     <byjuno_invoice_toc_string>CGV</byjuno_invoice_toc_string>
                     <byjuno_invoice_payment_message>Veuillez choisir le type de paiement et accepter les conditions générales</byjuno_invoice_payment_message>
-                    <byjuno_invoice_postal_text>Expédition facture sous forme papier (au prix de CHF 3.50) à</byjuno_invoice_postal_text>
+                    <byjuno_invoice_postal_text>Expédition facture sous forme papier (au prix de CHF 3.95) à</byjuno_invoice_postal_text>
                     <byjuno_invoice_email_text>Expédition facture via e-mail (sans frais) à</byjuno_invoice_email_text>
                 </byjuno_invoice_localization>
             </byjunoinvoicesettings>
@@ -179,7 +179,7 @@
                 <byjuno_installment_localization>
                     <byjuno_installment_toc_string>CGV</byjuno_installment_toc_string>
                     <byjuno_installment_payment_message>Veuillez choisir le type de paiement et accepter les conditions générales</byjuno_installment_payment_message>
-                    <byjuno_installment_postal_text>Expédition facture sous forme papier (au prix de CHF 3.50 par tranche) à</byjuno_installment_postal_text>
+                    <byjuno_installment_postal_text>Expédition facture sous forme papier (au prix de CHF 3.95 par tranche) à</byjuno_installment_postal_text>
                     <byjuno_installment_email_text>byjuno_installment_email_text</byjuno_installment_email_text>
                 </byjuno_installment_localization>
             </byjunoinstallmentsettings>
@@ -206,12 +206,12 @@
                     <byjuno_invoice_payment_message>La preghiamo di scegliere la modalità di pagamento e di accettare le
                         condizioni generali di contratto
                     </byjuno_invoice_payment_message>
-                    <byjuno_invoice_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.50)
+                    <byjuno_invoice_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.95)
                         all’indirizzo
                     </byjuno_invoice_postal_text>
                     <byjuno_invoice_email_text>Invio fattura tramite e-mail (senza spese aggiuntive) all’indirizzo
                     </byjuno_invoice_email_text>
-                    <byjuno_installment_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.50 per
+                    <byjuno_installment_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.95 per
                         ogni rata) all’indirizzo
                     </byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Invio fattura tramite e-mail (senza spese aggiuntive) all’indirizzo
@@ -242,7 +242,7 @@
                 <byjuno_invoice_localization>
                     <byjuno_invoice_toc_string>CGC</byjuno_invoice_toc_string>
                     <byjuno_invoice_payment_message>La preghiamo di scegliere la modalità di pagamento e di accettare le condizioni generali di contratto</byjuno_invoice_payment_message>
-                    <byjuno_invoice_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.50) all’indirizzo</byjuno_invoice_postal_text>
+                    <byjuno_invoice_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.95) all’indirizzo</byjuno_invoice_postal_text>
                     <byjuno_invoice_email_text>Invio fattura tramite e-mail (senza spese aggiuntive) all’indirizzo</byjuno_invoice_email_text>
                 </byjuno_invoice_localization>
             </byjunoinvoicesettings>
@@ -274,7 +274,7 @@
                 <byjuno_installment_localization>
                     <byjuno_installment_toc_string>CGC</byjuno_installment_toc_string>
                     <byjuno_installment_payment_message>La preghiamo di scegliere la modalità di pagamento e di accettare le condizioni generali di contratto</byjuno_installment_payment_message>
-                    <byjuno_installment_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.50 per ogni rata) all’indirizzo</byjuno_installment_postal_text>
+                    <byjuno_installment_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.95 per ogni rata) all’indirizzo</byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Invio fattura tramite e-mail (senza spese aggiuntive) all’indirizzo</byjuno_installment_email_text>
                 </byjuno_installment_localization>
             </byjunoinstallmentsettings>
@@ -300,10 +300,10 @@
                     <byjuno_invoice_toc_string>T&amp;C</byjuno_invoice_toc_string>
                     <byjuno_invoice_payment_message>Please select payment option and agree to Terms and Conditions
                     </byjuno_invoice_payment_message>
-                    <byjuno_invoice_postal_text>Invoice Delivery method by Post (postage fee 3.50 CHF) to
+                    <byjuno_invoice_postal_text>Invoice Delivery method by Post (postage fee 3.95 CHF) to
                     </byjuno_invoice_postal_text>
                     <byjuno_invoice_email_text>Invoice Delivery method by E-Mail (no fees) to</byjuno_invoice_email_text>
-                    <byjuno_installment_postal_text>Installments Delivery method by Post (postage fee 3.50 CHF for each
+                    <byjuno_installment_postal_text>Installments Delivery method by Post (postage fee 3.95 CHF for each
                         installment) to
                     </byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Installments Delivery method by E-Mail (no fees) to
@@ -333,7 +333,7 @@
                 <byjuno_invoice_localization>
                     <byjuno_invoice_toc_string>T&amp;C</byjuno_invoice_toc_string>
                     <byjuno_invoice_payment_message>Please select payment option and agree to Terms and Conditions</byjuno_invoice_payment_message>
-                    <byjuno_invoice_postal_text>Invoice Delivery method by Post (postage fee 3.50 CHF) to</byjuno_invoice_postal_text>
+                    <byjuno_invoice_postal_text>Invoice Delivery method by Post (postage fee 3.95 CHF) to</byjuno_invoice_postal_text>
                     <byjuno_invoice_email_text>Invoice Delivery method by E-Mail (no fees) to</byjuno_invoice_email_text>
                 </byjuno_invoice_localization>
             </byjunoinvoicesettings>
@@ -365,7 +365,7 @@
                 <byjuno_installment_localization>
                     <byjuno_installment_toc_string>CGC</byjuno_installment_toc_string>
                     <byjuno_installment_payment_message>La preghiamo di scegliere la modalità di pagamento e di accettare le condizioni generali di contratto</byjuno_installment_payment_message>
-                    <byjuno_installment_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.50 per ogni rata) all’indirizzo</byjuno_installment_postal_text>
+                    <byjuno_installment_postal_text>Invio fattura cartacea tramite posta (spese aggiuntive di CHF 3.95 per ogni rata) all’indirizzo</byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Invio fattura tramite e-mail (senza spese aggiuntive) all’indirizzo</byjuno_installment_email_text>
                 </byjuno_installment_localization>
             </byjunoinstallmentsettings>
@@ -442,7 +442,7 @@
                 <byjuno_fail_message>Der Anbieter dieser Zahlungsart hat die gewählte Bezahlmethode abgelehnt. Bitte wählen
                     Sie eine andere Zahlungsart.
                 </byjuno_fail_message>
-                <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.50 pro Rate)
+                <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.95 pro Rate)
                     an
                 </byjuno_installment_postal_text>
                 <byjuno_installment_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_installment_email_text>
@@ -476,7 +476,7 @@
             <byjuno_invoice_localization>
                 <byjuno_invoice_toc_string>AGB</byjuno_invoice_toc_string>
                 <byjuno_invoice_payment_message>Bitte wählen Sie die Zahlungsart und akzeptieren Sie die Allgemeinen Geschäftsbedingungen</byjuno_invoice_payment_message>
-                <byjuno_invoice_postal_text>Rechnungsversand in Papierform via Post  (gegen Gebühr von CHF 3.50) an</byjuno_invoice_postal_text>
+                <byjuno_invoice_postal_text>Rechnungsversand in Papierform via Post  (gegen Gebühr von CHF 3.95) an</byjuno_invoice_postal_text>
                 <byjuno_invoice_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_invoice_email_text>
             </byjuno_invoice_localization>
         </byjunoinvoicesettings>
@@ -520,7 +520,7 @@
                 <byjuno_installment_payment_message>Bitte wählen Sie die Zahlungsart und akzeptieren Sie die Allgemeinen
                     Geschäftsbedingungen
                 </byjuno_installment_payment_message>
-                <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.50) an
+                <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.95) an
                 </byjuno_installment_postal_text>
                 <byjuno_installment_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_installment_email_text>
             </byjuno_installment_localization>
