@@ -149,12 +149,16 @@ class Startpayment extends Action
                     $payment->setAdditionalInformation("s3_ok", 'true');
                     $payment->save();
 
-                    if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/can_edit', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
-                        $order->setStatus("pending");
-                    } else {
+                    if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'completed') {
+                        $order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE);
+                        $order->setStatus("complete");
+                    } else if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'processing') {
                         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
                         $order->setStatus("byjuno_confirmed");
+                    } else {
+                        $order->setStatus("pending");
                     }
+
                     self::$_dataHelper->saveStatusToOrder($order, $responseS2);
                     try {
                         $mode = self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
@@ -218,11 +222,14 @@ class Startpayment extends Action
                     $transaction->save();
                     $payment->setAdditionalInformation("s3_ok", 'true');
                     $payment->save();
-                    if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/can_edit', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
-                        $order->setStatus("pending");
-                    } else {
+                    if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'completed') {
+                        $order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE);
+                        $order->setStatus("complete");
+                    } else if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'processing') {
                         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
                         $order->setStatus("byjuno_confirmed");
+                    } else {
+                        $order->setStatus("pending");
                     }
                     self::$_dataHelper->saveStatusToOrder($order, $responseS2);
                     try {

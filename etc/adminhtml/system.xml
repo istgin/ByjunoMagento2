@@ -126,10 +126,9 @@
                     <label>Accepted statuses for S3 response</label>
                     <comment>comma separated</comment>
                 </field>
-                <field id="can_edit" translate="label" type="select" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Can edit order</label>
-                    <comment>In case "Yes" - order state after success payment will pe pending.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                <field id="success_state" translate="label" type="select" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order state after success S3</label>
+                    <source_model>Byjuno\ByjunoCore\Model\Source\SuccessState</source_model>
                 </field>
                 <field id="force_send_email" translate="label" type="select" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Force send order confirmation email</label>

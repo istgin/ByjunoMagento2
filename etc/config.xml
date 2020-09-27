@@ -424,7 +424,7 @@
                 <byjuno_risk>2</byjuno_risk>
                 <merchant_risk></merchant_risk>
                 <accepted_s3>2</accepted_s3>
-                <can_edit>0</can_edit>
+                <success_state>processing</success_state>
                 <force_send_email>1</force_send_email>
             </byjuno_setup>
             <localization>
