@@ -154,7 +154,7 @@ class Startpayment extends Action
                         $order->setStatus("complete");
                     } else if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'processing') {
                         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
-                        $order->setStatus("byjuno_confirmed");
+                        $order->setStatus("processing");
                     } else {
                         $order->setStatus("pending");
                     }
@@ -227,7 +227,7 @@ class Startpayment extends Action
                         $order->setStatus("complete");
                     } else if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'processing') {
                         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
-                        $order->setStatus("byjuno_confirmed");
+                        $order->setStatus("processing");
                     } else {
                         $order->setStatus("pending");
                     }
