@@ -102,6 +102,10 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
 
     public function isAvailable(CartInterface $quote = null)
     {
+        $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if (!$isAvaliable) {
+            return;
+        }
         $isCompany = false;
         if (!empty($this->_checkoutSession->getQuote()->getBillingAddress()->getCompany()) &&
             $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/businesstobusiness", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
@@ -112,7 +116,6 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         $byjuno_invoice_partial_allow = $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/byjuno_invoice_partial_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $byjuno_single_invoice_allow = $this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_single_invoice/byjuno_single_invoice_allow", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active");
         $methodsAvailable =
             ($this->_scopeConfig->getValue("byjunoinvoicesettings/byjuno_invoice_partial/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             && ($byjuno_invoice_partial_allow == '0' || ($byjuno_invoice_partial_allow == '1' && !$isCompany) || ($byjuno_invoice_partial_allow == '2' && $isCompany)))

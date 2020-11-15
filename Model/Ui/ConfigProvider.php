@@ -11,7 +11,7 @@ use Magento\Payment\Helper\Data as PaymentHelper;
 /**
  * Class ConfigProvider
  */
-final class ConfigProvider implements ConfigProviderInterface
+class ConfigProvider implements ConfigProviderInterface
 {
     protected $_resolver;
     const CODE_INVOICE = 'byjuno_invoice';
@@ -85,6 +85,10 @@ final class ConfigProvider implements ConfigProviderInterface
 
     public function getConfig()
     {
+        $isAvaliable =  $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if (!$isAvaliable) {
+            return [];
+        }
         $isCompany = false;
         if (!empty($this->_checkoutSession->getQuote()->getBillingAddress()->getCompany()) &&
             $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/businesstobusiness", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
