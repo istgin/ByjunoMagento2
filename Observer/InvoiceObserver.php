@@ -8,7 +8,12 @@
 
 namespace Byjuno\ByjunoCore\Observer;
 
-class InvoiceObserver
-{
+
+use Magento\Framework\Event\ObserverInterface;
+
+class InvoiceObserver implements ObserverInterface {
     public static $Invoice;
+    public function execute(\Magento\Framework\Event\Observer $observer ) {
+        self::$Invoice  = $observer->getInvoice();
+    }
 }

@@ -2,4 +2,7 @@
     <event name="checkout_submit_all_after">
         <observer name="byjuno_observer_checkout_submit_all_after" instance="Byjuno\ByjunoCore\Observer\CheckoutSubmitByjuno"/>
     </event>
+    <event name="sales_order_payment_capture">
+        <observer name="byjuno_sales_order_payment_capture" instance="Byjuno\ByjunoCore\Observer\InvoiceObserver"/>
+    </event>
 </config>
