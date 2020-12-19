@@ -300,7 +300,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
     }
 
     /* @var $payment \Magento\Quote\Model\Quote\Payment */
-    public function validateCustomFields(\Magento\Payment\Model\InfoInterface $payment)
+    public function validateCustomByjunoFields(\Magento\Payment\Model\InfoInterface $payment, $isCompany)
     {
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_enable",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
@@ -322,28 +322,39 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
 
             }
         }
-        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1 && !$birthday_provided) {
-            if ($payment->getAdditionalInformation('customer_dob') == null || $payment->getAdditionalInformation('customer_dob') == '') {
-                throw new LocalizedException(
-                    __("Birthday not selected")
-                );
-            }
-
-            if (!preg_match("/^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/", $payment->getAdditionalInformation('customer_dob')))
-            {
-                throw new LocalizedException(
-                    __("Birthday is invalid")
-                );
-            } else {
-                $e = explode(".", $payment->getAdditionalInformation('customer_dob'));
-                if (!isset($e[2]) || intval($e[2]) < 1800 || intval($e[2]) > date("Y")) {
+        if (!$isCompany) {
+            if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1 && !$birthday_provided) {
+                if ($payment->getAdditionalInformation('customer_dob') == null || $payment->getAdditionalInformation('customer_dob') == '') {
                     throw new LocalizedException(
-                        __("Provided date is not valid")
+                        __("Birthday not selected")
+                    );
+                }
+
+                if (!preg_match("/^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/", $payment->getAdditionalInformation('customer_dob'))) {
+                    throw new LocalizedException(
+                        __("Birthday is invalid")
+                    );
+                } else {
+                    $e = explode(".", $payment->getAdditionalInformation('customer_dob'));
+                    if (!isset($e[2]) || intval($e[2]) < 1800 || intval($e[2]) > date("Y")) {
+                        throw new LocalizedException(
+                            __("Provided date is not valid")
+                        );
+                    }
+                }
+            }
+        } else {
+            if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/b2b_uid",
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+                if ($payment->getAdditionalInformation('customer_b2b_uid') == null || $payment->getAdditionalInformation('customer_b2b_uid') == '') {
+                    throw new LocalizedException(
+                        __("Company registration number not provided")
                     );
                 }
             }
         }
+
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/country_phone_validation",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1 && $payment->getQuote() != null) {
 

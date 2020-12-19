@@ -91,7 +91,17 @@ define(
                             'installment_customer_dob': jquery("#customer_dob_installment").val()
                         }
                     };
-                } else if (this.isGenderEnabled()) {
+                } else if (this.isB2bAllFieldsEnabled()) {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'installment_payment_plan': this.paymentPlan(),
+                            'installment_send': this.deliveryPlan(),
+                            'installment_customer_gender': this.customGender(),
+                            'installment_customer_b2b_uid': jquery("#customer_b2b_uid_installment").val()
+                        }
+                    };
+                }  else if (this.isGenderEnabled()) {
                     return {
                         'method': this.item.method,
                         'additional_data': {
@@ -109,7 +119,16 @@ define(
                             'installment_customer_dob': jquery("#customer_dob_invoice").val()
                         }
                     };
-                } else {
+                } else if (this.isB2bUid()) {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'installment_payment_plan': this.paymentPlan(),
+                            'installment_send': this.deliveryPlan(),
+                            'installment_customer_b2b_uid': jquery("#customer_b2b_uid_installment").val()
+                        }
+                    };
+                }  else {
                     return {
                         'method': this.item.method,
                         'additional_data': {
@@ -166,6 +185,10 @@ define(
                 return this.isGenderEnabled() && this.isBirthdayEnabled();
             },
 
+            isB2bAllFieldsEnabled: function () {
+                return this.isGenderEnabled() && this.isB2bUid();
+            },
+
             isFieldsEnabled: function () {
                 return this.isGenderEnabled() || this.isBirthdayEnabled();
             },
@@ -176,6 +199,9 @@ define(
 
             isBirthdayEnabled: function () {
                 return window.checkoutConfig.payment.byjuno_installment.birthday_enable;
+            },
+            isB2bUid: function () {
+                return window.checkoutConfig.payment.byjuno_installment.b2b_uid;
             },
 
             getGenders: function() {

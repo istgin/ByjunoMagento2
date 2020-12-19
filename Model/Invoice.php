@@ -187,6 +187,11 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
         } else {
             $payment->setAdditionalInformation('customer_dob', '');
         }
+        if (isset($dataKey['invoice_customer_b2b_uid'])) {
+            $payment->setAdditionalInformation('customer_b2b_uid', $dataKey['invoice_customer_b2b_uid']);
+        } else {
+            $payment->setAdditionalInformation('customer_b2b_uid', '');
+        }
         $payment->setAdditionalInformation('s3_ok', 'false');
         $payment->setAdditionalInformation("webshop_profile_id", $this->getStore());
         return $this;
@@ -195,7 +200,14 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
     public function validate()
     {
         $payment = $this->getInfoInstance();
-        $this->validateCustomFields($payment);
+        $isCompany = false;
+        if (!empty($this->_checkoutSession->getQuote()->getBillingAddress()->getCompany()) &&
+            $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/businesstobusiness", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
+        )
+        {
+            $isCompany = true;
+        }
+        $this->validateCustomByjunoFields($payment, $isCompany);
         if ($payment->getAdditionalInformation('payment_plan') == null ||
             ($payment->getAdditionalInformation('payment_plan') != 'invoice_single_enable' &&
                 $payment->getAdditionalInformation('payment_plan') != 'invoice_partial_enable')) {

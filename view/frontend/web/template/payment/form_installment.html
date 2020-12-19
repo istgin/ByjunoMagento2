@@ -69,6 +69,16 @@
                         </div>
                     </div>
                     <!-- /ko -->
+                    <!-- ko if: (isB2bUid())-->
+                    <div class="field required">
+                        <label for="customer_b2b_uid_installment" class="label">
+                            <span><!-- ko i18n: 'Company registration number'--><!-- /ko --></span>
+                        </label>
+                        <div class="control">
+                            <input name="payment[installment_customer_b2b_uid]" id="customer_b2b_uid_installment" style="width: 150px" type="text" class="input-text">
+                        </div>
+                    </div>
+                    <!-- /ko -->
                 </fieldset>
             </div>
         </fieldset>

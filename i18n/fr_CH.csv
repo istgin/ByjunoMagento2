@@ -16,3 +16,5 @@
 "Delivery method by E-Mail", "Expédition facture via e-mail"
 "Delivery method by Post", "Expédition facture sous forme papier"
 "DD.MM.YYYY", "JJ.MM.AAAA"
+"Company registration number", "Numéro d'entreprise"
+"Company registration number not provided", "Numéro d'enregistrement de l'entreprise non fourni"

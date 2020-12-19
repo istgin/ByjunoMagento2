@@ -32,7 +32,14 @@ class Startpayment extends Action
 
     public static function executeS3($order, \Magento\Sales\Model\Order\Payment $payment, $transaction, $accept, $savePrefix = "")
     {
-        $request = self::$_dataHelper->CreateMagentoShopRequestPaid($order, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $transaction, $accept, $payment->getAdditionalInformation('pref_lang'));
+        $request = self::$_dataHelper->CreateMagentoShopRequestPaid($order,
+            $payment,
+            $payment->getAdditionalInformation('customer_gender'),
+            $payment->getAdditionalInformation('customer_dob'),
+            $transaction,
+            $accept,
+            $payment->getAdditionalInformation('pref_lang'),
+            $payment->getAdditionalInformation('customer_b2b_uid'));
         $ByjunoRequestName = "Order paid".$savePrefix;
         $requestType = 'b2c';
         if ($request->getCompanyName1() != '' && self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
@@ -68,7 +75,12 @@ class Startpayment extends Action
 
     public static function executeS2Quote(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Payment $payment, DataHelper $_internalDataHelper, $savePrefix = "")
     {
-        $request = $_internalDataHelper->CreateMagentoShopRequestOrderQuote($quote, $payment, $payment->getAdditionalInformation('customer_gender'), $payment->getAdditionalInformation('customer_dob'), $payment->getAdditionalInformation('pref_lang'));
+        $request = $_internalDataHelper->CreateMagentoShopRequestOrderQuote($quote,
+            $payment,
+            $payment->getAdditionalInformation('customer_gender'),
+            $payment->getAdditionalInformation('customer_dob'),
+            $payment->getAdditionalInformation('pref_lang'),
+            $payment->getAdditionalInformation('customer_b2b_uid'));
 
         $ByjunoRequestName = "Order request".$savePrefix;
         $requestType = 'b2c';

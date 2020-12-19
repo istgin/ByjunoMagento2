@@ -90,6 +90,16 @@ define(
                             'invoice_customer_dob': jquery("#customer_dob_invoice").val()
                         }
                     };
+                } else if (this.isB2bAllFieldsEnabled()) {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'invoice_payment_plan': this.paymentPlan(),
+                            'invoice_send': this.deliveryPlan(),
+                            'invoice_customer_gender': this.customGender(),
+                            'invoice_customer_b2b_uid': jquery("#customer_b2b_uid_invoice").val()
+                        }
+                    };
                 } else if (this.isGenderEnabled()) {
                     return {
                         'method': this.item.method,
@@ -106,6 +116,15 @@ define(
                             'invoice_payment_plan': this.paymentPlan(),
                             'invoice_send': this.deliveryPlan(),
                             'invoice_customer_dob': jquery("#customer_dob_invoice").val()
+                        }
+                    };
+                } else if (this.isB2bUid()) {
+                    return {
+                        'method': this.item.method,
+                        'additional_data': {
+                            'invoice_payment_plan': this.paymentPlan(),
+                            'invoice_send': this.deliveryPlan(),
+                            'invoice_customer_b2b_uid': jquery("#customer_b2b_uid_invoice").val()
                         }
                     };
                 } else {
@@ -165,6 +184,10 @@ define(
                 return this.isGenderEnabled() && this.isBirthdayEnabled();
             },
 
+            isB2bAllFieldsEnabled: function () {
+                return this.isGenderEnabled() && this.isB2bUid();
+            },
+
             isFieldsEnabled: function () {
                 return this.isGenderEnabled() || this.isBirthdayEnabled();
             },
@@ -175,6 +198,9 @@ define(
 
             isBirthdayEnabled: function () {
                 return window.checkoutConfig.payment.byjuno_installment.birthday_enable;
+            },
+            isB2bUid: function () {
+                return window.checkoutConfig.payment.byjuno_installment.b2b_uid;
             },
 
             getGenders: function() {

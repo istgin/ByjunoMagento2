@@ -210,7 +210,7 @@ class ConfigProvider implements ConfigProviderInterface
             $gender_enable = true;
         }
         $birthday_enable = false;
-        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
+        if (!$isCompany && $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
             $birthday_enable = true;
             $b = $this->_checkoutSession->getQuote()->getCustomerDob();
@@ -224,6 +224,12 @@ class ConfigProvider implements ConfigProviderInterface
 
                 }
             }
+        }
+
+        $b2b_uid = false;
+        if ($isCompany && $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/b2b_uid",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $b2b_uid = true;
         }
         $gender_prefix = trim($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/gender_prefix", \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $gendersArray = explode(";", $gender_prefix);
@@ -258,7 +264,8 @@ class ConfigProvider implements ConfigProviderInterface
                     'default_customgender' => $dafualtGender,
                     'custom_genders' => $genders,
                     'gender_enable' => $gender_enable,
-                    'birthday_enable' => $birthday_enable
+                    'birthday_enable' => $birthday_enable,
+                    'b2b_uid' => $b2b_uid
                 ],
                 self::CODE_INSTALLMENT => [
                     'redirectUrl' => $this->methodInstanceInvoice->getConfigData('order_place_redirect_url'),
@@ -271,7 +278,8 @@ class ConfigProvider implements ConfigProviderInterface
                     'default_customgender' => $dafualtGender,
                     'custom_genders' => $genders,
                     'gender_enable' => $gender_enable,
-                    'birthday_enable' => $birthday_enable
+                    'birthday_enable' => $birthday_enable,
+                    'b2b_uid' => $b2b_uid
                 ]
             ]
         ];

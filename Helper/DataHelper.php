@@ -504,7 +504,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     function CreateMagentoShopRequestOrderQuote(\Magento\Quote\Model\Quote $quote,
                                                 \Magento\Quote\Model\Quote\Payment $paymentmethod,
-                                           $gender_custom, $dob_custom, $pref_lang)
+                                           $gender_custom, $dob_custom, $pref_lang, $b2b_uid)
     {
 
         $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoRequest();
@@ -620,6 +620,12 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $extraInfo["Value"] = $this->getClientIp();
         $request->setExtraInfo($extraInfo);
 
+        if (!empty($b2b_uid)) {
+            $extraInfo["Name"] = 'REGISTERNUMMER';
+            $extraInfo["Value"] = $b2b_uid;
+            $request->setExtraInfo($extraInfo);
+        }
+
         $sedId = $this->_checkoutSession->getTmxSession();
         if ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/tmxenabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1' && !empty($sedId)) {
             $extraInfo["Name"] = 'DEVICE_FINGERPRINT_ID';
@@ -707,7 +713,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     function CreateMagentoShopRequestPaid(\Magento\Sales\Model\Order $order,
                                           \Magento\Sales\Model\Order\Payment $paymentmethod,
-                                          $gender_custom, $dob_custom, $transaction, $riskOwner, $pref_lang)
+                                          $gender_custom, $dob_custom, $transaction, $riskOwner, $pref_lang, $b2b_uid)
     {
 
         $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoRequest();
@@ -828,6 +834,12 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $extraInfo["Name"] = 'IP';
         $extraInfo["Value"] = $this->getClientIp();
         $request->setExtraInfo($extraInfo);
+
+        if (!empty($b2b_uid)) {
+            $extraInfo["Name"] = 'REGISTERNUMMER';
+            $extraInfo["Value"] = $b2b_uid;
+            $request->setExtraInfo($extraInfo);
+        }
 
         $sedId = $this->_checkoutSession->getTmxSession();
         if ($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/tmxenabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1' && !empty($sedId)) {
