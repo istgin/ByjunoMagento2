@@ -427,6 +427,7 @@
                 <success_state>processing</success_state>
                 <force_send_email>1</force_send_email>
                 <b2b_uid>0</b2b_uid>
+                <txid_extrainfo>0</txid_extrainfo>
             </byjuno_setup>
             <localization>
                 <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Rechnung mit Teilzahlungsoption,Byjuno

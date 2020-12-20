@@ -819,6 +819,15 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $extraInfo["Value"] = $transaction;
         $request->setExtraInfo($extraInfo);
 
+        $txid_extrainfo = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/txid_extrainfo',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        if ($txid_extrainfo == 1) {
+            $extraInfo["Name"] = 'ICP-FLD-CUSTOM1';
+            $extraInfo["Value"] = $transaction;
+            $request->setExtraInfo($extraInfo);
+        }
+
         $extraInfo["Name"] = 'ORDERCLOSED';
         $extraInfo["Value"] = 'YES';
         $request->setExtraInfo($extraInfo);

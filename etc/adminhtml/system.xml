@@ -106,6 +106,10 @@
                     <label>Capture UID for B2B Requests</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="txid_extrainfo" translate="label" type="select" sortOrder="157" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Submit Transactionnumber for Payout file.</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="byjuno_prod_email" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Production email of Byjuno</label>
                     <comment>Email used to send orders, invoices and credit memos</comment>
