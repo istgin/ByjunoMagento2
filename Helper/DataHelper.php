@@ -815,14 +815,15 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setTelephonePrivate((String)trim($order->getBillingAddress()->getTelephone(), '-'));
         $request->setEmail((String)$order->getBillingAddress()->getEmail());
 
-        $extraInfo["Name"] = 'TRANSACTIONNUMBER';
-        $extraInfo["Value"] = $transaction;
-        $request->setExtraInfo($extraInfo);
-
+        if (!empty($transaction)) {
+            $extraInfo["Name"] = 'TRANSACTIONNUMBER';
+            $extraInfo["Value"] = $transaction;
+            $request->setExtraInfo($extraInfo);
+        }
         $txid_extrainfo = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/txid_extrainfo',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        if ($txid_extrainfo == 1) {
+        if (!empty($transaction) && $txid_extrainfo == 1) {
             $extraInfo["Name"] = 'ICP-FLD-CUSTOM1';
             $extraInfo["Value"] = $transaction;
             $request->setExtraInfo($extraInfo);

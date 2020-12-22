@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
+ * Copyright ï¿½ Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 namespace Byjuno\ByjunoCore\Block\Form;
@@ -70,12 +70,36 @@ class Installment extends \Magento\Payment\Block\Form
 
     public function getBirthdayEnable()
     {
+        $isCompany = false;
+        if (!empty($this->_adminSession->getQuote()->getBillingAddress()->getCompany()) &&
+            $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/businesstobusiness", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
+        )
+        {
+            $isCompany = true;
+        }
         $birthday_enable = false;
-        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
+        if (!$isCompany && $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/birthday_enable",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
             $birthday_enable = true;
         }
         return $birthday_enable;
+    }
+
+    public function getB2bUidEnable()
+    {
+        $isCompany = false;
+        if (!empty($this->_adminSession->getQuote()->getBillingAddress()->getCompany()) &&
+            $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/businesstobusiness", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
+        )
+        {
+            $isCompany = true;
+        }
+        $b2b_uid = false;
+        if ($isCompany && $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/b2b_uid",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1) {
+            $b2b_uid = true;
+        }
+        return $b2b_uid;
     }
 
     public function getPaymentPlans()

@@ -8,6 +8,7 @@ $gendersEnable = $block->getGendersEnable();
 $birthdayEnable = $block->getBirthdayEnable();
 $paymentPlans = $block->getPaymentPlans();
 $deliveryMethods = $block->getDeliveryMethods();
+$b2bUid = $block->getB2bUidEnable();
 ?>
 
 <fieldset class="admin__fieldset payment-method" id="payment_form_<?= /* @noEscape */ $code ?>"
@@ -48,6 +49,18 @@ $deliveryMethods = $block->getDeliveryMethods();
                                                                 dateFormat: 'dd.MM.yy'} }">
         </div>
     </div>
+    <?php } ?>
+    <?php if ($b2bUid) { ?>
+        <div class="admin__field _required">
+            <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_b2b_uid_invoice" >
+                <span><?= $block->escapeHtml(__('Company registration number')) ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <input name="payment[invoice_customer_b2b_uid]" id="customer_b2b_uid_invoice"
+                       style="width: 150px"
+                       type="text" class="admin__control-text">
+            </div>
+        </div>
     <?php } ?>
     <div class="admin__field _required">
         <label class="label admin__field-label" for="<?= /* @noEscape */ $code ?>_invoice_customer_plan" >
