@@ -621,7 +621,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         if (!empty($b2b_uid)) {
-            $extraInfo["Name"] = 'REGISTERNUMMER';
+            $extraInfo["Name"] = 'REGISTERNUMBER';
             $extraInfo["Value"] = $b2b_uid;
             $request->setExtraInfo($extraInfo);
         }
@@ -846,7 +846,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         if (!empty($b2b_uid)) {
-            $extraInfo["Name"] = 'REGISTERNUMMER';
+            $extraInfo["Name"] = 'REGISTERNUMBER';
             $extraInfo["Value"] = $b2b_uid;
             $request->setExtraInfo($extraInfo);
         }
