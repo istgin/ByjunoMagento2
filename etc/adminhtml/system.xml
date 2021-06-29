@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="byjuno_main_tab" translate="label" sortOrder="1">
-            <label>Byjuno payments (1.7.1)</label>
+            <label>Byjuno payments (1.7.2)</label>
         </tab>
         <section id="byjunocheckoutsettings" translate="label" sortOrder="1" showInDefault="1"
                  showInWebsite="1" showInStore="1">
@@ -55,6 +55,10 @@
                 </field>
                 <field id="tmxkey" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>ThreatMetrix Org Id</label>
+                </field>
+                <field id="singlerequest" translate="label" type="select" sortOrder="115" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Single query requests to Byjuno</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="cdpbeforeshow" translate="label" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Credit check before submit</label>

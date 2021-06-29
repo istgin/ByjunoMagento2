@@ -379,6 +379,8 @@
                 <title>Byjuno invoice</title>
                 <can_use_checkout>1</can_use_checkout>
                 <can_capture>1</can_capture>
+                <can_auhtorize>1</can_auhtorize>
+                <payment_action>authorize</payment_action>
                 <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
                 <can_refund>1</can_refund>
                 <can_void>1</can_void>
@@ -391,7 +393,9 @@
                 <order_status>pending_byjuno</order_status>
                 <title>Byjuno installment</title>
                 <can_use_checkout>1</can_use_checkout>
-                <can_capture>1</can_capture>				
+                <can_capture>1</can_capture>
+                <can_auhtorize>1</can_auhtorize>
+                <payment_action>authorize</payment_action>
                 <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
                 <can_refund>1</can_refund>
                 <can_void>1</can_void>

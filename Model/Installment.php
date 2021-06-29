@@ -284,8 +284,19 @@ class Installment extends \Byjuno\ByjunoCore\Model\Byjunopayment
 
     public function authorize(InfoInterface $payment, $amount)
     {
-        /* @var $order \Magento\Sales\Model\Order */
-        $order = $payment->getOrder();
-        return $this;
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/singlerequest", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
+            /* @var $order \Magento\Sales\Model\Order */
+            $order = $payment->getOrder();
+            $result = Startpayment::executeS3Order($order, $this->_dataHelper);
+            if ($result == null) {
+                return $this;
+            } else {
+                throw new LocalizedException(
+                    __($result)
+                );
+            }
+        } else {
+            return $this;
+        }
     }
 }

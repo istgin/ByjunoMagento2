@@ -2,11 +2,13 @@
 /**
  * Copyright © 2015 Pay.nl All rights reserved.
  */
+
 namespace Byjuno\ByjunoCore\Controller\Checkout;
 
 use Byjuno\ByjunoCore\Helper\DataHelper;
 use Byjuno\ByjunoCore\Helper\Api\ByjunoLogger;
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\Exception\LocalizedException;
 
 class Startpayment extends Action
 {
@@ -15,6 +17,7 @@ class Startpayment extends Action
      * @var DataHelper
      */
     protected static $_dataHelper;
+
     /**
      * Index constructor.
      * @param \Magento\Framework\App\Action\Context $context
@@ -30,9 +33,9 @@ class Startpayment extends Action
         parent::__construct($context);
     }
 
-    public static function executeS3($order, \Magento\Sales\Model\Order\Payment $payment, $transaction, $accept, $savePrefix = "")
+    public static function executeS3($order, \Magento\Sales\Model\Order\Payment $payment, $transaction, $accept, $savePrefix, DataHelper $dataHelper)
     {
-        $request = self::$_dataHelper->CreateMagentoShopRequestPaid($order,
+        $request = $dataHelper->CreateMagentoShopRequestPaid($order,
             $payment,
             $payment->getAdditionalInformation('customer_gender'),
             $payment->getAdditionalInformation('customer_dob'),
@@ -40,10 +43,10 @@ class Startpayment extends Action
             $accept,
             $payment->getAdditionalInformation('pref_lang'),
             $payment->getAdditionalInformation('customer_b2b_uid'));
-        $ByjunoRequestName = "Order paid".$savePrefix;
+        $ByjunoRequestName = "Order paid" . $savePrefix;
         $requestType = 'b2c';
-        if ($request->getCompanyName1() != '' && self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
-            $ByjunoRequestName = "Order paid for Company".$savePrefix;
+        if ($request->getCompanyName1() != '' && $dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
+            $ByjunoRequestName = "Order paid for Company" . $savePrefix;
             $requestType = 'b2b';
             $xml = $request->createRequestCompany();
             $payment->setAdditionalInformation("is_b2b", true);
@@ -51,24 +54,24 @@ class Startpayment extends Action
             $xml = $request->createRequest();
             $payment->setAdditionalInformation("is_b2b", false);
         }
-        $mode = self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $mode = $dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($mode == 'live') {
-            self::$_dataHelper->_communicator->setServer('live');
+            $dataHelper->_communicator->setServer('live');
         } else {
-            self::$_dataHelper->_communicator->setServer('test');
+            $dataHelper->_communicator->setServer('test');
         }
-        $response = self::$_dataHelper->_communicator->sendRequest($xml, (int)self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $response = $dataHelper->_communicator->sendRequest($xml, (int)$dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $status = 0;
         if ($response) {
-            self::$_dataHelper->_response->setRawResponse($response);
-            self::$_dataHelper->_response->processResponse();
-            $status = (int)self::$_dataHelper->_response->getCustomerRequestStatus();
+            $dataHelper->_response->setRawResponse($response);
+            $dataHelper->_response->processResponse();
+            $status = (int)$dataHelper->_response->getCustomerRequestStatus();
             if (intval($status) > 15) {
                 $status = 0;
             }
-            self::$_dataHelper->saveLog($request, $xml, $response, $status, $ByjunoRequestName);
+            $dataHelper->saveLog($request, $xml, $response, $status, $ByjunoRequestName);
         } else {
-            self::$_dataHelper->saveLog($request, $xml, "empty response", "0", $ByjunoRequestName);
+            $dataHelper->saveLog($request, $xml, "empty response", "0", $ByjunoRequestName);
         }
         return array($status, $requestType);
     }
@@ -82,10 +85,10 @@ class Startpayment extends Action
             $payment->getAdditionalInformation('pref_lang'),
             $payment->getAdditionalInformation('customer_b2b_uid'));
 
-        $ByjunoRequestName = "Order request".$savePrefix;
+        $ByjunoRequestName = "Order request" . $savePrefix;
         $requestType = 'b2c';
         if ($request->getCompanyName1() != '' && $_internalDataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
-            $ByjunoRequestName = "Order request for Company".$savePrefix;
+            $ByjunoRequestName = "Order request for Company" . $savePrefix;
             $requestType = 'b2b';
             $xml = $request->createRequestCompany();
             $payment->setAdditionalInformation("is_b2b", true);
@@ -145,11 +148,11 @@ class Startpayment extends Action
             $responseS2 = clone self::$_dataHelper->_response;
 
             if ($payment->getAdditionalInformation('accept') != "") {
-                $byjunoTrx =  self::$_dataHelper->_checkoutSession->getByjunoTransaction();
-                list($statusS3, $requestTypeS3) = self::executeS3($order, $payment, $responseS2->getTransactionNumber(), $payment->getAdditionalInformation('accept'), " (Backend)");
+                $byjunoTrx = self::$_dataHelper->_checkoutSession->getByjunoTransaction();
+                list($statusS3, $requestTypeS3) = self::executeS3($order, $payment, $responseS2->getTransactionNumber(), $payment->getAdditionalInformation('accept'), " (Backend)", self::$_dataHelper);
                 if (self::$_dataHelper->byjunoIsStatusOk($statusS3, "byjunocheckoutsettings/byjuno_setup/accepted_s3")) {
                     if ($byjunoTrx == "") {
-                        $byjunoTrx = "byjunotx-".uniqid();
+                        $byjunoTrx = "byjunotx-" . uniqid();
                     }
 
                     $payment->setTransactionId($byjunoTrx);
@@ -185,7 +188,7 @@ class Startpayment extends Action
                     }
                     // ALL OK
                 } else {
-                    $error = self::$_dataHelper->getByjunoErrorMessage($statusS3, $requestTypeS3). "(S3)";
+                    $error = self::$_dataHelper->getByjunoErrorMessage($statusS3, $requestTypeS3) . "(S3)";
                     $order->registerCancellation($error)->save();
                     throw new \Exception($error);
                 }
@@ -206,6 +209,11 @@ class Startpayment extends Action
 
     public function execute()
     {
+        if (self::$_dataHelper->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/singlerequest", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
+            $resultRedirect = $this->resultRedirectFactory->create();
+            $resultRedirect->setPath('checkout/onepage/success');
+            return $resultRedirect;
+        }
         $order = self::$_dataHelper->_checkoutSession->getLastRealOrder();
         /* @var $payment \Magento\Sales\Model\Order\Payment */
         $payment = $order->getPayment();
@@ -221,11 +229,11 @@ class Startpayment extends Action
             self::$_dataHelper->_response->processResponse();
             $responseS2 = clone self::$_dataHelper->_response;
             if ($payment->getAdditionalInformation('accept') != "") {
-                $byjunoTrx =  self::$_dataHelper->_checkoutSession->getByjunoTransaction();
-                list($statusS3, $requestTypeS3) = self::executeS3($order, $payment, $byjunoTrx, $payment->getAdditionalInformation('accept'));
+                $byjunoTrx = self::$_dataHelper->_checkoutSession->getByjunoTransaction();
+                list($statusS3, $requestTypeS3) = self::executeS3($order, $payment, $byjunoTrx, $payment->getAdditionalInformation('accept'), "", self::$_dataHelper);
                 if (self::$_dataHelper->byjunoIsStatusOk($statusS3, "byjunocheckoutsettings/byjuno_setup/accepted_s3")) {
                     if ($byjunoTrx == "") {
-                        $byjunoTrx = "byjunotx-".uniqid();
+                        $byjunoTrx = "byjunotx-" . uniqid();
                     }
                     $payment->setTransactionId($byjunoTrx);
                     $payment->setParentTransactionId($payment->getTransactionId());
@@ -262,7 +270,7 @@ class Startpayment extends Action
                     self::$_dataHelper->_checkoutSession->setCDPStatus('');
                     $resultRedirect->setPath('checkout/onepage/success');
                 } else {
-                    $error = self::$_dataHelper->getByjunoErrorMessage($statusS3, $requestTypeS3). "(S3)";
+                    $error = self::$_dataHelper->getByjunoErrorMessage($statusS3, $requestTypeS3) . "(S3)";
                     $order->registerCancellation($error)->save();
                     $this->restoreQuote();
                     $this->messageManager->addExceptionMessage(new \Exception($statusS3), $error);
@@ -291,7 +299,81 @@ class Startpayment extends Action
         return $resultRedirect;
     }
 
-    private function restoreQuote()
+    public static function executeS3Order(\Magento\Sales\Model\Order $order, DataHelper $_internalDataHelper)
+    {
+        /* @var $payment \Magento\Sales\Model\Order\Payment */
+        $payment = $order->getPayment();
+        try {
+            $statusS2 = $_internalDataHelper->_checkoutSession->getIntrumStatus();
+            $typeS2 = $_internalDataHelper->_checkoutSession->getIntrumRequestType();
+            $responseS2String = $_internalDataHelper->_checkoutSession->getS2Response();
+            if ($responseS2String == "") {
+                throw new \Exception(__("Empty response set"));
+            }
+            $_internalDataHelper->_response->setRawResponse($responseS2String);
+            $_internalDataHelper->_response->processResponse();
+            $responseS2 = clone $_internalDataHelper->_response;
+            if ($payment->getAdditionalInformation('accept') != "") {
+                $byjunoTrx = $_internalDataHelper->_checkoutSession->getByjunoTransaction();
+                list($statusS3, $requestTypeS3) = self::executeS3($order, $payment, $byjunoTrx, $payment->getAdditionalInformation('accept'), "", $_internalDataHelper);
+                if ($_internalDataHelper->byjunoIsStatusOk($statusS3, "byjunocheckoutsettings/byjuno_setup/accepted_s3")) {
+                    if ($byjunoTrx == "") {
+                        $byjunoTrx = "byjunotx-" . uniqid();
+                    }
+                    $payment->setTransactionId($byjunoTrx);
+                    $payment->setParentTransactionId($payment->getTransactionId());
+                    $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, true);
+                    $transaction->setIsClosed(false);
+                    $payment->setAdditionalInformation("s3_ok", 'true');
+                    if ($_internalDataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'completed') {
+                        $order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE);
+                        $order->setStatus("complete");
+                    } else if ($_internalDataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'processing') {
+                        $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
+                        $order->setStatus("processing");
+                    } else {
+                        $order->setStatus("pending");
+                    }
+                    $_internalDataHelper->saveStatusToOrder($order, $responseS2);
+                    try {
+                        $mode = $_internalDataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                        if ($mode == 'live') {
+                            $email = $_internalDataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                        } else {
+                            $email = $_internalDataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_test_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                        }
+                        if ($_internalDataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/force_send_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
+                            $_internalDataHelper->_originalOrderSender->send($order);
+                        }
+                        $_internalDataHelper->_byjunoOrderSender->sendOrder($order, $email);
+                    } catch (\Exception $e) {
+                        $_internalDataHelper->_loggerPsr->critical($e);
+                    }
+                    $_internalDataHelper->_checkoutSession->setTmxSession('');
+                    $_internalDataHelper->_checkoutSession->setCDPStatus('');
+                } else {
+                    $error = $_internalDataHelper->getByjunoErrorMessage($statusS3, $requestTypeS3) . "(S3)";
+                    $order->registerCancellation($error)->save();
+                    return $error;
+                }
+            } else {
+                $error = $_internalDataHelper->getByjunoErrorMessage(
+                    $statusS2,
+                    $typeS2
+                );
+                $order->registerCancellation($error)->save();
+                return $error;
+            }
+
+        } catch (\Exception $e) {
+            $error = __("Unexpected error");
+            $order->registerCancellation($error)->save();
+            return $error;
+        }
+        return null;
+    }
+
+    private static function restoreQuote()
     {
         /** @var \Magento\Sales\Model\Order $order */
         $order = self::$_dataHelper->_checkoutSession->getLastRealOrder();
