@@ -36,7 +36,6 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
     /* @var $_dataHelper DataHelper */
     protected $_dataHelper;
     protected $_state;
-    protected $_isInitializeNeeded = true;
 
     /* @var $_scopeConfig \Magento\Checkout\Model\Session */
     protected $_checkoutSession;
@@ -59,12 +58,11 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
 
     public function isInitializeNeeded()
     {
-        return $this->_isInitializeNeeded;
-    }
-
-    public function getConfigPaymentAction()
-    {
-        return ($this->getConfigData('order_status') == 'pending')? null : parent::getConfigPaymentAction();
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/singlerequest", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /* @var $quote \Magento\Quote\Model\Quote */
