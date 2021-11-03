@@ -943,15 +943,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     function CreateMagentoShopRequestS4Paid(\Magento\Sales\Model\Order $order, \Magento\Sales\Model\Order\Invoice $invoice, $webshopProfile)
     {
-
-
         $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoS4Request();
-        $request->setClientId($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/clientid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
-        $request->setUserID($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
-        $request->setPassword($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setClientId($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/clientid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
+        $request->setUserID($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
+        $request->setPassword($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
         $request->setVersion("1.00");
         try {
-            $request->setRequestEmail($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/mail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $request->setRequestEmail($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/mail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
         } catch (\Exception $e) {
 
         }
@@ -1150,16 +1148,16 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         return $request;
     }
 
-    function CreateMagentoShopRequestS5Paid(\Magento\Sales\Model\Order $order, $amount, $transactionType, $invoiceId = '')
+    function CreateMagentoShopRequestS5Paid(\Magento\Sales\Model\Order $order, $amount, $transactionType, $invoiceId = '', $webshopProfile)
     {
 
         $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoS5Request();
-        $request->setClientId($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/clientid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
-        $request->setUserID($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
-        $request->setPassword($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setClientId($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/clientid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
+        $request->setUserID($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
+        $request->setPassword($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
         $request->setVersion("1.00");
         try {
-            $request->setRequestEmail($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/mail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+            $request->setRequestEmail($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/mail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
         } catch (\Exception $e) {
 
         }
