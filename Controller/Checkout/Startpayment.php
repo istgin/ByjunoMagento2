@@ -42,7 +42,8 @@ class Startpayment extends Action
             $transaction,
             $accept,
             $payment->getAdditionalInformation('pref_lang'),
-            $payment->getAdditionalInformation('customer_b2b_uid'));
+            $payment->getAdditionalInformation('customer_b2b_uid'),
+            $payment->getAdditionalInformation('webshop_profile_id'));
         $ByjunoRequestName = "Order paid" . $savePrefix;
         $requestType = 'b2c';
         if ($request->getCompanyName1() != '' && $dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
@@ -83,7 +84,7 @@ class Startpayment extends Action
             $payment->getAdditionalInformation('customer_gender'),
             $payment->getAdditionalInformation('customer_dob'),
             $payment->getAdditionalInformation('pref_lang'),
-            $payment->getAdditionalInformation('customer_b2b_uid'));
+            $payment->getAdditionalInformation('customer_b2b_uid'), $payment->getAdditionalInformation('webshop_profile_id'));
 
         $ByjunoRequestName = "Order request" . $savePrefix;
         $requestType = 'b2c';
