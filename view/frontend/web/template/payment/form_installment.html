@@ -83,6 +83,7 @@
             </div>
         </fieldset>
         <!-- /ko -->
+        <!-- ko if: (isPaymentPlanVisible())-->
         <div class="field required">
             <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">
                 <b style="font-size: 16px"><!-- ko i18n: 'Select payment plan'--><!-- /ko --></b>
@@ -101,6 +102,7 @@
                 </div>
             </div>
         </div>
+        <!-- /ko -->
         <!-- ko if: (isDeliveryVisibility())-->
         <br />
         <div class="field required">

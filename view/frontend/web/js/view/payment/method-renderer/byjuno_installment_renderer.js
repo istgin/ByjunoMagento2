@@ -44,7 +44,7 @@ define(
             getCode: function () {
                 return 'byjuno_installment';
             },
-			
+
             getYearRange: function () {
                 var dataYReange = new Date();
                 var yRange = dataYReange.getFullYear();
@@ -75,7 +75,7 @@ define(
 
                 if (typeof quote.billingAddress().street === 'undefined' || typeof quote.billingAddress().street[0] === 'undefined') {
                     return null;
-                }    
+                }
 
                 return quote.billingAddress().street[0] + ", " + quote.billingAddress().city + ", " + quote.billingAddress().postcode;
             },
@@ -154,6 +154,10 @@ define(
 
             isDeliveryVisibility: function() {
                 return window.checkoutConfig.payment.byjuno_invoice.paper_invoice;
+            },
+
+            isPaymentPlanVisible: function() {
+                return (window.checkoutConfig.payment.byjuno_invoice.methods.length > 1);
             },
 
             getDeliveryPlans: function () {

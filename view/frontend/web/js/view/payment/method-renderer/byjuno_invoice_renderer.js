@@ -42,8 +42,8 @@ define(
 
             getCode: function () {
                 return 'byjuno_invoice';
-            }, 
-			
+            },
+
             getYearRange: function () {
                 var dataYReange = new Date();
                 var yRange = dataYReange.getFullYear();
@@ -153,6 +153,10 @@ define(
 
             isDeliveryVisibility: function() {
                 return window.checkoutConfig.payment.byjuno_invoice.paper_invoice;
+            },
+
+            isPaymentPlanVisible: function() {
+                return (window.checkoutConfig.payment.byjuno_invoice.methods.length > 1);
             },
 
             getDeliveryPlans: function () {
