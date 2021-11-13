@@ -56,6 +56,11 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         return true;
     }
 
+    public function canCapturePartial()
+    {
+        return true;
+    }
+
     public function isInitializeNeeded()
     {
         if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/singlerequest", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
@@ -494,7 +499,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
 
         $authTransaction = $payment->getAuthorizationTransaction();
         if ($authTransaction && !$authTransaction->getIsClosed()) {
-            $authTransaction->setIsClosed(true);
+            $authTransaction->setIsClosed($payment->isCaptureFinal($amount));
             $authTransaction->save();
         }
 
