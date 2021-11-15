@@ -153,11 +153,11 @@ define(
             },
 
             isDeliveryVisibility: function() {
-                return window.checkoutConfig.payment.byjuno_invoice.paper_invoice;
+                return window.checkoutConfig.payment.byjuno_installment.paper_invoice;
             },
 
             isPaymentPlanVisible: function() {
-                return (window.checkoutConfig.payment.byjuno_invoice.methods.length > 1);
+                return (window.checkoutConfig.payment.byjuno_installment.methods.length > 1);
             },
 
             getDeliveryPlans: function () {
