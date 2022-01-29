@@ -461,7 +461,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                 __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s4_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfileId). " (error code: S3_NOT_CREATED)")
             );
         }
-        $incrementValue =  $this->_eavConfig->getEntityType($invoice->getEntityType())->fetchNewIncrementId($invoice->getStore()->getId());
+        $incrementValue =  $this->_eavConfig->getEntityType($invoice->getEntityType())->fetchNewIncrementId($invoice->getStoreId());
         if ($invoice->getIncrementId() == null) {
             $invoice->setIncrementId($incrementValue);
         }
