@@ -80,7 +80,11 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                 $total > $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/maxamount', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
                 $active = false;
             }
-            return parent::isAvailable($quote) && $active;
+            $currency = strtolower($quote->getQuoteCurrencyCode());
+            if ($currency != "chf") {
+                $active = false;
+            }
+            return $active && parent::isAvailable($quote);
         }
         return parent::isAvailable($quote);
     }
