@@ -175,7 +175,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         return "INVOICE";
     }
 
-    private function mapRepayment($type)
+    private function mapRepayment($type, $b2b)
     {
         if ($type == 'installment_3installment_enable') {
             return "10";
@@ -192,6 +192,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         } else if ($type == 'invoice_single_enable') {
             return "3";
         } else if ($type == 'invoice_partial_enable') {
+            if ($b2b) {
+                return "3";
+            }
             return "4";
         }
         return "0";
@@ -308,6 +311,11 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setRequestEmail($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/mail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
         } catch (\Exception $e) {
 
+        }
+        $isB2b = false;
+        if ($quote->getBillingAddress()->getCompany() && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1')
+        {
+            $isB2b = true;
         }
         $b = $quote->getCustomerDob();
         if (!empty($b)) {
@@ -490,7 +498,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'REPAYMENTTYPE';
-        $extraInfo["Value"] = $this->mapRepayment($paymentmethod->getAdditionalInformation('payment_plan'));
+        $extraInfo["Value"] = $this->mapRepayment($paymentmethod->getAdditionalInformation('payment_plan'), $isB2b);
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'RISKOWNER';
@@ -517,6 +525,11 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setRequestEmail($this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/mail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfile));
         } catch (\Exception $e) {
 
+        }
+        $isB2b = false;
+        if ($order->getBillingAddress()->getCompany() && $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/businesstobusiness', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1')
+        {
+            $isB2b = true;
         }
         $b = $order->getCustomerDob();
         if (!empty($b)) {
@@ -717,7 +730,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'REPAYMENTTYPE';
-        $extraInfo["Value"] = $this->mapRepayment($paymentmethod->getAdditionalInformation('payment_plan'));
+        $extraInfo["Value"] = $this->mapRepayment($paymentmethod->getAdditionalInformation('payment_plan'), $isB2b);
         $request->setExtraInfo($extraInfo);
 
         if ($riskOwner != "") {
