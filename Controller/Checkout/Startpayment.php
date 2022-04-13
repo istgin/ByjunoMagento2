@@ -172,7 +172,7 @@ class Startpayment extends Action
                         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
                         $order->setStatus("processing");
                     } else {
-                        $order->setState(\Magento\Sales\Model\Order::STATE_NEW);
+                        $order->setState(\Magento\Sales\Model\Order::STATE_PENDING);
                         $order->setStatus("pending");
                     }
 
@@ -251,7 +251,7 @@ class Startpayment extends Action
                         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
                         $order->setStatus("processing");
                     } else {
-                        $order->setState(\Magento\Sales\Model\Order::STATE_NEW);
+                        $order->setState(\Magento\Sales\Model\Order::STATE_PENDING);
                         $order->setStatus("pending");
                     }
                     self::$_dataHelper->saveStatusToOrder($order, $responseS2);
@@ -335,7 +335,7 @@ class Startpayment extends Action
                         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
                         $order->setStatus("processing");
                     } else {
-                        $order->setState(\Magento\Sales\Model\Order::STATE_NEW);
+                        $order->setState(\Magento\Sales\Model\Order::STATE_PENDING);
                         $order->setStatus("pending");
                     }
                     $_internalDataHelper->saveStatusToOrder($order, $responseS2);
