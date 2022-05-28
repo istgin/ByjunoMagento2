@@ -21,10 +21,21 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     public $_byjunoOrderSender;
     public $_byjunoCreditmemoSender;
     public $_byjunoInvoiceSender;
+    public $_invoiceSender;
     public $_byjunoLogger;
     public $_objectManager;
     public $_configLoader;
     public $_customerMetadata;
+
+    /**
+     * @var \Magento\Sales\Model\Service\InvoiceService
+     */
+    public $_invoiceService;
+
+    /**
+     * @var \Magento\Framework\DB\Transaction
+     */
+    public $_transaction;
 
     /**
      * @var \Psr\Log\LoggerInterface
@@ -247,12 +258,15 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         \Byjuno\ByjunoCore\Helper\ByjunoOrderSender $byjunoOrderSender,
         \Byjuno\ByjunoCore\Helper\ByjunoCreditmemoSender $byjunoCreditmemoSender,
         \Byjuno\ByjunoCore\Helper\ByjunoInvoiceSender $byjunoInvoiceSender,
+        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $originalOrderSender,
         \Byjuno\ByjunoCore\Helper\Api\ByjunoLogger $byjunoLogger,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\ObjectManager\ConfigLoaderInterface $configLoader,
         \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
-        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
+        \Magento\Sales\Model\Service\InvoiceService $invoiceService,
+        \Magento\Framework\DB\Transaction $transaction
     )
     {
 
@@ -265,6 +279,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_originalOrderSender = $originalOrderSender;
         $this->_byjunoCreditmemoSender = $byjunoCreditmemoSender;
         $this->_byjunoInvoiceSender = $byjunoInvoiceSender;
+        $this->_invoiceSender = $invoiceSender;
         $this->_response = $response;
         $this->_responseS4 = $responseS4;
         $this->_communicator = $communicator;
@@ -277,6 +292,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_blockMenu = $blockMenu;
         $this->_url = $url;
         $this->quoteRepository = $quoteRepository;
+        $this->_invoiceService = $invoiceService;
+        $this->_transaction = $transaction;
     }
 
     function byjunoIsStatusOk($status, $position)

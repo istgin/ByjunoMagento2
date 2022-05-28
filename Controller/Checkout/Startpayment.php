@@ -208,15 +208,41 @@ class Startpayment extends Action
         }
     }
 
+    /* @var $order \Magento\Sales\Model\Order */
+    public function generateInvoice($order)
+    {
+        if($order->canInvoice()) {
+            $invoice =  self::$_dataHelper->_invoiceService->prepareInvoice($order);
+            $invoice->setRequestedCaptureCase(\Magento\Sales\Model\Order\Invoice::CAPTURE_ONLINE);
+            $invoice->register();
+            $invoice->save();
+            $transactionSave =  self::$_dataHelper->_transaction->addObject(
+                $invoice
+            )->addObject(
+                $invoice->getOrder()
+            );
+            $transactionSave->save();
+            self::$_dataHelper->_invoiceSender->send($invoice);
+            //send notification code
+            $order->addStatusHistoryComment(
+                __('Notified customer about invoice #%1.', $invoice->getId())
+            )
+                ->setIsCustomerNotified(true)
+                ->save();
+        }
+    }
+
     public function execute()
     {
+        $order = self::$_dataHelper->_checkoutSession->getLastRealOrder();
         if (self::$_dataHelper->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/singlerequest", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
+            if (self::$_dataHelper->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/auto_invoice", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
+                $this->generateInvoice($order);
+            }
             $resultRedirect = $this->resultRedirectFactory->create();
             $resultRedirect->setPath('checkout/onepage/success');
             return $resultRedirect;
         }
-        $order = self::$_dataHelper->_checkoutSession->getLastRealOrder();
-        /* @var $payment \Magento\Sales\Model\Order\Payment */
         $payment = $order->getPayment();
         $resultRedirect = $this->resultRedirectFactory->create();
         try {
@@ -243,16 +269,18 @@ class Startpayment extends Action
                     $transaction->save();
                     $payment->setAdditionalInformation("s3_ok", 'true');
                     $payment->save();
-                    if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'completed') {
-                        $order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE);
-                        $order->setStatus("complete");
-                    } else if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'processing') {
-                        $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
-                        $order->setStatus("processing");
-                    } else {
-                        $order->setStatus("pending");
+                    if (self::$_dataHelper->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/auto_invoice", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '0') {
+                        if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'completed') {
+                            $order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE);
+                            $order->setStatus("complete");
+                        } else if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'processing') {
+                            $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
+                            $order->setStatus("processing");
+                        } else {
+                            $order->setStatus("pending");
+                        }
+                        self::$_dataHelper->saveStatusToOrder($order, $responseS2);
                     }
-                    self::$_dataHelper->saveStatusToOrder($order, $responseS2);
                     try {
                         $mode = self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
                         if ($mode == 'live') {
@@ -266,6 +294,9 @@ class Startpayment extends Action
                         self::$_dataHelper->_byjunoOrderSender->sendOrder($order, $email);
                     } catch (\Exception $e) {
                         self::$_dataHelper->_loggerPsr->critical($e);
+                    }
+                    if (self::$_dataHelper->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/auto_invoice", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
+                        $this->generateInvoice($order);
                     }
                     self::$_dataHelper->_checkoutSession->setTmxSession('');
                     self::$_dataHelper->_checkoutSession->setCDPStatus('');

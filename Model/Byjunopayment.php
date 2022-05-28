@@ -396,7 +396,6 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
     /* @var $payment \Magento\Sales\Model\Order\Payment */
     public function refund(InfoInterface $payment, $amount)
     {
-		$this->_dataHelper->_objectManager->configure($this->_dataHelper->_configLoader->load('adminhtml'));
         /* @var $order \Magento\Sales\Model\Order */
         $order = $payment->getOrder();
         /* @var $memo \Magento\Sales\Model\Order\Creditmemo */
@@ -447,7 +446,6 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
     /* @var $payment \Magento\Sales\Model\Order\Payment */
     public function capture(InfoInterface $payment, $amount)
     {
-		$this->_dataHelper->_objectManager->configure($this->_dataHelper->_configLoader->load('adminhtml'));
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
         $order = $payment->getOrder();
         $webshopProfileId = $payment->getAdditionalInformation("webshop_profile_id");

@@ -436,6 +436,7 @@
                 <force_send_email>1</force_send_email>
                 <b2b_uid>0</b2b_uid>
                 <txid_extrainfo>0</txid_extrainfo>
+                <auto_invoice>0</auto_invoice>
             </byjuno_setup>
             <localization>
                 <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Rechnung mit Teilzahlungsoption,Byjuno

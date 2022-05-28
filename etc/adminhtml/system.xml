@@ -142,9 +142,14 @@
                     <label>Order state after success S3</label>
                     <source_model>Byjuno\ByjunoCore\Model\Source\SuccessState</source_model>
                 </field>
-                <field id="force_send_email" translate="label" type="select" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="force_send_email" translate="label" type="select" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Force send order confirmation email</label>
                     <comment>In case "Yes" - plugin will send order confirmation email.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="auto_invoice" translate="label" type="select" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto invoice</label>
+                    <comment>Enable automatic invoice generation. (Edit and order status settings will be ignored)</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
