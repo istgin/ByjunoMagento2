@@ -238,6 +238,18 @@ class Startpayment extends Action
         if (self::$_dataHelper->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/singlerequest", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
             if (self::$_dataHelper->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/auto_invoice", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1') {
                 $this->generateInvoice($order);
+            } else {
+                if (self::$_dataHelper->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/auto_invoice", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '0') {
+                    if (self::$_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/success_state', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 'completed') {
+                        $order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE);
+                        $order->setStatus("complete");
+                    } else {
+                        $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
+                        $order->setStatus("processing");
+                    }
+                    $order->save();
+
+                }
             }
             $resultRedirect = $this->resultRedirectFactory->create();
             $resultRedirect->setPath('checkout/onepage/success');
