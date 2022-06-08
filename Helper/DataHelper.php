@@ -214,7 +214,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
     function getByjunoErrorMessage($status, $paymentType = 'b2c')
     {
         $message = '';
-        if ($status == 10 && $paymentType == 'b2b') {
+        if ($status == 10 && strtolower($paymentType) == 'b2b') {
             if (substr($this->_resolver->getLocale(), 0, 2) == 'en') {
                 $message = 'Company is not found in Register of Commerce';
             } else if (substr($this->_resolver->getLocale(), 0, 2) == 'fr') {
