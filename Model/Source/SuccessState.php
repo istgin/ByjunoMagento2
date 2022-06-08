@@ -44,8 +44,8 @@ class SuccessState implements ArrayInterface
     public function toArray()
     {
         $catagoryList = array();
-        $catagoryList["pending"] = 'Pending - requires Single query request disabled (can edit)';
-        $catagoryList["processing"] = 'Processing';
+        $catagoryList["pending"] = 'Pending - requires single query request disabled (can edit) and auto invoice is disabled.';
+        $catagoryList["processing"] = 'Processing - requires auto invoice is disabled.';
         $catagoryList["completed"] = 'Completed';
         return $catagoryList;
     }
