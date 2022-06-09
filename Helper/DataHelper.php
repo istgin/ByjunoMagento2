@@ -213,21 +213,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     function getByjunoErrorMessage($status, $paymentType = 'b2c')
     {
-        $message = '';
-        if ($status == 10 && strtolower($paymentType) == 'b2b') {
-            if (substr($this->_resolver->getLocale(), 0, 2) == 'en') {
-                $message = 'Company is not found in Register of Commerce';
-            } else if (substr($this->_resolver->getLocale(), 0, 2) == 'fr') {
-                $message = 'La société n‘est pas inscrit au registre du commerce';
-            } else if (substr($this->_resolver->getLocale(), 0, 2) == 'it') {
-                $message = 'L‘azienda non é registrata nel registro di commercio';
-            } else {
-                $message = 'Die Firma ist nicht im Handelsregister eingetragen';
-            }
-        } else {
-            $message = $this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_fail_message', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        }
-        return $message;
+        return $this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_fail_message', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     public function saveStatusToOrder(\Magento\Sales\Model\Order $order, \Byjuno\ByjunoCore\Helper\Api\ByjunoResponse $byjunoS2Response)
