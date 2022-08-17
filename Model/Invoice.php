@@ -201,6 +201,11 @@ class Invoice extends \Byjuno\ByjunoCore\Model\Byjunopayment
     {
         $payment = $this->getInfoInstance();
         $isCompany = false;
+        if ($this->_checkoutSession->getQuote()->getBillingAddress() == null) {
+            throw new LocalizedException(
+                __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_fail_message', \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
+            );
+        }
         if (!empty($this->_checkoutSession->getQuote()->getBillingAddress()->getCompany()) &&
             $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/businesstobusiness", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
         )
