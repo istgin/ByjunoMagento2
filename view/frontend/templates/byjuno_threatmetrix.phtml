@@ -7,7 +7,7 @@
                 s.type = 'text/javascript';
                 s.src = 'https://h.online-metrix.net/fp/tags.js?org_id=<?php echo $block->getOrgId(); ?>&session_id=<?php echo $block->getSessionId(); ?>&pageid=checkout';
                 s.async = true;
-                $('head').append(s);
+                document.body.appendChild(s);
             }, 0);
         });
     </script>
