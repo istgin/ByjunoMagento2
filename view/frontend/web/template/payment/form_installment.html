@@ -63,6 +63,15 @@
                                    data-bind="attr:{placeholder: $t('DD.MM.YYYY')}, datepicker: { storage: getDob(), options: {
                                                                 changeMonth: true,
                                                                 changeYear: true,
+                                                                closeText: getLcloseText(),
+                                                                prevText: getLprevText(),
+                                                                nextText: getLnextText(),
+                                                                currentText: getLcurrentText(),
+                                                                monthNames: getLmonthNames(),
+                                                                monthNamesShort: getLmonthNamesShort(),
+                                                                dayNamesShort: getLdayNamesShort(),
+                                                                dayNames: getLdayNames(),
+                                                                dayNamesMin: getLdayNamesMin(),
 																yearRange: getYearRange(),
                                                                 showButtonPanel: true,
                                                                 dateFormat: 'dd.MM.yy'} }">

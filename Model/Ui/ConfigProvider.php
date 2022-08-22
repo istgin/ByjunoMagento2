@@ -6,6 +6,10 @@
 namespace Byjuno\ByjunoCore\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Json\EncoderInterface;
+use Magento\Framework\Locale\Bundle\DataBundle;
+use Magento\Framework\Locale\ResolverInterface;
 use Magento\Payment\Helper\Data as PaymentHelper;
 
 /**
@@ -39,11 +43,25 @@ class ConfigProvider implements ConfigProviderInterface
      */
     protected $methodInstanceInstallment;
 
+    /**
+     * JSON Encoder
+     *
+     * @var EncoderInterface
+     */
+    private $encoder;
+
+    /**
+     * @var ResolverInterface
+     */
+    private $localeResolver;
+
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         PaymentHelper $paymentHelper,
         \Magento\Framework\Locale\Resolver $resolver,
-        \Magento\Checkout\Model\Session $checkoutSession
+        \Magento\Checkout\Model\Session $checkoutSession,
+        ?ResolverInterface $localeResolver = null,
+        ?EncoderInterface $encoder = null
     )
     {
         $this->_checkoutSession = $checkoutSession;
@@ -51,6 +69,8 @@ class ConfigProvider implements ConfigProviderInterface
         $this->methodInstanceInstallment = $paymentHelper->getMethodInstance(self::CODE_INSTALLMENT);
         $this->_scopeConfig = $scopeConfig;
         $this->_resolver = $resolver;
+        $this->encoder = $encoder ?? ObjectManager::getInstance()->get(EncoderInterface::class);
+        $this->localeResolver = $localeResolver ?? ObjectManager::getInstance()->get(ResolverInterface::class);
     }
 
     private function getByjunoLogoInstallment()
@@ -89,6 +109,23 @@ class ConfigProvider implements ConfigProviderInterface
         if (!$isAvaliable) {
             return [];
         }
+
+        $localeData = (new DataBundle())->get($this->localeResolver->getLocale());
+        $monthsData = $localeData['calendar']['gregorian']['monthNames'];
+        $daysData = $localeData['calendar']['gregorian']['dayNames'];
+
+        $calendarConfig = [
+            'closeText' => __('Done'),
+            'prevText' => __('Prev'),
+            'nextText' => __('Next'),
+            'currentText' => __('Today'),
+            'monthNames' => array_values(iterator_to_array($monthsData['format']['wide'])),
+            'monthNamesShort' => array_values(iterator_to_array($monthsData['format']['abbreviated'])),
+            'dayNames' => array_values(iterator_to_array($daysData['format']['wide'])),
+            'dayNamesShort' => array_values(iterator_to_array($daysData['format']['abbreviated'])),
+            'dayNamesMin' => array_values(iterator_to_array($daysData['format']['short'])),
+        ];
+
         $isCompany = false;
         if (!empty($this->_checkoutSession->getQuote()->getBillingAddress()->getCompany()) &&
             $this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/businesstobusiness", \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '1'
@@ -215,7 +252,7 @@ class ConfigProvider implements ConfigProviderInterface
             $birthday_enable = true;
             $b = $this->_checkoutSession->getQuote()->getCustomerDob();
             if (!empty($b)) {
-                try {
+                    try {
                     $dobObject = new \DateTime($b);
                     if ($dobObject != null) {
                         $birthday_enable = false;
@@ -265,7 +302,8 @@ class ConfigProvider implements ConfigProviderInterface
                     'custom_genders' => $genders,
                     'gender_enable' => $gender_enable,
                     'birthday_enable' => $birthday_enable,
-                    'b2b_uid' => $b2b_uid
+                    'b2b_uid' => $b2b_uid,
+                    'calendar_config' => $calendarConfig
                 ],
                 self::CODE_INSTALLMENT => [
                     'redirectUrl' => $this->methodInstanceInvoice->getConfigData('order_place_redirect_url'),
@@ -279,7 +317,8 @@ class ConfigProvider implements ConfigProviderInterface
                     'custom_genders' => $genders,
                     'gender_enable' => $gender_enable,
                     'birthday_enable' => $birthday_enable,
-                    'b2b_uid' => $b2b_uid
+                    'b2b_uid' => $b2b_uid,
+                    'calendar_config' => $calendarConfig
                 ]
             ]
         ];

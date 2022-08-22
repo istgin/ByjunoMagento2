@@ -33,6 +33,34 @@ define(
                 return this;
             },
 
+            getLcloseText: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.calendar_config.closeText;
+            },
+            getLprevText: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.calendar_config.prevText;
+            },
+            getLnextText: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.calendar_config.nextText;
+            },
+            getLcurrentText: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.calendar_config.currentText;
+            },
+            getLmonthNames: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.calendar_config.monthNames;
+            },
+            getLmonthNamesShort: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.calendar_config.monthNamesShort;
+            },
+            getLdayNamesShort: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.calendar_config.dayNamesShort;
+            },
+            getLdayNames: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.calendar_config.dayNames;
+            },
+            getLdayNamesMin: function () {
+                return window.checkoutConfig.payment.byjuno_invoice.calendar_config.dayNamesMin;
+            },
+
             afterPlaceOrder: function () {
                 jquery('body').loader('show');
                 this.selectPaymentMethod();
@@ -224,3 +252,5 @@ define(
         });
     }
 );
+
+
