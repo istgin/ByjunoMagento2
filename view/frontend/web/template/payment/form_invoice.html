@@ -9,7 +9,8 @@
         <input type="radio"
                name="payment[method]"
                class="radio"
-               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"
+               style="width:auto; height:auto; margin: 3px"/>
         <label class="label" data-bind="attr: {'for': getCode()}">
             <img data-bind="attr: {src: getLogo()}" style="width: 66px; height: 39px; vertical-align: middle"/>&nbsp;<span data-bind="text: getTitle()"></span>
         </label>
@@ -103,10 +104,12 @@
                 <div data-bind="foreach: getPaymentPlans()" >
                     <label>
                         <input type="radio"
+                               class="radio"
                                name="payment[invoice_payment_plan]"
                                data-bind="
                                   attr: {value: value},
-                                  checked: $parent.paymentPlan" />
+                                  checked: $parent.paymentPlan"
+                               style="width:auto; height:auto; margin: 3px" />
                         <span data-bind="text: label"></span>
                         <a data-bind="attr: {href: link, target: '_blank'}, text: $t('(T&C)')"></a>
                     </label><br />
@@ -124,10 +127,13 @@
                 <div data-bind="foreach: getDeliveryPlans()" >
                     <label>
                         <input type="radio"
+                               class="radio"
                                name="payment[invoice_send]"
                                data-bind="
                                   attr: {value: value},
-                                  checked: $parent.deliveryPlan" />
+                                  checked: $parent.deliveryPlan"
+
+                               style="width:auto; height:auto; margin: 3px"/>
                         <span data-bind="text: label"></span>
                     </label><br />
                 </div>
