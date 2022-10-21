@@ -956,7 +956,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         return $request;
     }
 
-    function CreateMagentoShopRequestS5Paid(\Magento\Sales\Model\Order $order, $amount, $transactionType, $invoiceId = '', $webshopProfile)
+    function CreateMagentoShopRequestS5Paid(\Magento\Sales\Model\Order $order, $amount, $transactionType, $invoiceId, $webshopProfile)
     {
 
         $request = new \Byjuno\ByjunoCore\Helper\Api\ByjunoS5Request();
