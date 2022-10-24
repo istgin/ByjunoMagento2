@@ -33,7 +33,7 @@
         <fieldset class="fieldset">
             <div class="billing-address-form" style="display: block;">
                 <fieldset class="fieldset address">
-                    <!-- ko if: (isGenderEnabled())-->
+                    <!-- ko if: (isGenderEnabled() == true)-->
                     <div class="field required">
                         <label for="customer_gender_installment" class="label">
                             <span><!-- ko i18n: 'Gender'--><!-- /ko --></span>
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <!-- /ko -->
-                    <!-- ko if: (isBirthdayEnabled())-->
+                    <!-- ko if: (isBirthdayEnabled() == true)-->
                     <div class="field required">
                         <label for="customer_dob_installment" class="label">
                             <span><!-- ko i18n: 'Date of birth'--><!-- /ko --></span>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <!-- /ko -->
-                    <!-- ko if: (isB2bUid())-->
+                    <!-- ko if: (isB2bUid() == true) -->
                     <div class="field required">
                         <label for="customer_b2b_uid_installment" class="label">
                             <span><!-- ko i18n: 'Company registration number'--><!-- /ko --></span>
@@ -93,7 +93,7 @@
             </div>
         </fieldset>
         <!-- /ko -->
-        <!-- ko if: (isPaymentPlanVisible())-->
+        <!-- ko if: (isPaymentPlanVisible() == true)-->
         <div class="field required">
             <label data-bind="attr: {for: getCode() + '_payment_plan'}" class="label">
                 <b style="font-size: 16px"><!-- ko i18n: 'Select payment plan'--><!-- /ko --></b>
@@ -115,7 +115,7 @@
             </div>
         </div>
         <!-- /ko -->
-        <!-- ko if: (isDeliveryVisibility())-->
+        <!-- ko if: (isDeliveryVisibility() == true)-->
         <br />
         <div class="field required">
             <label data-bind="attr: {for: getCode() + '_payment_delivery'}" class="label">

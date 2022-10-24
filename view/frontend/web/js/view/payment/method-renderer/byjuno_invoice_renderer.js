@@ -20,7 +20,8 @@ define(
                 template: 'Byjuno_ByjunoCore/payment/form_invoice',
                 paymentPlan: window.checkoutConfig.payment.byjuno_invoice.default_payment,
                 deliveryPlan: window.checkoutConfig.payment.byjuno_invoice.default_delivery,
-                customGender: window.checkoutConfig.payment.byjuno_invoice.default_customgender
+                customGender: window.checkoutConfig.payment.byjuno_invoice.default_customgender,
+                value: ''
             },
 
             initObservable: function () {
@@ -28,7 +29,8 @@ define(
                     .observe([
                         'paymentPlan',
                         'deliveryPlan',
-                        'customGender'
+                        'customGender',
+                        'value'
                     ]);
                 return this;
             },

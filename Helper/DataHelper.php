@@ -393,7 +393,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setCountryCode(strtoupper($quote->getBillingAddress()->getCountryId()));
         $request->setPostCode((String)$quote->getBillingAddress()->getPostcode());
         $request->setTown((String)$quote->getBillingAddress()->getCity());
-        $request->setFax((String)trim($quote->getBillingAddress()->getFax(), '-'));
+        $request->setFax((String)trim((String)$quote->getBillingAddress()->getFax(), '-'));
         if (!empty($pref_lang)) {
             $request->setLanguage($pref_lang);
         } else {
@@ -404,7 +404,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setCompanyName1($quote->getBillingAddress()->getCompany());
         }
 
-        $request->setTelephonePrivate((String)trim($quote->getBillingAddress()->getTelephone(), '-'));
+        $request->setTelephonePrivate((String)trim((String)$quote->getBillingAddress()->getTelephone(), '-'));
         $request->setEmail((String)$quote->getBillingAddress()->getEmail());
 
         $extraInfo["Name"] = 'ORDERCLOSED';
@@ -509,7 +509,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.7.6';
+        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.7.7';
         $request->setExtraInfo($extraInfo);
         return $request;
     }
@@ -608,7 +608,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setCountryCode(strtoupper($order->getBillingAddress()->getCountryId()));
         $request->setPostCode((String)$order->getBillingAddress()->getPostcode());
         $request->setTown((String)$order->getBillingAddress()->getCity());
-        $request->setFax((String)trim($order->getBillingAddress()->getFax(), '-'));
+        $request->setFax((String)trim((String)$order->getBillingAddress()->getFax(), '-'));
 
         if (!empty($pref_lang)) {
             $request->setLanguage($pref_lang);
@@ -620,7 +620,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setCompanyName1($order->getBillingAddress()->getCompany());
         }
 
-        $request->setTelephonePrivate((String)trim($order->getBillingAddress()->getTelephone(), '-'));
+        $request->setTelephonePrivate((String)trim((String)$order->getBillingAddress()->getTelephone(), '-'));
         $request->setEmail((String)$order->getBillingAddress()->getEmail());
 
         if (!empty($transaction)) {
@@ -742,7 +742,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setExtraInfo($extraInfo);
         }
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.7.6';
+        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.7.7';
         $request->setExtraInfo($extraInfo);
 
         return $request;
@@ -863,14 +863,14 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setCountryCode(strtoupper($quote->getBillingAddress()->getCountryId()));
         $request->setPostCode((String)$quote->getBillingAddress()->getPostcode());
         $request->setTown((String)$quote->getBillingAddress()->getCity());
-        $request->setFax((String)trim($quote->getBillingAddress()->getFax(), '-'));
+        $request->setFax((String)trim((String)$quote->getBillingAddress()->getFax(), '-'));
         $request->setLanguage((String)substr($this->_resolver->getLocale(), 0, 2));
 
         if ($quote->getBillingAddress()->getCompany()) {
             $request->setCompanyName1($quote->getBillingAddress()->getCompany());
         }
 
-        $request->setTelephonePrivate((String)trim($quote->getBillingAddress()->getTelephone(), '-'));
+        $request->setTelephonePrivate((String)trim((String)$quote->getBillingAddress()->getTelephone(), '-'));
         $request->setEmail((String)$quote->getBillingAddress()->getEmail());
 
         $extraInfo["Name"] = 'ORDERCLOSED';
@@ -951,7 +951,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.7.6';
+        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.7.7';
         $request->setExtraInfo($extraInfo);
         return $request;
     }
