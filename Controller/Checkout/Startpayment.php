@@ -67,7 +67,7 @@ class Startpayment extends Action
             $dataHelper->_response->setRawResponse($response);
             $dataHelper->_response->processResponse();
             $status = (int)$dataHelper->_response->getCustomerRequestStatus();
-            if (intval($status) > 15) {
+            if (intval($status) > DataHelper::$MAX_STATUS) {
                 $status = 0;
             }
             $dataHelper->saveLog($request, $xml, $response, $status, $ByjunoRequestName);
@@ -115,7 +115,7 @@ class Startpayment extends Action
                 $_internalDataHelper->_checkoutSession->setS2Response($response);
             }
             $_internalDataHelper->saveLog($request, $xml, $response, $status, $ByjunoRequestName);
-            if (intval($status) > 15) {
+            if (intval($status) > DataHelper::$MAX_STATUS) {
                 $status = 0;
             }
         } else {

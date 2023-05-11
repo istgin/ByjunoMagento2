@@ -5,6 +5,8 @@ use Magento\Framework\Exception\LocalizedException;
 
 class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 {
+
+    public static $MAX_STATUS = 50;
     /**
      * @var \Magento\Quote\Api\CartRepositoryInterface
      */
@@ -119,6 +121,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function valueToStatus($val)
     {
+        $status[-1] = 'Unknown status';
         $status[0] = 'Fail to connect (status Error)';
         $status[1] = 'There are serious negative indicators (status 1)';
         $status[2] = 'All payment methods allowed (status 2)';
@@ -138,7 +141,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         if (isset($status[$val])) {
             return $status[$val];
         }
-        return $status[0];
+        return $status[-1];
     }
 
     public function getClientIp()
@@ -511,7 +514,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.7.7';
+        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.8.0';
         $request->setExtraInfo($extraInfo);
         return $request;
     }
@@ -744,7 +747,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setExtraInfo($extraInfo);
         }
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.7.7';
+        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.8.0';
         $request->setExtraInfo($extraInfo);
 
         return $request;
@@ -953,7 +956,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setExtraInfo($extraInfo);
 
         $extraInfo["Name"] = 'CONNECTIVTY_MODULE';
-        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.7.7';
+        $extraInfo["Value"] = 'Byjuno Magento 2 module 1.8.0';
         $request->setExtraInfo($extraInfo);
         return $request;
     }

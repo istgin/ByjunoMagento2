@@ -265,7 +265,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                         $this->_dataHelper->_response->setRawResponse($response);
                         $this->_dataHelper->_response->processResponse();
                         $status = (int)$this->_dataHelper->_response->getCustomerRequestStatus();
-                        if (intval($status) > 15) {
+                        if (intval($status) > DataHelper::$MAX_STATUS) {
                             $status = 0;
                         }
                         $this->_dataHelper->saveLog($request, $xml, $response, $status, $ByjunoRequestName);
