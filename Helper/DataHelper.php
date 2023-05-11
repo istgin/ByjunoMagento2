@@ -1,6 +1,8 @@
 <?php
 namespace Byjuno\ByjunoCore\Helper;
 
+use Magento\Framework\Exception\LocalizedException;
+
 class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
@@ -390,7 +392,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setFirstName((String)$quote->getBillingAddress()->getFirstname());
         $request->setLastName((String)$quote->getBillingAddress()->getLastname());
         $request->setFirstLine(trim((String)$billingStreet));
-        $request->setCountryCode(strtoupper($quote->getBillingAddress()->getCountryId()));
+        $request->setCountryCode(strtoupper($quote->getBillingAddress()->getCountryId() ?? ""));
         $request->setPostCode((String)$quote->getBillingAddress()->getPostcode());
         $request->setTown((String)$quote->getBillingAddress()->getCity());
         $request->setFax((String)trim((String)$quote->getBillingAddress()->getFax(), '-'));
@@ -455,7 +457,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setExtraInfo($extraInfo);
 
             $extraInfo["Name"] = 'DELIVERY_COUNTRYCODE';
-            $extraInfo["Value"] = strtoupper($quote->getShippingAddress()->getCountryId());
+            $extraInfo["Value"] = strtoupper($quote->getShippingAddress()->getCountryId() ?? "");
             $request->setExtraInfo($extraInfo);
 
             $extraInfo["Name"] = 'DELIVERY_POSTCODE';
@@ -605,7 +607,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setLastName((String)$order->getBillingAddress()->getLastname());
         //quote.billingAddress().street[0] + ", " + quote.billingAddress().city + ", " + quote.billingAddress().postcode
         $request->setFirstLine(trim((String)$billingStreet));
-        $request->setCountryCode(strtoupper($order->getBillingAddress()->getCountryId()));
+        $request->setCountryCode(strtoupper($order->getBillingAddress()->getCountryId() ?? ""));
         $request->setPostCode((String)$order->getBillingAddress()->getPostcode());
         $request->setTown((String)$order->getBillingAddress()->getCity());
         $request->setFax((String)trim((String)$order->getBillingAddress()->getFax(), '-'));
@@ -686,7 +688,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setExtraInfo($extraInfo);
 
             $extraInfo["Name"] = 'DELIVERY_COUNTRYCODE';
-            $extraInfo["Value"] = strtoupper($order->getShippingAddress()->getCountryId());
+            $extraInfo["Value"] = strtoupper($order->getShippingAddress()->getCountryId() ?? "");
             $request->setExtraInfo($extraInfo);
 
             $extraInfo["Name"] = 'DELIVERY_POSTCODE';
@@ -771,13 +773,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $request->setClientRef($order->getCustomerId());
         }
-        $orderDateString = \Zend_Locale_Format::getDate(
-            $order->getCreatedAt(),
-            array(
-                'date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
-            )
-        );
-        $request->setTransactionDate($orderDateString["year"] . "-" . $orderDateString["month"] . '-' . $orderDateString["day"]);
+
+        try {
+            $time = new \DateTime($order->getCreatedAt());
+        } catch (\Exception $e) {
+            throw new LocalizedException(__("Unknown date (order getCreatedAt)"));
+        }
+        $request->setTransactionDate($time->format("Y-m-d"));
         $request->setTransactionAmount(number_format($invoice->getGrandTotal(), 2, '.', ''));
         $request->setTransactionCurrency($order->getOrderCurrencyCode());
         $request->setAdditional1("INVOICE");
@@ -860,7 +862,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $request->setLastName((String)$quote->getBillingAddress()->getLastname());
 
         $request->setFirstLine(trim((String)$billingStreet));
-        $request->setCountryCode(strtoupper($quote->getBillingAddress()->getCountryId()));
+        $request->setCountryCode(strtoupper($quote->getBillingAddress()->getCountryId() ?? ""));
         $request->setPostCode((String)$quote->getBillingAddress()->getPostcode());
         $request->setTown((String)$quote->getBillingAddress()->getCity());
         $request->setFax((String)trim((String)$quote->getBillingAddress()->getFax(), '-'));
@@ -909,7 +911,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $request->setExtraInfo($extraInfo);
 
             $extraInfo["Name"] = 'DELIVERY_COUNTRYCODE';
-            $extraInfo["Value"] = strtoupper($quote->getShippingAddress()->getCountryId());
+            $extraInfo["Value"] = strtoupper($quote->getShippingAddress()->getCountryId() ?? "");
             $request->setExtraInfo($extraInfo);
 
             $extraInfo["Name"] = 'DELIVERY_POSTCODE';
@@ -978,13 +980,13 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $request->setClientRef($order->getCustomerId());
         }
-        $orderDateString = \Zend_Locale_Format::getDate(
-            $order->getCreatedAt(),
-            array(
-                'date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
-            )
-        );
-        $request->setTransactionDate($orderDateString["year"] . "-" . $orderDateString["month"] . '-' . $orderDateString["day"]);
+        try {
+            $time = new \DateTime($order->getCreatedAt());
+        } catch (\Exception $e) {
+            throw new LocalizedException(__("Unknown date (order getCreatedAt)"));
+        }
+
+        $request->setTransactionDate($time->format("Y-m-d"));
         $request->setTransactionAmount(number_format($amount, 2, '.', ''));
         $request->setTransactionCurrency($order->getOrderCurrencyCode());
         $request->setTransactionType($transactionType);
