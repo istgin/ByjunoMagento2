@@ -459,15 +459,15 @@ class ByjunoRequest
         $xml = new \SimpleXMLElement("<Request></Request>");
         $xml->addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
         $xml->addAttribute("xsi:noNamespaceSchemaLocation", "http://site.byjuno.ch/schema/CreditDecisionRequest140.xsd");
-        $xml->addAttribute("ClientId", $this->ClientId);
-        $xml->addAttribute("Version", $this->Version);
-        $xml->addAttribute("RequestId", $this->RequestId);
-        $xml->addAttribute("Email", $this->RequestEmail);
-        $xml->addAttribute("UserID", $this->UserID);
-        $xml->addAttribute("Password", $this->Password);
+        $xml->addAttribute("ClientId", $this->ClientId ?? "");
+        $xml->addAttribute("Version", $this->Version ?? "");
+        $xml->addAttribute("RequestId", $this->RequestId ?? "");
+        $xml->addAttribute("Email", $this->RequestEmail ?? "");
+        $xml->addAttribute("UserID", $this->UserID ?? "");
+        $xml->addAttribute("Password", $this->Password ?? "");
 
         $Customer = $xml->addChild('Customer');
-        $Customer->addAttribute("Reference", $this->CustomerReference);
+        $Customer->addAttribute("Reference", $this->CustomerReference ?? "");
         $Person = $Customer->addChild("Person");
         $Person->LastName = $this->LastName;
         $Person->FirstName = $this->FirstName;
@@ -504,12 +504,12 @@ class ByjunoRequest
         $xml = new \SimpleXMLElement("<Request></Request>");
         $xml->addAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
         $xml->addAttribute("xsi:noNamespaceSchemaLocation", "http://site.byjuno.ch/schema/CreditDecisionRequest140.xsd");
-        $xml->addAttribute("ClientId", $this->ClientId);
-        $xml->addAttribute("Version", $this->Version);
-        $xml->addAttribute("RequestId", $this->RequestId);
-        $xml->addAttribute("Email", $this->RequestEmail);
-        $xml->addAttribute("UserID", $this->UserID);
-        $xml->addAttribute("Password", $this->Password);
+        $xml->addAttribute("ClientId", $this->ClientId ?? "");
+        $xml->addAttribute("Version", $this->Version ?? "");
+        $xml->addAttribute("RequestId", $this->RequestId ?? "");
+        $xml->addAttribute("Email", $this->RequestEmail ?? "");
+        $xml->addAttribute("UserID", $this->UserID ?? "");
+        $xml->addAttribute("Password", $this->Password ?? "");
 
         $Customer = $xml->addChild('Customer');
         $Customer->addAttribute("Reference", $this->CustomerReference);
