@@ -6,6 +6,8 @@ use PHPUnit\Framework\Exception;
 class CheckoutSubmitByjuno implements ObserverInterface {
     protected $helper;
     protected $categoryRepository;
+    /* @var $_scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
+    protected $_scopeConfig;
     /**
      * @param \Byjuno\ByjunoCore\Helper\DataHelper $helper
      */
