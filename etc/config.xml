@@ -62,7 +62,6 @@
             <byjunoinstallmentsettings>
                 <byjuno_installment_setup>
                     <title_installment>Byjuno Ratenzahlung</title_installment>
-                    <sort_order_installment>2</sort_order_installment>
                 </byjuno_installment_setup>
                 <byjuno_installment_3installment>
                     <name>3 Raten</name>
@@ -154,7 +153,6 @@
             <byjunoinstallmentsettings>
                 <byjuno_installment_setup>
                     <title_installment>Byjuno Paiement échelonné</title_installment>
-                    <sort_order_installment>2</sort_order_installment>
                 </byjuno_installment_setup>
                 <byjuno_installment_3installment>
                     <name>3 tranches</name>
@@ -249,7 +247,6 @@
             <byjunoinstallmentsettings>
                 <byjuno_installment_setup>
                     <title_installment>Byjuno Pagamento rateale</title_installment>
-                    <sort_order_installment>2</sort_order_installment>
                 </byjuno_installment_setup>
                 <byjuno_installment_3installment>
                     <name>3 Raten</name>
@@ -340,7 +337,6 @@
             <byjunoinstallmentsettings>
                 <byjuno_installment_setup>
                     <title_installment>Byjuno installment</title_installment>
-                    <sort_order_installment>2</sort_order_installment>
                 </byjuno_installment_setup>
                 <byjuno_installment_3installment>
                     <name>3 installments</name>
@@ -470,7 +466,6 @@
         <byjunoinvoicesettings>
             <byjuno_invoice_setup>
                 <title_invoice>Byjuno Rechnung</title_invoice>
-                <sort_order_invoice>2</sort_order_invoice>
             </byjuno_invoice_setup>
             <byjuno_invoice_partial>
                 <active>0</active>
@@ -494,7 +489,6 @@
         <byjunoinstallmentsettings>
             <byjuno_installment_setup>
                 <title_installment>Byjuno Ratenzahlung</title_installment>
-                <sort_order_installment>2</sort_order_installment>
             </byjuno_installment_setup>
             <byjuno_installment_3installment>
                 <active>0</active>

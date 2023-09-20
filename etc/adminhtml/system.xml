@@ -2,8 +2,28 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="byjuno_main_tab" translate="label" sortOrder="1">
-            <label>Byjuno payments (1.8.1)</label>
+            <label>Byjuno payments (1.8.2)</label>
         </tab>
+        <section id="payment">
+            <group id="byjuno_invoice" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Byjuno invoice settings</label>
+                <field id="sort_order" translate="label comment" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Order</label>
+                    <comment><![CDATA[Sort order of Byjuno Invoice in the list of payment methods during the final step of checkout.]]></comment>
+                    <frontend_class>validate-number</frontend_class>
+                    <config_path>payment/byjuno_invoice/sort_order</config_path>
+                </field>
+            </group>
+            <group id="byjuno_installment" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Byjuno installment settings</label>
+                <field id="sort_order" translate="label comment" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Order</label>
+                    <comment><![CDATA[Sort order of Byjuno Installment in the list of payment methods during the final step of checkout.]]></comment>
+                    <frontend_class>validate-number</frontend_class>
+                    <config_path>payment/byjuno_installment/sort_order</config_path>
+                </field>
+            </group>
+        </section>
         <section id="byjunocheckoutsettings" translate="label" sortOrder="1" showInDefault="1"
                  showInWebsite="1" showInStore="1">
             <label>Byjuno payment method general settings</label>
@@ -180,11 +200,6 @@
                 <field id="title_invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
                 </field>
-                <field id="sort_order_invoice" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
-                       showInStore="0">
-                    <label>Sort Order</label>
-                    <frontend_class>validate-number</frontend_class>
-                </field>
             </group>
             <group id="byjuno_invoice_partial" translate="label" type="text" sortOrder="10" showInDefault="1"
                    showInWebsite="1" showInStore="1">
@@ -250,11 +265,6 @@
                 <label>Byjuno installment settings</label>
                 <field id="title_installment" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
-                </field>
-                <field id="sort_order_installment" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
-                       showInStore="0">
-                    <label>Sort Order</label>
-                    <frontend_class>validate-number</frontend_class>
                 </field>
             </group>
             <group id="byjuno_installment_3installment" translate="label" type="text" sortOrder="10" showInDefault="1"
