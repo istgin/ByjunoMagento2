@@ -146,7 +146,7 @@ define(
                         'additional_data': {
                             'installment_payment_plan': this.paymentPlan(),
                             'installment_send': this.deliveryPlan(),
-                            'installment_customer_dob': jquery("#customer_dob_invoice").val()
+                            'installment_customer_dob': jquery("#customer_dob_installment").val()
                         }
                     };
                 } else if (this.isB2bUid()) {
