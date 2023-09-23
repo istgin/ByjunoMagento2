@@ -2,11 +2,11 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="byjuno_main_tab" translate="label" sortOrder="1">
-            <label>Byjuno payments (1.8.2)</label>
+            <label>CembraPay payments (2.0.0)</label>
         </tab>
         <section id="payment">
             <group id="byjuno_invoice" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Byjuno invoice settings</label>
+                <label>CembraPay invoice settings</label>
                 <field id="sort_order" translate="label comment" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sort Order</label>
                     <comment><![CDATA[Sort order of Byjuno Invoice in the list of payment methods during the final step of checkout.]]></comment>
@@ -26,12 +26,12 @@
         </section>
         <section id="byjunocheckoutsettings" translate="label" sortOrder="1" showInDefault="1"
                  showInWebsite="1" showInStore="1">
-            <label>Byjuno payment method general settings</label>
+            <label>CembraPay payment method general settings</label>
             <tab>byjuno_main_tab</tab>
             <resource>Byjuno_ByjunoCore::system_config</resource>
             <group id="byjuno_setup" translate="label" type="text" sortOrder="1" showInDefault="1"
                    showInWebsite="1" showInStore="1">
-                <label>Byjuno general settings</label>
+                <label>CembraPay general settings</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -66,7 +66,7 @@
                     <label>Maximal amount for checkout</label>
                 </field>
                 <field id="timeout" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Connection timeout to Byjuno CDP server in seconds</label>
+                    <label>Connection timeout to CembraPay CDP server in seconds</label>
                     <frontend_class>validate-number</frontend_class>
                 </field>
                 <field id="tmxenabled" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -77,12 +77,12 @@
                     <label>ThreatMetrix Org Id</label>
                 </field>
                 <field id="singlerequest" translate="label" type="select" sortOrder="115" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Single query requests to Byjuno</label>
+                    <label>Single query requests to CembraPay</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="cdpbeforeshow" translate="label" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Credit check before submit</label>
-                    <comment>Enable credit check before show byjuno payment methods</comment>
+                    <comment>Enable credit check before show CembraPay payment methods</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="byjunos4transacton" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -135,11 +135,11 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="byjuno_prod_email" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Production email of Byjuno</label>
+                    <label>Production email of CembraPay</label>
                     <comment>Email used to send orders, invoices and credit memos</comment>
                 </field>
                 <field id="byjuno_test_email" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Test email of byjuno</label>
+                    <label>Test email of CembraPay</label>
                     <comment>Email used to send test orders, invoices and credit memos</comment>
                 </field>
                 <field id="country_phone_validation" translate="label" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -147,7 +147,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="byjuno_risk" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Accepted Byjuno Risk for S2 </label>
+                    <label>Accepted CembraPay Risk for S2 </label>
                     <comment>comma separated</comment>
                 </field>
                 <field id="merchant_risk" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -175,14 +175,14 @@
             </group>
             <group id="localization" translate="label" type="text" sortOrder="20" showInDefault="1"
                    showInWebsite="1" showInStore="1">
-                <label>Byjuno localizations</label>
+                <label>CembraPay localizations</label>
                 <field id="byjuno_fail_message" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Fail message of byjuno order</label>
+                    <label>Fail message of CembraPay order</label>
                 </field>
             </group>
             <group id="advanced" translate="label" type="text" sortOrder="30" showInDefault="1"
                    showInWebsite="1" showInStore="1">
-                <label>Byjuno advanced settings (for developers only)</label>
+                <label>CembraPay advanced settings (for developers only)</label>
                 <field id="ip_detect_string" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Real IP detection method</label>
                     <comment>In some cases this is required to detect valid IP. example: REMOTE_ADDR, HTTP_CLIENT_IP, HTTP_CF_CONNECTING_IP for CloudFlare etc. Keep empty for default</comment>
@@ -191,19 +191,19 @@
         </section>
         <section id="byjunoinvoicesettings" translate="label" sortOrder="2" showInDefault="1"
                  showInWebsite="1" showInStore="1">
-            <label>Byjuno invoice settings</label>
+            <label>CembraPay invoice settings</label>
             <tab>byjuno_main_tab</tab>
             <resource>Byjuno_ByjunoCore::system_config</resource>
             <group id="byjuno_invoice_setup" translate="label" type="text" sortOrder="1" showInDefault="1"
                    showInWebsite="1" showInStore="1">
-                <label>Byjuno invoice settings</label>
+                <label>CembraPay invoice settings</label>
                 <field id="title_invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
                 </field>
             </group>
             <group id="byjuno_invoice_partial" translate="label" type="text" sortOrder="10" showInDefault="1"
                    showInWebsite="1" showInStore="1">
-                <label>Byjuno Invoice (with partial payment option)</label>
+                <label>CembraPay Invoice (with partial payment option)</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -221,7 +221,7 @@
             </group>
             <group id="byjuno_single_invoice" translate="label" type="text" sortOrder="20" showInDefault="1"
                    showInWebsite="1" showInStore="1">
-                <label>Byjuno Single Invoice</label>
+                <label>CembraPay Single Invoice</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -257,12 +257,12 @@
 
         <section id="byjunoinstallmentsettings" translate="label" sortOrder="3" showInDefault="1"
                  showInWebsite="1" showInStore="1">
-            <label>Byjuno installment settings</label>
+            <label>CembraPay installment settings</label>
             <tab>byjuno_main_tab</tab>
             <resource>Byjuno_ByjunoCore::system_config</resource>
             <group id="byjuno_installment_setup" translate="label" type="text" sortOrder="1" showInDefault="1"
                    showInWebsite="1" showInStore="1">
-                <label>Byjuno installment settings</label>
+                <label>CembraPay installment settings</label>
                 <field id="title_installment" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
                 </field>

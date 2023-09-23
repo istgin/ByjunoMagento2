@@ -5,51 +5,33 @@
         <german>
             <byjunocheckoutsettings>
                 <localization>
-                    <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Rechnung mit Teilzahlungsoption,Byjuno
-                        Einmalrechnung,https://byjuno.ch/de/1b/terms/,https://byjuno.ch/de/2b/terms/
-                    </byjuno_invoice_payments>
-                    <byjuno_installment_payments>3 Raten,10 Raten,12 Raten,24 Raten,4 Raten innerhalb von 12
-                        Monaten,N/A,https://byjuno.ch/de/3a/terms/,https://byjuno.ch/de/1d/terms/,https://byjuno.ch/de/1d/terms/,https://byjuno.ch/de/1d/terms/,https://byjuno.ch/de/1d/terms/,N/A
-                    </byjuno_installment_payments>
+                    <byjuno_invoice_payments>invoice_byjuno_enable,CembraPay Rechnung mit Teilzahlungsoption,CembraPay Einmalrechnung,https://byjuno.ch/de/1b/terms/,https://byjuno.ch/de/2b/terms/</byjuno_invoice_payments>
+                    <byjuno_installment_payments>3 Raten,10 Raten,12 Raten,24 Raten,4 Raten innerhalb von 12 Monaten,N/A,https://byjuno.ch/de/3a/terms/,https://byjuno.ch/de/1d/terms/,https://byjuno.ch/de/1d/terms/,https://byjuno.ch/de/1d/terms/,https://byjuno.ch/de/1d/terms/,N/A</byjuno_installment_payments>
                     <byjuno_installment_toc_string>AGB</byjuno_installment_toc_string>
-                    <byjuno_installment_payment_message>Bitte wählen Sie die Zahlungsart und akzeptieren Sie die Allgemeinen
-                        Geschäftsbedingungen
-                    </byjuno_installment_payment_message>
-                    <byjuno_fail_message>Der Anbieter dieser Zahlungsart hat die gewählte Bezahlmethode abgelehnt. Bitte
-                        wählen Sie eine andere Zahlungsart.
-                    </byjuno_fail_message>
+                    <byjuno_installment_payment_message>Bitte wählen Sie die Zahlungsart und akzeptieren Sie die Allgemeinen Geschäftsbedingungen</byjuno_installment_payment_message>
+                    <byjuno_fail_message>Der Anbieter dieser Zahlungsart hat die gewählte Bezahlmethode abgelehnt. Bitte wählen Sie eine andere Zahlungsart.</byjuno_fail_message>
                     <byjuno_invoice_toc_string>AGB</byjuno_invoice_toc_string>
-                    <byjuno_invoice_payment_message>Bitte wählen Sie die Zahlungsart und akzeptieren Sie die Allgemeinen
-                        Geschäftsbedingungen
-                    </byjuno_invoice_payment_message>
-                    <byjuno_invoice_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.95) an
-                    </byjuno_invoice_postal_text>
+                    <byjuno_invoice_payment_message>Bitte wählen Sie die Zahlungsart und akzeptieren Sie die Allgemeinen Geschäftsbedingungen</byjuno_invoice_payment_message>
+                    <byjuno_invoice_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.95) an </byjuno_invoice_postal_text>
                     <byjuno_invoice_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_invoice_email_text>
-                    <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.95 pro
-                        Rate) an
-                    </byjuno_installment_postal_text>
-                    <byjuno_installment_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an
-                    </byjuno_installment_email_text>
-                    <byjuno_s4_fail>Das Senden der Rechnung an Byjuno ist fehlgeschlagen. Die Rechnung wurde nicht
-                        generiert. Bitte versuchen Sie es erneut.
-                    </byjuno_s4_fail>
-                    <byjuno_s5_fail>Das Senden der Bestelländerung an Byjuno ist fehlgeschlagen. Storno/Rückerstattung
-                        konnte nicht durchgeführt werden. Bitte versuchen Sie es erneut.
-                    </byjuno_s5_fail>
+                    <byjuno_installment_postal_text>Rechnungsversand in Papierform via Post (gegen Gebühr von CHF 3.95 pro Rate) an</byjuno_installment_postal_text>
+                    <byjuno_installment_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_installment_email_text>
+                    <byjuno_s4_fail>Das Senden der Rechnung an CembraPay ist fehlgeschlagen. Die Rechnung wurde nicht generiert. Bitte versuchen Sie es erneut.</byjuno_s4_fail>
+                    <byjuno_s5_fail>Das Senden der Bestelländerung an CembraPay ist fehlgeschlagen. Storno/Rückerstattung konnte nicht durchgeführt werden. Bitte versuchen Sie es erneut.</byjuno_s5_fail>
                     <postal_code_wrong>Die PLZ der Rechnungsadresse ist fehlerhaft</postal_code_wrong>
                     <telephone_code_wrong>Die Telefonnummer der Rechnungsadresse ist fehlerhaft</telephone_code_wrong>
                 </localization>
             </byjunocheckoutsettings>
             <byjunoinvoicesettings>
                 <byjuno_invoice_setup>
-                    <title_invoice>Byjuno Rechnung</title_invoice>
+                    <title_invoice>CembraPay Rechnung</title_invoice>
                 </byjuno_invoice_setup>
                 <byjuno_invoice_partial>
-                    <name>Byjuno Rechnung mit Teilzahlungsoption</name>
+                    <name>CembraPay Rechnung mit Teilzahlungsoption</name>
                     <link>https://byjuno.ch/de/1b/terms/</link>
                 </byjuno_invoice_partial>
                 <byjuno_single_invoice>
-                    <name>Byjuno Einmalrechnung</name>
+                    <name>CembraPay Einmalrechnung</name>
                     <link>https://byjuno.ch/de/2b/terms/</link>
                 </byjuno_single_invoice>
                 <byjuno_invoice_localization>
@@ -61,7 +43,7 @@
             </byjunoinvoicesettings>
             <byjunoinstallmentsettings>
                 <byjuno_installment_setup>
-                    <title_installment>Byjuno Ratenzahlung</title_installment>
+                    <title_installment>CembraPay Ratenzahlung</title_installment>
                 </byjuno_installment_setup>
                 <byjuno_installment_3installment>
                     <name>3 Raten</name>
@@ -94,7 +76,7 @@
         <french>
             <byjunocheckoutsettings>
                 <localization>
-                    <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Facture avec option de paiement partiel,Byjuno
+                    <byjuno_invoice_payments>invoice_byjuno_enable,CembraPay Facture avec option de paiement partiel,CembraPay
                         facture unique,https://byjuno.ch/fr/1b/terms/,https://byjuno.ch/fr/2b/terms/
                     </byjuno_invoice_payments>
                     <byjuno_installment_payments>3 tranches,10 tranches,12 tranches,24 tranches,4 tranches dans 12
@@ -120,7 +102,7 @@
                     </byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Expédition facture via e-mail (sans frais) à
                     </byjuno_installment_email_text>
-                    <byjuno_s4_fail>La transmission de la facture à Byjuno a échoué. La facture n’a pas été produite,
+                    <byjuno_s4_fail>La transmission de la facture à CembraPay a échoué. La facture n’a pas été produite,
                         veuillez essayer à nouveau.
                     </byjuno_s4_fail>
                     <byjuno_s5_fail>La transmission de la commande modifiée a échoué. L’annulation/le remboursement n’a pas
@@ -133,14 +115,14 @@
             </byjunocheckoutsettings>
             <byjunoinvoicesettings>
                 <byjuno_invoice_setup>
-                    <title_invoice>Facture Byjuno</title_invoice>
+                    <title_invoice>Facture CembraPay</title_invoice>
                 </byjuno_invoice_setup>
                 <byjuno_invoice_partial>
-                    <name>Byjuno Facture avec option de paiement partiel</name>
+                    <name>CembraPay Facture avec option de paiement partiel</name>
                     <link>https://byjuno.ch/fr/1b/terms/</link>
                 </byjuno_invoice_partial>
                 <byjuno_single_invoice>
-                    <name>Byjuno facture unique</name>
+                    <name>CembraPay facture unique</name>
                     <link>https://byjuno.ch/fr/2b/terms/</link>
                 </byjuno_single_invoice>
                 <byjuno_invoice_localization>
@@ -152,7 +134,7 @@
             </byjunoinvoicesettings>
             <byjunoinstallmentsettings>
                 <byjuno_installment_setup>
-                    <title_installment>Byjuno Paiement échelonné</title_installment>
+                    <title_installment>CembraPay Paiement échelonné</title_installment>
                 </byjuno_installment_setup>
                 <byjuno_installment_3installment>
                     <name>3 tranches</name>
@@ -185,14 +167,14 @@
         <italian>
             <byjunocheckoutsettings>
                 <localization>
-                    <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno fattura con opzione di pagamento parziale,Byjuno
+                    <byjuno_invoice_payments>invoice_byjuno_enable,CembraPay fattura con opzione di pagamento parziale,CembraPay
                         fattura singola,https://byjuno.ch/it/1b/terms/,https://byjuno.ch/it/2b/terms/
                     </byjuno_invoice_payments>
                     <byjuno_installment_payments>3 rate,10 rate,12 rate,24 rate,4 rate in 12
                         mesi,N/A,https://byjuno.ch/it/3a/terms/,https://byjuno.ch/it/1d/terms/,https://byjuno.ch/it/1d/terms/,https://byjuno.ch/it/1d/terms/,https://byjuno.ch/it/1d/terms/,N/A
                     </byjuno_installment_payments>
 
-                    <title_installment>Byjuno Pagamento rateale</title_installment>
+                    <title_installment>CembraPay Pagamento rateale</title_installment>
                     <byjuno_installment_toc_string>CGC</byjuno_installment_toc_string>
                     <byjuno_installment_payment_message>La preghiamo di scegliere la modalità di pagamento e di accettare le
                         condizioni generali di contratto
@@ -214,7 +196,7 @@
                     </byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Invio fattura tramite e-mail (senza spese aggiuntive) all’indirizzo
                     </byjuno_installment_email_text>
-                    <byjuno_s4_fail>La trasmissione della fattura a Byjuno non é riuscita. La fattura non é stata generata.
+                    <byjuno_s4_fail>La trasmissione della fattura a CembraPay non é riuscita. La fattura non é stata generata.
                         La preghiamo di riprovare.
                     </byjuno_s4_fail>
                     <byjuno_s5_fail>La trasmissione della modifica dell’ordine non é riuscita. Storno/Rimborso non é stato
@@ -227,14 +209,14 @@
             </byjunocheckoutsettings>
             <byjunoinvoicesettings>
                 <byjuno_invoice_setup>
-                    <title_invoice>Fattura Byjuno</title_invoice>
+                    <title_invoice>Fattura CembraPay</title_invoice>
                 </byjuno_invoice_setup>
                 <byjuno_invoice_partial>
-                    <name>Byjuno fattura con opzione di pagamento parziale</name>
+                    <name>CembraPay fattura con opzione di pagamento parziale</name>
                     <link>https://byjuno.ch/it/1b/terms/</link>
                 </byjuno_invoice_partial>
                 <byjuno_single_invoice>
-                    <name>Byjuno fattura singola</name>
+                    <name>CembraPay fattura singola</name>
                     <link>https://byjuno.ch/it/2b/terms/</link>
                 </byjuno_single_invoice>
                 <byjuno_invoice_localization>
@@ -246,7 +228,7 @@
             </byjunoinvoicesettings>
             <byjunoinstallmentsettings>
                 <byjuno_installment_setup>
-                    <title_installment>Byjuno Pagamento rateale</title_installment>
+                    <title_installment>CembraPay Pagamento rateale</title_installment>
                 </byjuno_installment_setup>
                 <byjuno_installment_3installment>
                     <name>3 Raten</name>
@@ -279,15 +261,15 @@
         <english>
             <byjunocheckoutsettings>
                 <localization>
-                    <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Invoice (with partial payment option),Byjuno
+                    <byjuno_invoice_payments>invoice_byjuno_enable,CembraPay Invoice (with partial payment option),CembraPay
                         Single Invoice,https://byjuno.ch/en/1b/terms/,https://byjuno.ch/en/2b/terms/
                     </byjuno_invoice_payments>
                     <byjuno_installment_payments>3 Installments,10 installments,12 installments,24 installments,4
                         installments in 12
                         months,N/A,https://byjuno.ch/en/3a/terms/,https://byjuno.ch/en/1d/terms/,https://byjuno.ch/en/1d/terms/,https://byjuno.ch/en/1d/terms/,https://byjuno.ch/en/1d/terms/,N/A
                     </byjuno_installment_payments>
-                    <title_invoice>Byjuno INVOICE</title_invoice>
-                    <title_installment>Byjuno INSTALLMENT</title_installment>
+                    <title_invoice>CembraPay INVOICE</title_invoice>
+                    <title_installment>CembraPay INSTALLMENT</title_installment>
                     <byjuno_installment_toc_string>T&amp;C</byjuno_installment_toc_string>
                     <byjuno_installment_payment_message>Please select payment option and agree to Terms and Conditions
                     </byjuno_installment_payment_message>
@@ -305,10 +287,10 @@
                     </byjuno_installment_postal_text>
                     <byjuno_installment_email_text>Installments Delivery method by E-Mail (no fees) to
                     </byjuno_installment_email_text>
-                    <byjuno_s4_fail>The invoice transfer to Byjuno failed; the invoice could not be generated, please
+                    <byjuno_s4_fail>The invoice transfer to CembraPay failed; the invoice could not be generated, please
                         retry.
                     </byjuno_s4_fail>
-                    <byjuno_s5_fail>The transfer of the updated order to Byjuno failed; Cancel/Refund could not be
+                    <byjuno_s5_fail>The transfer of the updated order to CembraPay failed; Cancel/Refund could not be
                         completed, please retry.
                     </byjuno_s5_fail>
                     <postal_code_wrong>Postal code of billing address is incorrect</postal_code_wrong>
@@ -317,14 +299,14 @@
             </byjunocheckoutsettings>
             <byjunoinvoicesettings>
                 <byjuno_invoice_setup>
-                    <title_invoice>Byjuno invoice</title_invoice>
+                    <title_invoice>CembraPay invoice</title_invoice>
                 </byjuno_invoice_setup>
                 <byjuno_invoice_partial>
-                    <name>Byjuno Invoice (with partial payment option)</name>
+                    <name>CembraPay Invoice (with partial payment option)</name>
                     <link>https://byjuno.ch/en/1b/terms/</link>
                 </byjuno_invoice_partial>
                 <byjuno_single_invoice>
-                    <name>Byjuno Single Invoice</name>
+                    <name>CembraPay Single Invoice</name>
                     <link>https://byjuno.ch/en/2b/terms/</link>
                 </byjuno_single_invoice>
                 <byjuno_invoice_localization>
@@ -336,7 +318,7 @@
             </byjunoinvoicesettings>
             <byjunoinstallmentsettings>
                 <byjuno_installment_setup>
-                    <title_installment>Byjuno installment</title_installment>
+                    <title_installment>CembraPay installment</title_installment>
                 </byjuno_installment_setup>
                 <byjuno_installment_3installment>
                     <name>3 installments</name>
@@ -372,7 +354,7 @@
             <byjuno_invoice>
                 <model>InvoiceByjunoCoreFacade</model>
                 <order_status>pending</order_status>
-                <title>Byjuno invoice</title>
+                <title>CembraPay invoice</title>
                 <can_use_checkout>1</can_use_checkout>
                 <can_capture>1</can_capture>
                 <can_capture_partial>1</can_capture_partial>
@@ -388,7 +370,7 @@
             <byjuno_installment>
                 <model>InstallmentByjunoCoreFacade</model>
                 <order_status>pending</order_status>
-                <title>Byjuno installment</title>
+                <title>CembraPay installment</title>
                 <can_use_checkout>1</can_use_checkout>
                 <can_capture>1</can_capture>
                 <can_capture_partial>1</can_capture_partial>
@@ -435,7 +417,7 @@
                 <auto_invoice>0</auto_invoice>
             </byjuno_setup>
             <localization>
-                <byjuno_invoice_payments>invoice_byjuno_enable,Byjuno Rechnung mit Teilzahlungsoption,Byjuno
+                <byjuno_invoice_payments>invoice_byjuno_enable,CembraPay Rechnung mit Teilzahlungsoption,CembraPay
                     Einmalrechnung,https://byjuno.ch/de/1b/terms/,https://byjuno.ch/de/2b/terms/
                 </byjuno_invoice_payments>
                 <byjuno_installment_paper>0</byjuno_installment_paper>
@@ -453,10 +435,10 @@
                     an
                 </byjuno_installment_postal_text>
                 <byjuno_installment_email_text>Rechnungsversand via E-Mail (ohne Gebühr) an</byjuno_installment_email_text>
-                <byjuno_s4_fail>Das Senden der Rechnung an Byjuno ist fehlgeschlagen. Die Rechnung wurde nicht generiert.
+                <byjuno_s4_fail>Das Senden der Rechnung an CembraPay ist fehlgeschlagen. Die Rechnung wurde nicht generiert.
                     Bitte versuchen Sie es erneut.
                 </byjuno_s4_fail>
-                <byjuno_s5_fail>Das Senden der Bestelländerung an Byjuno ist fehlgeschlagen. Storno/Rückerstattung konnte
+                <byjuno_s5_fail>Das Senden der Bestelländerung an CembraPay ist fehlgeschlagen. Storno/Rückerstattung konnte
                     nicht durchgeführt werden. Bitte versuchen Sie es erneut.
                 </byjuno_s5_fail>
                 <postal_code_wrong>Die PLZ der Rechnungsadresse ist fehlerhaft</postal_code_wrong>
@@ -465,17 +447,17 @@
         </byjunocheckoutsettings>
         <byjunoinvoicesettings>
             <byjuno_invoice_setup>
-                <title_invoice>Byjuno Rechnung</title_invoice>
+                <title_invoice>CembraPay Rechnung</title_invoice>
             </byjuno_invoice_setup>
             <byjuno_invoice_partial>
                 <active>0</active>
-                <name>Byjuno Rechnung mit Teilzahlungsoption</name>
+                <name>CembraPay Rechnung mit Teilzahlungsoption</name>
                 <link>https://byjuno.ch/de/1b/terms/</link>
                 <byjuno_invoice_partial_allow>0</byjuno_invoice_partial_allow>
             </byjuno_invoice_partial>
             <byjuno_single_invoice>
                 <active>0</active>
-                <name>Byjuno Einmalrechnung</name>
+                <name>CembraPay Einmalrechnung</name>
                 <link>https://byjuno.ch/de/2b/terms/</link>
                 <byjuno_single_invoice_allow>0</byjuno_single_invoice_allow>
             </byjuno_single_invoice>
@@ -488,7 +470,7 @@
         </byjunoinvoicesettings>
         <byjunoinstallmentsettings>
             <byjuno_installment_setup>
-                <title_installment>Byjuno Ratenzahlung</title_installment>
+                <title_installment>CembraPay Ratenzahlung</title_installment>
             </byjuno_installment_setup>
             <byjuno_installment_3installment>
                 <active>0</active>

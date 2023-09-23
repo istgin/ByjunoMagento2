@@ -75,32 +75,12 @@ class ConfigProvider implements ConfigProviderInterface
 
     private function getByjunoLogoInstallment()
     {
-        $logo = 'https://byjuno.ch/Content/logo/de/6639/BJ_Ratenzahlung_BLK.gif';
-        if (substr($this->_resolver->getLocale(), 0, 2) == 'en') {
-            $logo = 'https://byjuno.ch/Content/logo/en/6639/BJ_Installments_BLK.gif';
-        } else if (substr($this->_resolver->getLocale(), 0, 2) == 'fr') {
-            $logo = 'https://byjuno.ch/Content/logo/fr/6639/BJ_Paiement_echelonne_BLK.gif';
-        } else if (substr($this->_resolver->getLocale(), 0, 2) == 'it') {
-            $logo = 'https://byjuno.ch/Content/logo/it/6639/BJ_Pagemento_Rateale_BLK.gif';
-        } else {
-            $logo = 'https://byjuno.ch/Content/logo/de/6639/BJ_Ratenzahlung_BLK.gif';
-        }
-        return $logo;
+        return'https://cembrapay.ch/logo/gif/66x39/CembraPay_Checkout_RGB_66x39.gif';
     }
 
     private function getByjunoLogoInvoice()
     {
-        $logo = '';
-        if (substr($this->_resolver->getLocale(), 0, 2) == 'en') {
-            $logo = 'https://byjuno.ch/Content/logo/en/6639/BJ_Invoice_BLK.gif';
-        } else if (substr($this->_resolver->getLocale(), 0, 2) == 'fr') {
-            $logo = 'https://byjuno.ch/Content/logo/fr/6639/BJ_Facture_BLK.gif';
-        } else if (substr($this->_resolver->getLocale(), 0, 2) == 'it') {
-            $logo = 'https://byjuno.ch/Content/logo/it/6639/BJ_Fattura_BLK.gif';
-        } else {
-            $logo = 'https://byjuno.ch/Content/logo/de/6639/BJ_Rechnung_BLK.gif';
-        }
-        return $logo;
+        return 'https://cembrapay.ch/logo/gif/66x39/CembraPay_Checkout_RGB_66x39.gif';
     }
 
     public function getConfig()
