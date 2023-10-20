@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="byjuno_main_tab" translate="label" sortOrder="1">
-            <label>CembraPay payments (2.0.0)</label>
+            <label>CembraPay payments (2.0.1)</label>
         </tab>
         <section id="payment">
             <group id="byjuno_invoice" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
