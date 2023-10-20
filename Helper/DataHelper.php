@@ -352,8 +352,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $gender_female_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_female_possible_prefix',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array));
-        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
+        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array ?? ""));
+        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array ?? ""));
 
         $g = $quote->getCustomerGender();
         $request->setGender('0');
@@ -367,17 +367,17 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
         if ($this->_customerMetadata->getAttributeMetadata('prefix')->isVisible()) {
-            if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+            if (in_array(strtolower($quote->getBillingAddress()->getPrefix() ?? ""), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+            } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix() ?? ""), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             }
         }
 
         if (!empty($gender_custom)) {
-            if (in_array(strtolower($gender_custom), $gender_male_possible_prefix)) {
+            if (in_array(strtolower($gender_custom ?? ""), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if (in_array(strtolower($gender_custom), $gender_female_possible_prefix)) {
+            } else if (in_array(strtolower($gender_custom ?? ""), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             }
         }
@@ -567,8 +567,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $gender_female_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_female_possible_prefix',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array));
-        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
+        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array ?? ""));
+        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array ?? ""));
 
         $g = $order->getCustomerGender();
         $request->setGender('0');
@@ -582,17 +582,17 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
         if ($this->_customerMetadata->getAttributeMetadata('prefix')->isVisible()) {
-            if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+            if (in_array(strtolower($order->getBillingAddress()->getPrefix() ?? ""), $gender_male_possible_prefix)) {
                 $request->setGender('1');
-            } else if (in_array(strtolower($order->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+            } else if (in_array(strtolower($order->getBillingAddress()->getPrefix() ?? ""), $gender_female_possible_prefix)) {
                 $request->setGender('2');
             }
         }
 
         if (!empty($gender_custom)) {
-            if (in_array(strtolower($gender_custom), $gender_male_possible_prefix)) {
+            if (in_array(strtolower($gender_custom ?? ""), $gender_male_possible_prefix ?? "")) {
                 $request->setGender('1');
-            } else if (in_array(strtolower($gender_custom), $gender_female_possible_prefix)) {
+            } else if (in_array(strtolower($gender_custom ?? ""), $gender_female_possible_prefix ?? "")) {
                 $request->setGender('2');
             }
         }
@@ -829,8 +829,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $gender_female_possible_prefix_array = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/gender_female_possible_prefix',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array));
-        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array));
+        $gender_male_possible_prefix = explode(";", strtolower($gender_male_possible_prefix_array ?? ""));
+        $gender_female_possible_prefix = explode(";", strtolower($gender_female_possible_prefix_array ?? ""));
 
         $g = $quote->getCustomerGender();
         $request->setGender('0');
@@ -844,9 +844,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
         if ($this->_customerMetadata->getAttributeMetadata('prefix')->isVisible()) {
-            if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_male_possible_prefix)) {
+            if (in_array(strtolower($quote->getBillingAddress()->getPrefix() ?? ""), $gender_male_possible_prefix ?? "")) {
                 $request->setGender('1');
-            } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix()), $gender_female_possible_prefix)) {
+            } else if (in_array(strtolower($quote->getBillingAddress()->getPrefix() ?? ""), $gender_female_possible_prefix ?? "")) {
                 $request->setGender('2');
             }
         }

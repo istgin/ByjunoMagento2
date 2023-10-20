@@ -80,7 +80,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                 $total > $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/maxamount', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
                 $active = false;
             }
-            $currency = strtolower($quote->getQuoteCurrencyCode());
+            $currency = strtolower($quote->getQuoteCurrencyCode() ?? "");
             if ($currency != "chf") {
                 $active = false;
             }
@@ -378,7 +378,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1 && $payment->getQuote() != null) {
 
             $pattern = "/^[0-9]{4}$/";
-            if (strtolower($payment->getQuote()->getBillingAddress()->getCountryId()) == 'ch' && !preg_match($pattern, $payment->getQuote()->getBillingAddress()->getPostcode())) {
+            if (strtolower($payment->getQuote()->getBillingAddress()->getCountryId() ?? "") == 'ch' && !preg_match($pattern, $payment->getQuote()->getBillingAddress()->getPostcode())) {
                 throw new LocalizedException(
                     __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/postal_code_wrong', \Magento\Store\Model\ScopeInterface::SCOPE_STORE).
                         ": " . $payment->getQuote()->getBillingAddress()->getPostcode())
