@@ -1,10 +1,65 @@
 <?php
 namespace Byjuno\ByjunoCore\Helper;
 
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutAutRequest;
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutCancelRequest;
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutCancelResponse;
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutCreditRequest;
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutCreditResponse;
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutSettleRequest;
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutSettleResponse;
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayLoginDto;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Invoice;
+use Magento\Store\Model\ScopeInterface;
 
 class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
 {
+
+    public static $SINGLEINVOICE = 'SINGLE-INVOICE';
+    public static $CEMBRAPAYINVOICE = 'BYJUNO-INVOICE';
+
+    public static $INSTALLMENT_3 = 'INSTALLMENT_3';
+    public static $INSTALLMENT_4 = 'INSTALLMENT_4';
+    public static $INSTALLMENT_6 = 'INSTALLMENT_6';
+    public static $INSTALLMENT_12 = 'INSTALLMENT_12';
+    public static $INSTALLMENT_24 = 'INSTALLMENT_24';
+    public static $INSTALLMENT_36 = 'INSTALLMENT_36';
+    public static $INSTALLMENT_48 = 'INSTALLMENT_48';
+
+    public static $MESSAGE_SCREENING = 'SCR';
+    public static $MESSAGE_AUTH = 'AUT';
+    public static $MESSAGE_SET = 'SET';
+    public static $MESSAGE_CNL = 'CNT';
+    public static $MESSAGE_CAN = 'CAN';
+    public static $MESSAGE_CHK = 'CHK';
+    public static $MESSAGE_STATUS = 'TST';
+
+    public static $CUSTOMER_PRIVATE = 'P';
+    public static $CUSTOMER_BUSINESS = 'C';
+
+
+    public static $GENTER_UNKNOWN = 'N';
+    public static $GENTER_MALE = 'M';
+    public static $GENTER_FEMALE = 'F';
+
+
+    public static $DELIVERY_POST = 'POST';
+    public static $DELIVERY_VIRTUAL = 'DIGITAL';
+
+    public static $SCREENING_OK = 'SCREENING-APPROVED';
+    public static $SETTLE_OK = 'SETTLED';
+    public static $AUTH_OK = 'AUTHORIZED';
+    public static $CREDIT_OK = 'SUCCESS';
+    public static $CANCEL_OK = 'SUCCESS';
+    public static $CHK_OK = 'SUCCESS';
+    public static $GET_OK = 'SUCCESS';
+    public static $GET_OK_TRANSACTION_STATUSES = ['AUTHORIZED', 'SETTLED', 'PARTIALLY SETTLED'];
+
+
+    public static $REQUEST_ERROR = 'REQUEST_ERROR';
+
 
     public static $MAX_STATUS = 50;
     /**
@@ -58,6 +113,11 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Byjuno\ByjunoCore\Helper\Api\ByjunoS4Response
      */
     public $_responseS4;
+
+    /**
+     * @var \Byjuno\ByjunoCore\Helper\CembraApi\CembraPayAzure
+     */
+    public $cembraPayAzure;
 
 
     function saveLog(\Byjuno\ByjunoCore\Helper\Api\ByjunoRequest $request, $xml_request, $xml_response, $status, $type)
@@ -257,6 +317,7 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
+        \Byjuno\ByjunoCore\Helper\CembraApi\CembraPayAzure $cembraPayAzure,
         \Magento\Framework\DB\Transaction $transaction
     )
     {
@@ -284,6 +345,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_url = $url;
         $this->quoteRepository = $quoteRepository;
         $this->_invoiceService = $invoiceService;
+        $this->_invoiceService = $invoiceService;
+        $this->cembraPayAzure = $cembraPayAzure;
         $this->_transaction = $transaction;
     }
 
@@ -999,5 +1062,126 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return $request;
+    }
+
+    function CreateMagentoShopRequestSettlePaid(Order $order, Invoice $invoice, Order\Payment $payment, $webshopProfile, $tx)
+    {
+        $request = new CembraPayCheckoutSettleRequest();
+        $request->requestMsgType = self::$MESSAGE_SET;
+        $request->requestMsgId = CembraPayCheckoutAutRequest::GUID();
+        $request->requestMsgDateTime = CembraPayCheckoutAutRequest::Date();
+        $request->transactionId = $tx;
+        $request->merchantOrderRef = $order->getRealOrderId();
+        $request->amount = number_format($order->getGrandTotal(), 2, '.', '') * 100;
+        $request->currency = $order->getOrderCurrencyCode();
+        $request->settlementDetails->isFinal = $payment->isCaptureFinal($order->getGrandTotal());
+        $request->settlementDetails->merchantInvoiceRef = $invoice->getIncrementId();
+        return $request;
+    }
+
+
+    function settleResponse($response)
+    {
+        $responseObject = json_decode($response);
+        $result = new CembraPayCheckoutSettleResponse();
+        if (empty($responseObject->processingStatus)) {
+            $result->processingStatus = self::$REQUEST_ERROR;
+        } else {
+            if ($responseObject->processingStatus == self::$SETTLE_OK) {
+                // TODO if need
+                $result->processingStatus = $responseObject->processingStatus;
+                $result->transactionId = $responseObject->transactionId;
+            } else {
+                $result->processingStatus = $responseObject->processingStatus;
+            }
+        }
+        return $result;
+    }
+
+    function CreateMagentoShopRequestCredit(Order $order, $amount, $invoiceId, $webshopProfile, $tx)
+    {
+        $request = new CembraPayCheckoutCreditRequest();
+        $request->requestMsgType = self::$MESSAGE_CNL;
+        $request->requestMsgId = CembraPayCheckoutAutRequest::GUID();
+        $request->requestMsgDateTime = CembraPayCheckoutAutRequest::Date();
+        $request->transactionId = $tx;
+        $request->merchantOrderRef = $order->getRealOrderId();
+        $request->amount = number_format($amount, 2, '.', '') * 100;
+        $request->currency = $order->getOrderCurrencyCode();
+        $request->settlementDetails->merchantInvoiceRef = $invoiceId;
+        return $request;
+    }
+
+    function creditResponse($response)
+    {
+        $responseObject = json_decode($response);
+        $result = new CembraPayCheckoutCreditResponse();
+        if (empty($responseObject->processingStatus)) {
+            $result->processingStatus = self::$REQUEST_ERROR;
+        } else {
+            if ($responseObject->processingStatus == self::$CREDIT_OK) {
+                // TODO if need
+                $result->processingStatus = $responseObject->processingStatus;
+                $result->transactionId = $responseObject->transactionId;
+            } else {
+                $result->processingStatus = $responseObject->processingStatus;
+            }
+        }
+        return $result;
+    }
+
+    function CreateMagentoShopRequestCancel(Order $order, $amount, $webshopProfile, $tx)
+    {
+        $request = new CembraPayCheckoutCancelRequest();
+        $request->requestMsgType = self::$MESSAGE_CAN;
+        $request->requestMsgId = CembraPayCheckoutAutRequest::GUID();
+        $request->requestMsgDateTime = CembraPayCheckoutAutRequest::Date();
+        $request->transactionId = $tx;
+        $request->merchantOrderRef = $order->getRealOrderId();
+        $request->amount = number_format($amount, 2, '.', '') * 100;
+        $request->currency = $order->getOrderCurrencyCode();
+        return $request;
+    }
+
+    function cancelResponse($response)
+    {
+        $responseObject = json_decode($response);
+        $result = new CembraPayCheckoutCancelResponse();
+        if (empty($responseObject->processingStatus)) {
+            $result->processingStatus = self::$REQUEST_ERROR;
+        } else {
+            if ($responseObject->processingStatus == self::$CANCEL_OK) {
+                // TODO if need
+                $result->processingStatus = $responseObject->processingStatus;
+                $result->transactionId = $responseObject->transactionId;
+            } else {
+                $result->processingStatus = $responseObject->processingStatus;
+            }
+        }
+        return $result;
+    }
+
+
+
+    public function getAccessData() {
+        $accessData = new CembraPayLoginDto();
+        $accessData->helperObject = $this;
+        $accessData->timeout = (int)$this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', ScopeInterface::SCOPE_STORE);
+        $accessData->username = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', ScopeInterface::SCOPE_STORE);
+        $accessData->password = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', ScopeInterface::SCOPE_STORE);
+        $accessData->audience = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/audience', ScopeInterface::SCOPE_STORE);
+        $accessData->accessToken = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/access_token');
+        return $accessData;
+    }
+
+    public function getAccessDataWebshop($webShopId) {
+        $accessData = new CembraPayLoginDto();
+        $accessData->helperObject = $this;
+        $accessData->timeout = (int)$this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', ScopeInterface::SCOPE_STORE, $webShopId);
+        $accessData->username = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', ScopeInterface::SCOPE_STORE, $webShopId);
+        $accessData->password = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', ScopeInterface::SCOPE_STORE, $webShopId);
+        $accessData->audience = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/audience', ScopeInterface::SCOPE_STORE, $webShopId);
+        $accessData->accessToken = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/access_token');
+        return $accessData;
     }
 }

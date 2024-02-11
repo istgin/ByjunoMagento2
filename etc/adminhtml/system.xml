@@ -56,6 +56,13 @@
                 <field id="password" translate="label" type="password" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Password</label>
                 </field>
+                <field id="audience" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Audience</label>
+                </field>
+                <field id="access_token" translate="label" type="text" sortOrder="43" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Access token</label>
+                    <frontend_model>Byjuno\ByjunoCore\Model\Source\AccessToken</frontend_model>
+                </field>
                 <field id="mail" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Technical Contact (E-mail)</label>
                 </field>

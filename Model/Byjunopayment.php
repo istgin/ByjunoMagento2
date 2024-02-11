@@ -8,6 +8,10 @@
 
 namespace Byjuno\ByjunoCore\Model;
 
+use Byjuno\ByjunoCore\Helper\Api\ByjunoS4Request;
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutSettleResponse;
+use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCommunicator;
+use Byjuno\ByjunoCore\Observer\InvoiceObserver;
 use Magento\Framework\DataObject;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Observer\AbstractDataAssignObserver;
@@ -20,6 +24,8 @@ use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectFactory;
 use Magento\Payment\Gateway\Config\ValueHandlerPoolInterface;
 use Magento\Payment\Gateway\Validator\ValidatorPoolInterface;
+use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Store\Model\ScopeInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Byjuno\ByjunoCore\Helper\DataHelper;
 
@@ -133,7 +139,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
             $authTransaction->save();
         }
         $payment->setTransactionId($payment->getParentTransactionId().'-void');
-        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_VOID, null, true);
+        $transaction = $payment->addTransaction(Transaction::TYPE_VOID, null, true);
         $transaction->setIsClosed(true);
         $payment->save();
         $transaction->save();
@@ -436,7 +442,7 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
         }
 
         $payment->setTransactionId($payment->getParentTransactionId().'-refund');
-        $transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND, null, true);
+        $transaction = $payment->addTransaction(Transaction::TYPE_REFUND, null, true);
         $transaction->setIsClosed(true);
         $payment->save();
         $transaction->save();
@@ -444,9 +450,10 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
     }
 
     /* @var $payment \Magento\Sales\Model\Order\Payment */
+    /*
     public function capture(InfoInterface $payment, $amount)
     {
-        /* @var $invoice \Magento\Sales\Model\Order\Invoice */
+        /* @var $invoice \Magento\Sales\Model\Order\Invoice * /
         $order = $payment->getOrder();
         $webshopProfileId = $payment->getAdditionalInformation("webshop_profile_id");
         $invoice = \Byjuno\ByjunoCore\Observer\InvoiceObserver::$Invoice;
@@ -512,6 +519,83 @@ class Byjunopayment extends \Magento\Payment\Model\Method\Adapter
 
         $transaction->save();
         return $this;
+    }
+    */
+
+    public function capture(InfoInterface $payment, $amount)
+    {
+        /* @var $invoice \Magento\Sales\Model\Order\Invoice */
+        $order = $payment->getOrder();
+        $webshopProfileId = $payment->getAdditionalInformation("webshop_profile_id");
+        $invoice = InvoiceObserver::$Invoice;
+        if ($invoice == null) {
+            throw new LocalizedException(
+                __("Internal invoice (InvoiceObserver) error")
+            );
+        }
+        if ($this->_scopeConfig->getValue("byjunocheckoutsettings/byjuno_setup/byjunos4transacton", \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfileId) == '0') {
+            return $this;
+        }
+        $incrementValue =  $this->_eavConfig->getEntityType($invoice->getEntityType())->fetchNewIncrementId($invoice->getStoreId());
+        if ($invoice->getIncrementId() == null) {
+            $invoice->setIncrementId($incrementValue);
+        }
+        $request = $this->_dataHelper->CreateMagentoShopRequestSettlePaid($order, $invoice, $payment, $webshopProfileId, null);
+
+        $json = $request->createRequest();
+        $cembraPayCommunicator = new CembraPayCommunicator($this->_dataHelper->cembraPayAzure);
+        $mode = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/currentmode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfileId);
+        if ($mode == 'live') {
+            $cembraPayCommunicator->setServer('live');
+            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_prod_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfileId);
+
+        } else {
+            $cembraPayCommunicator->setServer('test');
+            $email = $this->_dataHelper->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/byjuno_test_email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfileId);
+
+        }
+
+        $response = $cembraPayCommunicator->sendSettleRequest($json,
+            $this->_dataHelper->getAccessDataWebshop($webshopProfileId),
+            function ($object, $token) {
+                $object->saveToken($token);
+            });
+
+        $status = "";
+        $responseRes = null;
+        $ByjunoRequestName = 'Byjuno S4 (CembraCheckout)';
+        $byjunoS4Request = new ByjunoS4Request();
+        $byjunoS4Request->setRequestId($request->requestMsgId);
+        if ($response) {
+            /* @var $responseRes CembraPayCheckoutSettleResponse */
+            $responseRes = $this->_dataHelper->settleResponse($response);
+            $status = $responseRes->processingStatus;
+
+            $this->_dataHelper->saveS4Log($order, $byjunoS4Request, $json, $response, $status, $ByjunoRequestName);
+        } else {
+            $this->_dataHelper->saveS4Log($order, $byjunoS4Request, $json, "empty response", $status, $ByjunoRequestName);
+        }
+        if ($status == DataHelper::$SETTLE_OK) {
+            $this->_dataHelper->_byjunoInvoiceSender->sendInvoice($invoice, $email, $this->_dataHelper);
+            $authTransaction = $payment->getAuthorizationTransaction();
+            if ($authTransaction && !$authTransaction->getIsClosed()) {
+                $authTransaction->setIsClosed($payment->isCaptureFinal($amount));
+                $authTransaction->save();
+            }
+
+            $payment->setTransactionId($responseRes->transactionId);
+            $transaction = $payment->addTransaction(Transaction::TYPE_CAPTURE, null, true);
+            $transaction->setIsClosed(true);
+            $payment->save();
+
+            $transaction->save();
+            return $this;
+
+        } else {
+            throw new LocalizedException(
+                __($this->_scopeConfig->getValue('byjunocheckoutsettings/localization/byjuno_s4_fail', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $webshopProfileId). " (error code: CDP_FAIL)")
+            );
+        }
     }
 
 

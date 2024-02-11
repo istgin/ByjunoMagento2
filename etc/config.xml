@@ -393,6 +393,7 @@
                 <timeout>30</timeout>
                 <tmxenabled>0</tmxenabled>
                 <tmxkey>lq866c5i</tmxkey>
+                <audience>api://fb6abffc-f90d-4c10-aca5-6c59533c76c2/.default</audience>
                 <businesstobusiness>0</businesstobusiness>
                 <byjuno_prod_email>invoices@byjuno.ch</byjuno_prod_email>
                 <byjuno_test_email>test-invoices@byjuno.ch</byjuno_test_email>
@@ -415,6 +416,7 @@
                 <b2b_uid>0</b2b_uid>
                 <txid_extrainfo>0</txid_extrainfo>
                 <auto_invoice>0</auto_invoice>
+                <access_token/>
             </byjuno_setup>
             <localization>
                 <byjuno_invoice_payments>invoice_byjuno_enable,CembraPay Rechnung mit Teilzahlungsoption,CembraPay
