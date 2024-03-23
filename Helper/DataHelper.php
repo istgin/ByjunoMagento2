@@ -9,6 +9,7 @@ use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutCreditResponse;
 use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutSettleRequest;
 use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayCheckoutSettleResponse;
 use Byjuno\ByjunoCore\Helper\CembraApi\CembraPayLoginDto;
+use Magento\Framework\App\Config\ReinitableConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Invoice;
@@ -118,6 +119,15 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Byjuno\ByjunoCore\Helper\CembraApi\CembraPayAzure
      */
     public $cembraPayAzure;
+
+    /* @var $_writerInterface \Magento\Framework\App\Config\Storage\WriterInterface */
+    public $_writerInterface;
+    /**
+     * Reinitable Config Model.
+     *
+     * @var ReinitableConfigInterface
+     */
+    private $_reinitableConfig;
 
 
     function saveLog(\Byjuno\ByjunoCore\Helper\Api\ByjunoRequest $request, $xml_request, $xml_response, $status, $type)
@@ -318,7 +328,9 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
         \Byjuno\ByjunoCore\Helper\CembraApi\CembraPayAzure $cembraPayAzure,
-        \Magento\Framework\DB\Transaction $transaction
+        \Magento\Framework\DB\Transaction $transaction,
+        \Magento\Framework\App\Config\Storage\WriterInterface $writerInterface,
+        ReinitableConfigInterface $reinitableConfig
     )
     {
 
@@ -348,6 +360,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_invoiceService = $invoiceService;
         $this->cembraPayAzure = $cembraPayAzure;
         $this->_transaction = $transaction;
+        $this->_writerInterface = $writerInterface;
+        $this->_reinitableConfig = $reinitableConfig;
     }
 
     function byjunoIsStatusOk($status, $position)
@@ -1161,14 +1175,17 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         return $result;
     }
 
-
+    public function saveToken($token) {
+        $this->_writerInterface->save('byjunocheckoutsettings/byjuno_setup/access_token', $token);
+        $this->_reinitableConfig->reinit();
+    }
 
     public function getAccessData() {
         $accessData = new CembraPayLoginDto();
         $accessData->helperObject = $this;
-        $accessData->timeout = (int)$this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', ScopeInterface::SCOPE_STORE);
-        $accessData->username = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', ScopeInterface::SCOPE_STORE);
-        $accessData->password = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', ScopeInterface::SCOPE_STORE);
+        $accessData->timeout = (int)$this->_scopeConfig->getValue('byjunocheckoutsettings/byjunocheckoutsettings/timeout', ScopeInterface::SCOPE_STORE);
+        $accessData->username = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/cembra_userid', ScopeInterface::SCOPE_STORE);
+        $accessData->password = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/cembra_password', ScopeInterface::SCOPE_STORE);
         $accessData->audience = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/audience', ScopeInterface::SCOPE_STORE);
         $accessData->accessToken = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/access_token');
         return $accessData;
@@ -1178,8 +1195,8 @@ class DataHelper extends \Magento\Framework\App\Helper\AbstractHelper
         $accessData = new CembraPayLoginDto();
         $accessData->helperObject = $this;
         $accessData->timeout = (int)$this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/timeout', ScopeInterface::SCOPE_STORE, $webShopId);
-        $accessData->username = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/userid', ScopeInterface::SCOPE_STORE, $webShopId);
-        $accessData->password = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/password', ScopeInterface::SCOPE_STORE, $webShopId);
+        $accessData->username = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/cembra_userid', ScopeInterface::SCOPE_STORE, $webShopId);
+        $accessData->password = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/cembra_password', ScopeInterface::SCOPE_STORE, $webShopId);
         $accessData->audience = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/audience', ScopeInterface::SCOPE_STORE, $webShopId);
         $accessData->accessToken = $this->_scopeConfig->getValue('byjunocheckoutsettings/byjuno_setup/access_token');
         return $accessData;

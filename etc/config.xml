@@ -393,6 +393,8 @@
                 <timeout>30</timeout>
                 <tmxenabled>0</tmxenabled>
                 <tmxkey>lq866c5i</tmxkey>
+                <cembra_userid/>
+                <cembra_password/>
                 <audience>api://fb6abffc-f90d-4c10-aca5-6c59533c76c2/.default</audience>
                 <businesstobusiness>0</businesstobusiness>
                 <byjuno_prod_email>invoices@byjuno.ch</byjuno_prod_email>

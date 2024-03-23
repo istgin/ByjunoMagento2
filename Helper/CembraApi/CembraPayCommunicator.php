@@ -77,10 +77,10 @@ class CembraPayCommunicator
             $timeout = $accessData->timeout;
         }
         if ($this->server == 'test') {
-            $url = 'https://sit.byjunoag.ch/'.$endpoint;
+            $url = 'https://ext-test.cembrapay.ch/'.$endpoint;
         } else {
             //TODO: live server
-            $url = 'https://sit.byjunoag.ch/'.$endpoint;
+            $url = 'https://ext-test.cembrapay.ch/'.$endpoint;
         }
         $request_data = $xmlRequest;
 

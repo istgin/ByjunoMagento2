@@ -56,6 +56,12 @@
                 <field id="password" translate="label" type="password" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Password</label>
                 </field>
+                <field id="cembra_userid" translate="label" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cembra user ID</label>
+                </field>
+                <field id="cembra_password" translate="label" type="password" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cembra password</label>
+                </field>
                 <field id="audience" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Audience</label>
                 </field>
